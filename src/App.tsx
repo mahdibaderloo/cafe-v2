@@ -1,5 +1,11 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+  { element: <main />, children: [{ path: "/", element: "home" }] },
+]);
+
 function App() {
-  return <div>Liilo</div>;
+  return <RouterProvider router={router} />;
 }
 
 export default App;
