@@ -2,8 +2,8 @@ import { Outlet } from "react-router-dom";
 
 export default function AppLayout() {
   return (
-    <div>
+    <main className="min-h-screen font-iran-sans">
       <Outlet />
-    </div>
+    </main>
   );
 }
