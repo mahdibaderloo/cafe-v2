@@ -2,10 +2,15 @@ import { useMemo } from "react";
 import { useItems } from "./useItems";
 import { CATEGORIES } from "../utils/categories";
 
+interface Category {
+  label: string;
+  image: string;
+}
+
 export function useCategories() {
   const { data: items, isLoading, isError } = useItems();
 
-  const categories = useMemo(() => {
+  const categories = useMemo<Category[]>(() => {
     if (!items) return [];
 
     return Object.values(
@@ -15,7 +20,7 @@ export function useCategories() {
 
         acc[category.label] = category;
         return acc;
-      }, {} as Record<string, { label: string; image: string }>)
+      }, {} as Record<string, Category>)
     );
   }, [items]);
 
