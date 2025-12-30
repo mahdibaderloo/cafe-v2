@@ -11,9 +11,10 @@ export default function Home() {
   return (
     <div className="w-full bg-[#503C31]">
       <img src={mainPic} alt="main pic" className="w-full" />
-      <div className="min-h-screen w-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)]">
+      <div className="w-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)]">
         <ul className="pt-3 p-5 flex items-center justify-between gap-3 flex-wrap">
           {categories.map((category) => {
+            console.log(categories);
             const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/categories/${category.image}`;
             return (
               <li
@@ -30,6 +31,8 @@ export default function Home() {
             );
           })}
         </ul>
+
+        <div className="w-full h-20" />
       </div>
     </div>
   );

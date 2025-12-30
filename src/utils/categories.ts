@@ -5,19 +5,19 @@ export type Category = {
 
 export const CATEGORIES: Record<string, Category> = {
   sadRobosta: {
-    label: "قهوه گرم",
+    label: "قهوه داغ",
     image: "hot-coffee.png",
   },
   sadArabica: {
-    label: "قهوه گرم",
+    label: "قهوه داغ",
     image: "hot-coffee.png",
   },
   vaftad30Robosta: {
-    label: "قهوه گرم",
+    label: "قهوه داغ",
     image: "hot-coffee.png",
   },
   vaftad30Arabica: {
-    label: "قهوه گرم",
+    label: "قهوه داغ",
     image: "hot-coffee.png",
   },
 
@@ -39,7 +39,7 @@ export const CATEGORIES: Record<string, Category> = {
   },
 
   hot: {
-    label: "نوشیدنی گرم",
+    label: "نوشیدنی داغ",
     image: "hot-drink.png",
   },
   cold: {
@@ -58,11 +58,11 @@ export const CATEGORIES: Record<string, Category> = {
   },
 
   tea_1: {
-    label: "چای و دمنوش",
+    label: "دمنوش",
     image: "tea.png",
   },
   tea_2: {
-    label: "چای و دمنوش",
+    label: "دمنوش",
     image: "tea.png",
   },
 
