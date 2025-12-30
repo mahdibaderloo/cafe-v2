@@ -1,7 +1,10 @@
 import mainPic from "../assets/images/main-pic.png";
 import coffee from "../assets/images/coffee.png";
+import { useCategories } from "../hooks/useCategories";
 
 export default function Home() {
+  const { categories } = useCategories();
+  console.log(categories);
   return (
     <div className="w-full bg-[#503C31]">
       <img src={mainPic} alt="main pic" className="w-full" />
