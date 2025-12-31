@@ -7,11 +7,12 @@ interface Item {
     icon: string;
     url: string;
   };
+  onToggleMenu: () => void;
 }
 
-export default function MenuItem({ item }: Item) {
+export default function MenuItem({ item, onToggleMenu }: Item) {
   return (
-    <li className="mt-0.5 w-10.5">
+    <li className="mt-0.5 w-10.5" onClick={onToggleMenu}>
       <Link to={item.url} className="flex flex-col items-center gap-1">
         <div className="bg-[#596D6C] p-2 rounded-lg w-8.5 h-8.5 shadow-[0px_1px_2px_0px_#00000073] flex items-center justify-center">
           <img
