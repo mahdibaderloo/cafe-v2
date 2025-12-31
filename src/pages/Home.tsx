@@ -31,7 +31,7 @@ export default function Home() {
           })}
         </ul>
 
-        <div className="w-full h-20" />
+        <div className="w-full h-22" />
       </div>
     </div>
   );
