@@ -8,10 +8,10 @@ import adminIcon from "../assets/images/admin.svg";
 import MenuItem from "./MenuItem";
 
 const menuItems = [
-  { id: 1, label: "صفحه اصلی", icon: homeIcon },
-  { id: 2, label: "سبد خرید", icon: cartIcon },
-  { id: 3, label: "درباره ما", icon: aboutUsIcon },
-  { id: 4, label: "پنل ادمین", icon: adminIcon },
+  { id: 1, label: "صفحه اصلی", icon: homeIcon, url: "/" },
+  { id: 2, label: "سبد خرید", icon: cartIcon, url: "/shopping-cart" },
+  { id: 3, label: "درباره ما", icon: aboutUsIcon, url: "/about-us" },
+  { id: 4, label: "پنل ادمین", icon: adminIcon, url: "/admin" },
 ];
 
 export default function Menu() {
@@ -29,11 +29,16 @@ export default function Menu() {
       >
         <img src={menuIcon} alt="icon" className="w-6" />
       </div>
-      <ul className="flex gap-2">
-        {isMenuOpen &&
-          menuItems.map((item) => {
-            return <MenuItem item={item} key={item.id} />;
-          })}
+      <ul
+        className={`flex gap-2 transition-all duration-300 ${
+          isMenuOpen
+            ? "opacity-100 translate-x-0"
+            : "opacity-0 translate-x-4 pointer-events-none"
+        }`}
+      >
+        {menuItems.map((item) => {
+          return <MenuItem item={item} key={item.id} />;
+        })}
       </ul>
     </div>
   );
