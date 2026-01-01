@@ -1,7 +1,6 @@
 import mainPic from "../assets/images/main-pic.png";
 import { useCategories } from "../hooks/useCategories";
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+import { categoryImageUrl } from "../utils/imageUrl";
 
 export default function Home() {
   const { categories, isLoading } = useCategories();
@@ -14,7 +13,7 @@ export default function Home() {
       <div className="w-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)]">
         <ul className="pt-3 p-4 flex items-center justify-between gap-x-1 gap-y-3 flex-wrap">
           {categories.map((category) => {
-            const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/categories/${category.image}`;
+            const imageUrl = categoryImageUrl(category.image);
             return (
               <li
                 key={category.label}
