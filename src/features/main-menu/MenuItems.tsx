@@ -1,8 +1,6 @@
 import { itemImageUrl } from "../../utils/imageUrl";
 import MenuItem from "./MenuItem";
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-
 interface Item {
   id: number;
   product: string;
