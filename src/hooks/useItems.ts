@@ -1,8 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import supabase from "../supabase/supabase";
 
+interface Items {
+  id: number;
+  product: string;
+  image: string;
+  category: string;
+  price: number;
+}
+
 export function useItems() {
-  return useQuery({
+  return useQuery<Items[]>({
     queryKey: ["items"],
     queryFn: fetchItems,
   });
