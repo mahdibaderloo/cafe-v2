@@ -14,10 +14,15 @@ interface CategoryProps {
 }
 
 export default function HomeCategoryIem({ category, image }: CategoryProps) {
-  const { setCategory } = useCategoryStore();
+  const { setCategory, setLines } = useCategoryStore();
 
   function handleSetCategory(key: string[]) {
-    setCategory(key[0]);
+    if (key.length > 1) {
+      setLines(key);
+    } else {
+      setCategory(key[0]);
+      setLines([]);
+    }
   }
 
   return (
