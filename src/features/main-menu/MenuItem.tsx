@@ -1,20 +1,31 @@
 import cartIcon from "../../assets/images/cart.svg";
+import { useProductStore } from "../../store/productStore";
 
+interface Item {
+  id: number;
+  product: string;
+  image: string;
+  category: string;
+  price: number;
+  desc: string;
+}
 interface ItemProps {
-  item: {
-    id: number;
-    product: string;
-    image: string;
-    category: string;
-    price: number;
-    desc: string;
-  };
+  item: Item;
   image: string;
 }
 
 export default function MenuItem({ item, image }: ItemProps) {
+  const { setItem } = useProductStore();
+
+  function handleSetItem(item: Item) {
+    setItem(item);
+  }
+
   return (
-    <li className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex h-34">
+    <li
+      className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex h-34"
+      onClick={() => handleSetItem(item)}
+    >
       <div>
         <img src={image} alt="product-image" className="w-full mt-6" />
       </div>
