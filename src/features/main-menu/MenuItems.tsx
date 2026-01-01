@@ -1,3 +1,4 @@
+import { itemImageUrl } from "../../utils/imageUrl";
 import MenuItem from "./MenuItem";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -20,7 +21,7 @@ export default function MenuItems({ items }: MenuItemsProps) {
     <div className="w-[75%] bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)] overflow-scroll">
       <ul className="flex flex-col gap-3 my-3">
         {items.map((item) => {
-          const imageUrl = `${SUPABASE_URL}/storage/v1/object/public/${item.category}-drink/${item.image}`;
+          const imageUrl = itemImageUrl(item.category, item.image);
           return <MenuItem key={item.id} item={item} image={imageUrl} />;
         })}
       </ul>
