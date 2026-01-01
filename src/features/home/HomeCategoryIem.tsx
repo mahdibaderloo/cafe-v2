@@ -5,6 +5,7 @@ interface Category {
   id: string;
   label: string;
   image?: string;
+  dbCategories: string[];
 }
 
 interface CategoryProps {
@@ -13,18 +14,17 @@ interface CategoryProps {
 }
 
 export default function HomeCategoryIem({ category, image }: CategoryProps) {
-  console.log(category);
   const { setCategory } = useCategoryStore();
 
-  function handleSetCategory(key: string) {
-    setCategory(key);
+  function handleSetCategory(key: string[]) {
+    setCategory(key[0]);
   }
 
   return (
     <li
       key={category.label}
       className="w-18 bg-(--green-color) p-0.5 rounded-xl overflow-hidden"
-      onClick={() => handleSetCategory(category.id)}
+      onClick={() => handleSetCategory(category.dbCategories)}
     >
       <Link to="/menu" className="flex flex-col justify-center items-center">
         <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-17 h-17 flex justify-center items-center">

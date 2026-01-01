@@ -9,9 +9,9 @@ export default function Home() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="w-full bg-[#503C31]">
+    <div className="w-full bg-[#503C31] h-screen overflow-hidden">
       <img src={mainPic} alt="main pic" className="w-full" />
-      <div className="w-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)]">
+      <div className="w-full h-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll pb-40">
         <ul className="pt-3 p-4 flex items-center justify-between gap-x-1 gap-y-3 flex-wrap">
           {categories.map((category) => {
             const imageUrl = categoryImageUrl(category.image);
