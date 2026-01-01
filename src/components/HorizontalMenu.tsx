@@ -1,9 +1,10 @@
+import HorizontalMenuItem from "./HorizontalMenuItem";
+
 import menuIcon from "../assets/images/menu.svg";
 import homeIcon from "../assets/images/home.svg";
 import cartIcon from "../assets/images/cart.svg";
 import aboutUsIcon from "../assets/images/about-us.svg";
 import adminIcon from "../assets/images/admin.svg";
-import MenuItem from "./MenuItem";
 
 interface MenuProps {
   isMenuOpen: boolean;
@@ -17,7 +18,10 @@ const menuItems = [
   { id: 4, label: "پنل ادمین", icon: adminIcon, url: "/admin" },
 ];
 
-export default function Menu({ isMenuOpen, onToggleMenu }: MenuProps) {
+export default function HorizontalMenu({
+  isMenuOpen,
+  onToggleMenu,
+}: MenuProps) {
   return (
     <div
       className="fixed right-2 bottom-2 flex items-start gap-2"
@@ -38,7 +42,11 @@ export default function Menu({ isMenuOpen, onToggleMenu }: MenuProps) {
       >
         {menuItems.map((item) => {
           return (
-            <MenuItem item={item} key={item.id} onToggleMenu={onToggleMenu} />
+            <HorizontalMenuItem
+              item={item}
+              key={item.id}
+              onToggleMenu={onToggleMenu}
+            />
           );
         })}
       </ul>

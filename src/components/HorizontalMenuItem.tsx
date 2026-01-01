@@ -10,7 +10,7 @@ interface Item {
   onToggleMenu: () => void;
 }
 
-export default function MenuItem({ item, onToggleMenu }: Item) {
+export default function HorizontalMenuItem({ item, onToggleMenu }: Item) {
   return (
     <li className="mt-0.5 w-10.5" onClick={onToggleMenu}>
       <Link to={item.url} className="flex flex-col items-center gap-1">
