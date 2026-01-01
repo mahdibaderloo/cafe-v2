@@ -1,78 +1,73 @@
-export type Category = {
-  label: string;
+export type UiCategory = {
+  id: string; // برای UI و route
+  label: string; // فارسی
   image: string;
+  dbCategories: string[]; // category های دیتابیس
 };
 
-export const CATEGORIES: Record<string, Category> = {
-  sadRobosta: {
+export const CATEGORIES: UiCategory[] = [
+  {
+    id: "hot-coffee",
     label: "قهوه داغ",
     image: "hot-coffee.png",
+    dbCategories: [
+      "sadRobosta",
+      "sadArabica",
+      "vaftad30Robosta",
+      "vaftad30Arabica",
+    ],
   },
-  sadArabica: {
-    label: "قهوه داغ",
-    image: "hot-coffee.png",
-  },
-  vaftad30Robosta: {
-    label: "قهوه داغ",
-    image: "hot-coffee.png",
-  },
-  vaftad30Arabica: {
-    label: "قهوه داغ",
-    image: "hot-coffee.png",
-  },
-
-  coldCoffee_100r: {
+  {
+    id: "cold-coffee",
     label: "قهوه سرد",
     image: "cold-coffee.png",
+    dbCategories: [
+      "coldCoffee_100r",
+      "coldCoffee_7030r",
+      "coldCoffee_7030a",
+      "coldCoffee_100a",
+    ],
   },
-  coldCoffee_7030r: {
-    label: "قهوه سرد",
-    image: "cold-coffee.png",
-  },
-  coldCoffee_7030a: {
-    label: "قهوه سرد",
-    image: "cold-coffee.png",
-  },
-  coldCoffee_100a: {
-    label: "قهوه سرد",
-    image: "cold-coffee.png",
-  },
-
-  hot: {
-    label: "نوشیدنی داغ",
-    image: "hot-drink.png",
-  },
-  cold: {
-    label: "نوشیدنی سرد",
-    image: "cold-drink.png",
-  },
-
-  shake: {
-    label: "شیک",
-    image: "shake.png",
-  },
-
-  bubbleTea: {
-    label: "بابل تی",
-    image: "bubble-tea.png",
-  },
-
-  tea_1: {
-    label: "دمنوش",
-    image: "tea.png",
-  },
-  tea_2: {
-    label: "دمنوش",
-    image: "tea.png",
-  },
-
-  cake: {
-    label: "کیک",
-    image: "cake.png",
-  },
-
-  snack: {
+  {
+    id: "snack",
     label: "میان وعده",
     image: "snack.png",
+    dbCategories: ["snack"],
   },
-};
+  {
+    id: "hot",
+    label: "نوشیدنی داغ",
+    image: "hot-drink.png",
+    dbCategories: ["hot"],
+  },
+  {
+    id: "cold",
+    label: "نوشیدنی سرد",
+    image: "cold-drink.png",
+    dbCategories: ["cold"],
+  },
+  {
+    id: "shake",
+    label: "شیک",
+    image: "shake.png",
+    dbCategories: ["shake"],
+  },
+  {
+    id: "bubble-tea",
+    label: "بابل تی",
+    image: "bubble-tea.png",
+    dbCategories: ["bubbleTea"],
+  },
+  {
+    id: "tea",
+    label: "دمنوش",
+    image: "tea.png",
+    dbCategories: ["tea_1", "tea_2"],
+  },
+  {
+    id: "cake",
+    label: "کیک",
+    image: "cake.png",
+    dbCategories: ["cake"],
+  },
+];

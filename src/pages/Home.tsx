@@ -1,4 +1,5 @@
 import mainPic from "../assets/images/main-pic.png";
+import HomeCategoryIem from "../features/home/HomeCategoryIem";
 import { useCategories } from "../hooks/useCategories";
 import { categoryImageUrl } from "../utils/imageUrl";
 
@@ -15,17 +16,11 @@ export default function Home() {
           {categories.map((category) => {
             const imageUrl = categoryImageUrl(category.image);
             return (
-              <li
+              <HomeCategoryIem
                 key={category.label}
-                className="w-18 bg-(--green-color) p-0.5 rounded-xl overflow-hidden flex flex-col justify-center items-center"
-              >
-                <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-17 h-17 flex justify-center items-center">
-                  <img src={imageUrl} alt="coffee" />
-                </div>
-                <p className="text-[0.625rem] text-white py-1 font-medium">
-                  {category.label}
-                </p>
-              </li>
+                category={category}
+                image={imageUrl}
+              />
             );
           })}
         </ul>
