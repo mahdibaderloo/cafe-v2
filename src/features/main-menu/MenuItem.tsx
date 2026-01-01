@@ -14,12 +14,12 @@ interface ItemProps {
 
 export default function MenuItem({ item, image }: ItemProps) {
   return (
-    <li className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex h-32">
+    <li className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex h-34">
       <div>
         <img src={image} alt="product-image" className="w-full mt-6" />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="text-white flex flex-col justify-center items-center gap-2 mb-4 mt-2 font-medium">
+        <div className="text-white flex flex-col justify-center items-center gap-4 mb-2 mt-2 font-medium">
           <p className="text-[0.9rem] text-center">{item.product}</p>
           <p className="text-[0.7rem]">{item.price.toLocaleString()}</p>
         </div>
