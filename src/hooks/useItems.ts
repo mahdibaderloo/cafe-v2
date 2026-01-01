@@ -7,6 +7,7 @@ interface Items {
   image: string;
   category: string;
   price: number;
+  desc: string;
 }
 
 export function useItems() {
