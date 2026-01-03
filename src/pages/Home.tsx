@@ -8,6 +8,7 @@ import HomeCategoryIem from "../features/home/HomeCategoryIem";
 import mainPic from "../assets/images/main-pic.png";
 import coffee from "../assets/images/coffee.png";
 import leaf from "../assets/images/leaf.png";
+import { CATEGORY_ORDER } from "../utils/categoriesOrder";
 
 export default function Home() {
   const { categories, isLoading } = useCategories();
@@ -22,6 +23,10 @@ export default function Home() {
   }
 
   if (isLoading) return <p>Loading...</p>;
+
+  const sortedCategories = [...categories].sort(
+    (a, b) => CATEGORY_ORDER.indexOf(a.label) - CATEGORY_ORDER.indexOf(b.label)
+  );
 
   return (
     <>
@@ -47,7 +52,7 @@ export default function Home() {
             </p>
           </div>
           <ul className="pt-3 p-4 flex items-center justify-between gap-x-1 gap-y-3 flex-wrap">
-            {categories.map((category) => {
+            {sortedCategories.map((category) => {
               const imageUrl = categoryImageUrl(category.image);
               return (
                 <HomeCategoryIem

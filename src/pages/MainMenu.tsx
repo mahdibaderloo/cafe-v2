@@ -1,11 +1,11 @@
-import MainMenuNav from "../features/main-menu/MainMenuNav";
+import { useState } from "react";
 import { useItems } from "../hooks/useItems";
-
-import MenuItems from "../features/main-menu/MenuItems";
 import { useCategoryStore } from "../store/categoryStore";
+
+import MainMenuNav from "../features/main-menu/MainMenuNav";
+import MenuItems from "../features/main-menu/MenuItems";
 import Lines from "../features/main-menu/Lines";
 import VerticalMenu from "../components/VerticalMenu";
-import { useState } from "react";
 
 export default function MainMenu() {
   const { data: items = [], isLoading } = useItems();
