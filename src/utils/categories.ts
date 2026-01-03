@@ -1,8 +1,8 @@
 export type UiCategory = {
-  id: string; // برای UI و route
-  label: string; // فارسی
+  id: string;
+  label: string;
   image: string;
-  dbCategories: string[]; // category های دیتابیس
+  dbCategories: string[];
 };
 
 export const CATEGORIES: UiCategory[] = [
