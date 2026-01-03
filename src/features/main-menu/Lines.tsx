@@ -39,7 +39,4 @@ function setLabel(line: string) {
   if (line === "coldCoffee_100a") return "۱۰۰ عربیکا";
   if (line === "coldCoffee_7030r") return "۷۰ / ۳۰ روبوستا";
   if (line === "coldCoffee_7030a") return "۷۰ / ۳۰ عربیکا";
-
-  if (line === "tea_1") return "لیوان";
-  if (line === "tea_2") return "فرنچ پرس";
 }

@@ -62,7 +62,7 @@ export const CATEGORIES: UiCategory[] = [
     id: "tea",
     label: "دمنوش",
     image: "tea.png",
-    dbCategories: ["tea_1", "tea_2"],
+    dbCategories: ["tea_1"],
   },
   {
     id: "cake",
