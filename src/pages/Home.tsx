@@ -6,6 +6,8 @@ import HorizontalMenu from "../components/HorizontalMenu";
 import HomeCategoryIem from "../features/home/HomeCategoryIem";
 
 import mainPic from "../assets/images/main-pic.png";
+import coffee from "../assets/images/coffee.png";
+import leaf from "../assets/images/leaf.png";
 
 export default function Home() {
   const { categories, isLoading } = useCategories();
@@ -29,6 +31,21 @@ export default function Home() {
       >
         <img src={mainPic} alt="main pic" className="w-full" />
         <div className="w-full h-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll pb-40">
+          <div className="w-[88%] h-16 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-3 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
+            <img
+              src={coffee}
+              alt="coffee"
+              className="absolute -left-2 -top-1"
+            />
+            <img
+              src={leaf}
+              alt="leaf"
+              className="absolute -right-1 -bottom-2"
+            />
+            <p className="font-bold text-white absolute text-shadow-lg/30 text-xl pr-3">
+              خرید دون قهوه
+            </p>
+          </div>
           <ul className="pt-3 p-4 flex items-center justify-between gap-x-1 gap-y-3 flex-wrap">
             {categories.map((category) => {
               const imageUrl = categoryImageUrl(category.image);
