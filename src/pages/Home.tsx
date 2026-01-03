@@ -30,8 +30,8 @@ export default function Home() {
         onClick={handleCloseMenu}
       >
         <img src={mainPic} alt="main pic" className="w-full" />
-        <div className="w-full h-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll pb-40">
-          <div className="w-[88%] h-16 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-3 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
+        <div className="w-full h-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll pb-42">
+          <div className="w-[88%] h-16 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-2 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
             <img
               src={coffee}
               alt="coffee"
