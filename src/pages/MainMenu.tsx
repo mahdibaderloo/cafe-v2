@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useItems } from "../hooks/useItems";
 import { useCategoryStore } from "../store/categoryStore";
 
@@ -12,6 +12,7 @@ export default function MainMenu() {
   const { data: items = [], isLoading } = useItems();
   const { lines } = useCategoryStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   function handleToggleMenu() {
     setIsMenuOpen((t) => !t);
@@ -19,6 +20,15 @@ export default function MainMenu() {
 
   function handleCloseMenu() {
     setIsMenuOpen(false);
+  }
+
+  function handleToggleDetails(e: React.MouseEvent) {
+    e.stopPropagation();
+    setIsDetailsOpen((t) => !t);
+  }
+
+  function handleCloseDetails() {
+    setIsDetailsOpen(false);
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -29,9 +39,25 @@ export default function MainMenu() {
         className="w-full flex h-screen overflow-hidden"
         onClick={handleCloseMenu}
       >
-        {lines.length > 0 ? <Lines /> : <MenuItems items={items} />}
+        <div
+          className={`w-full h-full bg-black/65 z-50 fixed ${
+            isDetailsOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } transition-all delay-200`}
+          onClick={handleCloseDetails}
+        />
+
+        {lines.length > 0 ? (
+          <Lines />
+        ) : (
+          <MenuItems
+            items={items}
+            onToggleDetails={(e) => handleToggleDetails(e)}
+          />
+        )}
         <MainMenuNav />
-        <ItemDetails />
+        <ItemDetails isDetailsOpen={isDetailsOpen} />
       </div>
       <VerticalMenu isMenuOpen={isMenuOpen} onToggleMenu={handleToggleMenu} />
     </>

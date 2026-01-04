@@ -13,9 +13,10 @@ interface Item {
 
 interface MenuItemsProps {
   items: Item[];
+  onToggleDetails: (e: React.MouseEvent) => void;
 }
 
-export default function MenuItems({ items }: MenuItemsProps) {
+export default function MenuItems({ items, onToggleDetails }: MenuItemsProps) {
   const { category } = useCategoryStore();
   const filteredItems = items.filter((item) => item.category === category);
   const sortedItems = [...filteredItems].sort((a, b) => a.price - b.price);
@@ -25,7 +26,14 @@ export default function MenuItems({ items }: MenuItemsProps) {
       <ul className="flex flex-col gap-3 my-3">
         {sortedItems.map((item) => {
           const imageUrl = itemImageUrl(item.category, item.image);
-          return <MenuItem key={item.id} item={item} image={imageUrl} />;
+          return (
+            <MenuItem
+              key={item.id}
+              item={item}
+              image={imageUrl}
+              onToggleDetails={onToggleDetails}
+            />
+          );
         })}
       </ul>
     </div>

@@ -12,9 +12,10 @@ interface Item {
 interface ItemProps {
   item: Item;
   image: string;
+  onToggleDetails: (e: React.MouseEvent) => void;
 }
 
-export default function MenuItem({ item, image }: ItemProps) {
+export default function MenuItem({ item, image, onToggleDetails }: ItemProps) {
   const { setItem } = useProductStore();
 
   function handleSetItem(item: Item) {
@@ -24,7 +25,10 @@ export default function MenuItem({ item, image }: ItemProps) {
   return (
     <li
       className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex h-34"
-      onClick={() => handleSetItem(item)}
+      onClick={(e) => {
+        handleSetItem(item);
+        onToggleDetails(e);
+      }}
     >
       <div>
         <img src={image} alt="product-image" className="w-full mt-6" />
