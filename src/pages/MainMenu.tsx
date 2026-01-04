@@ -6,6 +6,7 @@ import MainMenuNav from "../features/main-menu/MainMenuNav";
 import MenuItems from "../features/main-menu/MenuItems";
 import Lines from "../features/main-menu/Lines";
 import VerticalMenu from "../components/VerticalMenu";
+import ItemDetails from "../components/ItemDetails";
 
 export default function MainMenu() {
   const { data: items = [], isLoading } = useItems();
@@ -30,6 +31,7 @@ export default function MainMenu() {
       >
         {lines.length > 0 ? <Lines /> : <MenuItems items={items} />}
         <MainMenuNav />
+        <ItemDetails />
       </div>
       <VerticalMenu isMenuOpen={isMenuOpen} onToggleMenu={handleToggleMenu} />
     </>
