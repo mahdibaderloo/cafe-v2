@@ -44,7 +44,7 @@ export default function MainMenu() {
             isDetailsOpen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
-          } transition-all delay-200`}
+          } transition-all delay-100`}
           onClick={handleCloseDetails}
         />
 

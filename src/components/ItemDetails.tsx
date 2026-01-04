@@ -12,7 +12,7 @@ export default function ItemDetails({ isDetailsOpen }: Details) {
     <div
       className={`h-1/2 w-full bg-[linear-gradient(156.16deg,#566C5F_0%,#503D32_106.49%)] absolute ${
         isDetailsOpen ? "bottom-0" : "-bottom-90"
-      } z-50 rounded-t-2xl shadow-[0px_-4px_8px_0px_#00000033] transition-all delay-200`}
+      } z-50 rounded-t-2xl shadow-[0px_-4px_8px_0px_#00000033] transition-all delay-100`}
     >
       <div className="w-[94%] h-32 mx-auto bg-[linear-gradient(296.82deg,#596d6c99_3.8%,#95a79166_104.47%)] rounded-2xl mt-2 shadow-[0px_3px_12px_0px_#00000033] flex justify-center items-center relative overflow-hidden">
         <p className="bg-[linear-gradient(90deg,#14513111_20.69%,#14512F_62.98%)] p-1 text-white font-semibold rounded-3xl pr-3 w-34 absolute -left-2 bottom-5 tracking-wide">
