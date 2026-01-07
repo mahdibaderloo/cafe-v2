@@ -19,9 +19,9 @@ export default function CartItem() {
   }
 
   return (
-    <li className="bg-[#4C3D34] rounded-xl shadow-[0px_3px_4.6px_0px_#00000066] w-full h-19 overflow-hidden p-1 flex">
-      <div className="bg-[#566C5F] rounded-xl shadow-[1px_2px_5px_0px_#00000040] w-24.5 h-full flex justify-center items-center">
-        <img src={itemImg} alt="item-image" className="w-18" />
+    <li className="bg-[#4C3D34] rounded-xl shadow-[0px_3px_4.6px_0px_#00000066] w-full h-18 overflow-hidden p-1 flex">
+      <div className="bg-[#566C5F] rounded-xl shadow-[1px_2px_5px_0px_#00000040] w-23 h-full flex justify-center items-center">
+        <img src={itemImg} alt="item-image" className="w-16" />
       </div>
 
       <div className="text-white font-medium w-full flex flex-col justify-center gap-3 mr-2">
@@ -29,7 +29,7 @@ export default function CartItem() {
 
         <div className="flex items-center justify-between">
           <p className="text-[0.8rem]">150,000</p>
-          <div className="bg-white w-18 h-6 mt-auto mr-auto ml-1 rounded-lg flex justify-between items-center p-0.5">
+          <div className="bg-white w-17 h-6 mt-auto mr-auto ml-1 rounded-lg flex justify-between items-center p-0.5">
             <img
               src={plusIcon}
               alt="icon"

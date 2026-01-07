@@ -6,7 +6,7 @@ interface CartDetailsProps {
 
 export default function CartDetails({ onOpen }: CartDetailsProps) {
   return (
-    <div className="fixed bottom-0 w-full h-[46%] z-10">
+    <div className="fixed bottom-0 w-full h-fit z-10">
       <img src={lorax} alt="icon" className="absolute -top-6.5 right-1" />
 
       <div className="bg-[#4C3D34] w-full h-full shadow-[0px_-4px_8px_0px_#00000033] rounded-t-2xl px-2 py-6 flex flex-col justify-between">
