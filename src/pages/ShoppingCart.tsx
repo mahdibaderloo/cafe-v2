@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import backButton from "../assets/images/back.svg";
 import CartDetails from "../features/cart/CartDetails";
 import CartItem from "../features/cart/CartItem";
+import SubmitBox from "../features/cart/SubmitBox";
 
 export default function ShoppingCart() {
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function ShoppingCart() {
       />
       <header className="w-full h-fit flex justify-between items-center p-4">
         <div className="w-[8%]" />
-        <p className="text-white font-bold">سبد خرید</p>
+        <h3 className="text-white font-bold">سبد خرید</h3>
         <div
           className="bg-[#14512F] rounded-xl h-7.5 w-7.5 flex justify-center items-center"
           onClick={() => navigate(-1)}
@@ -44,6 +45,7 @@ export default function ShoppingCart() {
         </ul>
       </main>
       <CartDetails onOpen={handleOpenSubmit} />
+      <SubmitBox isSubmitOpen={isSubmitOpen} />
     </div>
   );
 }
