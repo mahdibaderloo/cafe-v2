@@ -1,6 +1,10 @@
 import lorax from "../../assets/images/lorax2.png";
 
-export default function CartDetails() {
+interface CartDetailsPrice {
+  onOpen: () => void;
+}
+
+export default function CartDetails({ onOpen }: CartDetailsPrice) {
   return (
     <div className="fixed bottom-0 w-full h-[46%] z-10">
       <img src={lorax} alt="icon" className="absolute -top-6.5 right-1" />
@@ -33,7 +37,10 @@ export default function CartDetails() {
           </div>
         </div>
 
-        <button className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[1rem] mt-4 mx-auto">
+        <button
+          className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[1rem] mt-4 mx-auto"
+          onClick={onOpen}
+        >
           تایید سفارش
         </button>
       </div>

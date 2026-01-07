@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import backButton from "../assets/images/back.svg";
@@ -5,10 +6,27 @@ import CartDetails from "../features/cart/CartDetails";
 import CartItem from "../features/cart/CartItem";
 
 export default function ShoppingCart() {
+  const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const navigate = useNavigate();
+
+  function handleCloseSubmit() {
+    setIsSubmitOpen(false);
+  }
+
+  function handleOpenSubmit() {
+    setIsSubmitOpen(true);
+  }
 
   return (
     <div className="w-full h-screen overflow-hidden bg-[linear-gradient(180deg,#503D32_0%,#738E7F_52.4%)]">
+      <div
+        className={`w-full h-full bg-black/65 z-50 fixed ${
+          isSubmitOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } transition-all delay-75`}
+        onClick={handleCloseSubmit}
+      />
       <header className="w-full h-fit flex justify-between items-center p-4">
         <div className="w-[8%]" />
         <p className="text-white font-bold">سبد خرید</p>
@@ -25,7 +43,7 @@ export default function ShoppingCart() {
           <CartItem />
         </ul>
       </main>
-      <CartDetails />
+      <CartDetails onOpen={handleOpenSubmit} />
     </div>
   );
 }
