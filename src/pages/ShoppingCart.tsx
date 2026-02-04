@@ -4,9 +4,11 @@ import CartDetails from "../features/cart/CartDetails";
 import CartItem from "../features/cart/CartItem";
 import SubmitBox from "../features/cart/SubmitBox";
 import Header from "../components/Header";
+import { useCartStore } from "../store/cartStore";
 
 export default function ShoppingCart() {
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
+  const { items, increaseItemCount, decreaseItemCount } = useCartStore();
 
   function handleCloseSubmit() {
     setIsSubmitOpen(false);
@@ -30,7 +32,14 @@ export default function ShoppingCart() {
 
       <main className="w-full p-4 h-68 overflow-scroll">
         <ul className="flex flex-col gap-2 pb-8">
-          <CartItem />
+          {items.map((item) => (
+            <CartItem
+              key={item.id}
+              item={item}
+              increase={increaseItemCount}
+              decrease={decreaseItemCount}
+            />
+          ))}
         </ul>
       </main>
       <CartDetails onOpen={handleOpenSubmit} />
