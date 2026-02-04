@@ -7,7 +7,7 @@ export default function AboutUs() {
   return (
     <div className="w-full h-screen overflow-hidden bg-[linear-gradient(180deg,#503D32_0%,#738E7F_52.4%)]">
       <Header text="درباره ما" />
-      <main className="p-4 h-screen flex flex-col justify-between">
+      <main className="p-2 pt-0">
         <AboutLiilo />
         <ContactUs />
         <CopyRight />

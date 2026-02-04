@@ -35,7 +35,7 @@ const items: Items = [
 
 export default function ContactUs() {
   return (
-    <div>
+    <div className="mt-50">
       <p className="text-white text-sm mr-2.5">ارتباط با ما</p>
       <ul className="flex items-center justify-center gap-2 mt-4">
         {items.map((item) => (
