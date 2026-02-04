@@ -8,6 +8,7 @@ interface Item {
   bg: string;
   icon: string;
   text: string;
+  link: string;
 }
 
 type Items = Item[];
@@ -18,25 +19,28 @@ const items: Items = [
     bg: "bg-[linear-gradient(180deg,#833AB4_0%,#FD1D1D_50%,#FCB045_100%)]",
     icon: instagramIcon,
     text: "اینستاگرام",
+    link: "https://www.instagram.com/cafeliilo",
   },
   {
     id: 2,
     bg: "bg-[linear-gradient(180deg,rgba(17,51,85,0.97)_0%,#7FB7E6_49.52%,#4A90E2_100%)]",
     icon: locationIcon,
     text: "آدرس",
+    link: "https://nshn.ir/efsbvP8TNx4cnl",
   },
   {
     id: 3,
     bg: "bg-[linear-gradient(180deg,rgba(17,51,85,0.87)_0%,rgba(126,223,178,0.93)_50%,#4FB286_100%)]",
     icon: phoneIcon,
     text: "تلفن",
+    link: "tel:+989037632864",
   },
 ];
 
 export default function ContactUs() {
   return (
     <div className="mt-50">
-      <p className="text-white text-sm mr-2.5">ارتباط با ما</p>
+      <p className="text-white text-sm mr-4">ارتباط با ما</p>
       <ul className="flex items-center justify-center gap-2 mt-4">
         {items.map((item) => (
           <ContactUsItem key={item.id} item={item} />
