@@ -1,5 +1,7 @@
+import { useCartStore } from "../../store/cartStore";
 import { useProductStore } from "../../store/productStore";
 import AddToCartButton from "./AddToCartButton";
+import ChangeCountButton from "./ChangeCountButton";
 
 interface Item {
   id: number;
@@ -17,6 +19,9 @@ interface ItemProps {
 
 export default function MenuItem({ item, image, onToggleDetails }: ItemProps) {
   const { setItem } = useProductStore();
+  const { items } = useCartStore();
+
+  const existingItem = items.find((i) => i.id === item.id);
 
   function handleSetItem(item: Item) {
     setItem(item);
@@ -38,7 +43,11 @@ export default function MenuItem({ item, image, onToggleDetails }: ItemProps) {
           <p className="text-[0.9rem] text-center">{item.product}</p>
           <p className="text-[0.7rem]">{item.price.toLocaleString()}</p>
         </div>
-        <AddToCartButton item={item} />
+        {existingItem ? (
+          <ChangeCountButton id={item.id} />
+        ) : (
+          <AddToCartButton item={item} />
+        )}
       </div>
     </li>
   );
