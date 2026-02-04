@@ -1,4 +1,5 @@
 import lorax from "../../assets/images/lorax2.png";
+import { useCartStore } from "../../store/cartStore";
 
 interface CartDetailsProps {
   onOpen: () => void;
@@ -6,6 +7,8 @@ interface CartDetailsProps {
 }
 
 export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
+  const { totalPrice } = useCartStore();
+
   return (
     <div className="fixed bottom-0 w-full h-fit z-10">
       <img src={lorax} alt="icon" className="absolute -top-6.5 right-1" />
@@ -26,7 +29,7 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
         <div className="p-4 mt-4">
           <div className="flex justify-between items-center text-white text-[0.75rem] font-medium">
             <p>جمع قیمت</p>
-            <p>0</p>
+            <p>{totalPrice.toLocaleString()}</p>
           </div>
           <div className="flex justify-between items-center text-white text-[0.75rem] font-medium mt-3">
             <p>تخفیف</p>
@@ -34,7 +37,7 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
           </div>
           <div className="flex justify-between items-center text-white text-[1.1rem] font-medium mt-6">
             <p>مجموع</p>
-            <p>0</p>
+            <p>{totalPrice.toLocaleString()}</p>
           </div>
         </div>
 
