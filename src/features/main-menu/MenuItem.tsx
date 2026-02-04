@@ -1,5 +1,5 @@
-import cartIcon from "../../assets/images/cart.svg";
 import { useProductStore } from "../../store/productStore";
+import AddToCartButton from "./AddToCartButton";
 
 interface Item {
   id: number;
@@ -38,12 +38,7 @@ export default function MenuItem({ item, image, onToggleDetails }: ItemProps) {
           <p className="text-[0.9rem] text-center">{item.product}</p>
           <p className="text-[0.7rem]">{item.price.toLocaleString()}</p>
         </div>
-        <button className="flex items-center justify-center gap-0.5 bg-(--green-color) w-22 h-6 rounded-lg">
-          <span className="text-[0.52rem] font-semibold text-white">
-            افزودن به{" "}
-          </span>
-          <img src={cartIcon} alt="icon" className="rotate-y-180 w-4" />
-        </button>
+        <AddToCartButton item={item} />
       </div>
     </li>
   );
