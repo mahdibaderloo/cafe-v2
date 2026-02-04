@@ -7,7 +7,7 @@ export default function CartItem() {
   const [count, setCount] = useState(1);
 
   function handleIncreaseCount() {
-    if (count < 5) {
+    if (count < 10) {
       setCount((c) => (c = c + 1));
     }
   }
