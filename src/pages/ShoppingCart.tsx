@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useCartStore } from "../store/cartStore";
 
 import CartDetails from "../features/cart/CartDetails";
 import CartItem from "../features/cart/CartItem";
 import SubmitBox from "../features/cart/SubmitBox";
 import Header from "../components/Header";
-import { useCartStore } from "../store/cartStore";
+import EmptyCart from "../features/cart/EmptyCart";
 
 export default function ShoppingCart() {
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
@@ -32,17 +33,21 @@ export default function ShoppingCart() {
 
       <main className="w-full p-4 h-68 overflow-scroll">
         <ul className="flex flex-col gap-2 pb-8">
-          {items.map((item) => (
-            <CartItem
-              key={item.id}
-              item={item}
-              increase={increaseItemCount}
-              decrease={decreaseItemCount}
-            />
-          ))}
+          {items.length === 0 ? (
+            <EmptyCart />
+          ) : (
+            items.map((item) => (
+              <CartItem
+                key={item.id}
+                item={item}
+                increase={increaseItemCount}
+                decrease={decreaseItemCount}
+              />
+            ))
+          )}
         </ul>
       </main>
-      <CartDetails onOpen={handleOpenSubmit} />
+      <CartDetails onOpen={handleOpenSubmit} itemsCount={items.length} />
       <SubmitBox isSubmitOpen={isSubmitOpen} />
     </div>
   );

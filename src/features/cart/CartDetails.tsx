@@ -2,9 +2,10 @@ import lorax from "../../assets/images/lorax2.png";
 
 interface CartDetailsProps {
   onOpen: () => void;
+  itemsCount: number;
 }
 
-export default function CartDetails({ onOpen }: CartDetailsProps) {
+export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
   return (
     <div className="fixed bottom-0 w-full h-fit z-10">
       <img src={lorax} alt="icon" className="absolute -top-6.5 right-1" />
@@ -38,8 +39,9 @@ export default function CartDetails({ onOpen }: CartDetailsProps) {
         </div>
 
         <button
-          className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-4 mx-auto"
+          className={`w-[90%] h-10 bg-white ${itemsCount > 0 ? "opacity-100" : "opacity-50"} shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-4 mx-auto`}
           onClick={onOpen}
+          disabled={itemsCount === 0}
         >
           تایید سفارش
         </button>
