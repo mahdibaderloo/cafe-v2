@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCategories } from "../hooks/useCategories";
 import { categoryImageUrl } from "../utils/imageUrl";
+import { CATEGORY_ORDER } from "../utils/categoriesOrder";
 
 import HorizontalMenu from "../components/HorizontalMenu";
 import HomeCategoryIem from "../features/home/HomeCategoryIem";
@@ -8,7 +9,6 @@ import HomeCategoryIem from "../features/home/HomeCategoryIem";
 import mainPic from "../assets/images/main-pic.png";
 import coffee from "../assets/images/coffee.png";
 import leaf from "../assets/images/leaf.png";
-import { CATEGORY_ORDER } from "../utils/categoriesOrder";
 
 export default function Home() {
   const { categories, isLoading } = useCategories();
@@ -25,7 +25,7 @@ export default function Home() {
   if (isLoading) return <p>Loading...</p>;
 
   const sortedCategories = [...categories].sort(
-    (a, b) => CATEGORY_ORDER.indexOf(a.label) - CATEGORY_ORDER.indexOf(b.label)
+    (a, b) => CATEGORY_ORDER.indexOf(a.label) - CATEGORY_ORDER.indexOf(b.label),
   );
 
   return (
