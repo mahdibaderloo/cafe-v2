@@ -13,6 +13,12 @@ interface Submit {
 export function useSubmitOrder() {
   return useMutation({
     mutationFn: submitOrder,
+    onSuccess: () => {
+      console.log("Successfully");
+    },
+    onError: (err) => {
+      console.log(err.message);
+    },
   });
 }
 

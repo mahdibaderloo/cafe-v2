@@ -12,30 +12,26 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const [username, setUsername] = useState("");
   const [mobile, setMobile] = useState(0);
   const [desc, setDesc] = useState("");
-  const {
-    mutate: submitOrder,
-    isPending,
-    isSuccess,
-    isError,
-  } = useSubmitOrder();
-  const { items, totalPrice } = useCartStore();
+  const { mutate: submitOrder, isPending } = useSubmitOrder();
+  const { items, totalPrice, removeAll } = useCartStore();
 
   function handleSubmit() {
-    submitOrder({
-      totalPrice,
-      username,
-      mobile,
-      order: JSON.stringify(items),
-      isTakeAway,
-      desc: desc,
-    });
-  }
-
-  if (isError) console.log("an Error occurred");
-
-  if (isSuccess) {
-    console.log("successfully");
-    onClose();
+    submitOrder(
+      {
+        totalPrice,
+        username,
+        mobile,
+        order: JSON.stringify(items),
+        isTakeAway,
+        desc: desc,
+      },
+      {
+        onSuccess: () => {
+          removeAll();
+          onClose();
+        },
+      },
+    );
   }
 
   return (
@@ -57,7 +53,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
         <h3 className="text-white font-semibold">ثبت نهایی</h3>
       </header>
 
-      <main className="w-full">
+      <form className="w-full">
         <div className="w-full flex items-center gap-2 mt-4">
           <label className="text-white text-[0.65rem]">
             نام و نام خانوادگی:
@@ -108,7 +104,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
 
         <div className="w-full flex justify-center">
           <button
-            type="submit"
+            type="button"
             onClick={handleSubmit}
             disabled={isPending}
             className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-6 mx-auto"
@@ -116,7 +112,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
             ثبت سفارش
           </button>
         </div>
-      </main>
+      </form>
     </div>
   );
 }

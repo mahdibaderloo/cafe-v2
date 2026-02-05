@@ -59,10 +59,11 @@ export const useCartStore = create<CartStore>()(
           };
         }),
 
-      removeAll: () => ({
-        items: [],
-        totalPrice: 0,
-      }),
+      removeAll: () =>
+        set(() => ({
+          items: [],
+          totalPrice: 0,
+        })),
 
       increaseItemCount: (id) =>
         set((state) => {
