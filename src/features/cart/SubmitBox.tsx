@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSubmitOrder } from "../../hooks/useSubmitOrder";
+import { useCartStore } from "../../store/cartStore";
 
 interface SubmitProps {
   isSubmitOpen: boolean;
@@ -6,6 +8,18 @@ interface SubmitProps {
 
 export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
   const [isTakeAway, setIsTakeAway] = useState(false);
+  const { mutate: submitOrder, isPending } = useSubmitOrder();
+  const { items, totalPrice } = useCartStore();
+
+  function handleSubmit() {
+    submitOrder({
+      totalPrice,
+      username,
+      mobile,
+      order: items
+      isTakeAway,
+    });
+  }
 
   return (
     <div
@@ -27,7 +41,9 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
       </header>
       <main className="w-full">
         <div className="w-full flex items-center gap-2 mt-4">
-          <p className="text-white text-[0.65rem]">نام و نام خانوادگی:</p>
+          <label className="text-white text-[0.65rem]">
+            نام و نام خانوادگی:
+          </label>
           <input
             type="text"
             className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
@@ -35,7 +51,7 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
         </div>
 
         <div className="w-full flex items-center gap-2 mt-4">
-          <p className="text-white text-[0.65rem]">شماره تماس:</p>
+          <label className="text-white text-[0.65rem]">شماره تماس:</label>
           <input
             type="text"
             className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
@@ -58,7 +74,7 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
         </div>
 
         <div className="w-full flex flex-col gap-2 mt-4">
-          <p className="text-white text-[0.75rem]">توضیحات:</p>
+          <label className="text-white text-[0.75rem]">توضیحات:</label>
           <textarea
             placeholder="مثال: لطفا کمی شکر به قهوه اضافه کنید."
             className="bg-[#D9D9D980] p-2 text-[0.6rem] min-h-24 max-h-24 rounded-xl outline-none border-none font-medium"
@@ -67,7 +83,12 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
         </div>
 
         <div className="w-full flex justify-center">
-          <button className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-6 mx-auto">
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={isPending}
+            className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-6 mx-auto"
+          >
             ثبت سفارش
           </button>
         </div>
