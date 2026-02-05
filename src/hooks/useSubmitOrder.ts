@@ -7,6 +7,7 @@ interface Submit {
   mobile: number;
   order: string;
   isTakeAway: boolean;
+  desc?: string;
 }
 
 export function useSubmitOrder() {
@@ -20,9 +21,10 @@ async function submitOrder(data: Submit) {
     {
       username: data.username,
       mobile: data.mobile,
-      order: data.order,
+      order: JSON.parse(data.order),
       total_price: data.totalPrice,
       is_takeaway: data.isTakeAway,
+      desc: data.desc || "",
     },
   ]);
 

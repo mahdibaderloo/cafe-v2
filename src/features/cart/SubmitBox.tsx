@@ -4,11 +4,20 @@ import { useCartStore } from "../../store/cartStore";
 
 interface SubmitProps {
   isSubmitOpen: boolean;
+  onClose: () => void;
 }
 
-export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
+export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const [isTakeAway, setIsTakeAway] = useState(false);
-  const { mutate: submitOrder, isPending } = useSubmitOrder();
+  const [username, setUsername] = useState("");
+  const [mobile, setMobile] = useState(0);
+  const [desc, setDesc] = useState("");
+  const {
+    mutate: submitOrder,
+    isPending,
+    isSuccess,
+    isError,
+  } = useSubmitOrder();
   const { items, totalPrice } = useCartStore();
 
   function handleSubmit() {
@@ -16,9 +25,17 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
       totalPrice,
       username,
       mobile,
-      order: items
+      order: JSON.stringify(items),
       isTakeAway,
+      desc: desc,
     });
+  }
+
+  if (isError) console.log("an Error occurred");
+
+  if (isSuccess) {
+    console.log("successfully");
+    onClose();
   }
 
   return (
@@ -39,6 +56,7 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
       <header className="w-full flex justify-center">
         <h3 className="text-white font-semibold">ثبت نهایی</h3>
       </header>
+
       <main className="w-full">
         <div className="w-full flex items-center gap-2 mt-4">
           <label className="text-white text-[0.65rem]">
@@ -46,6 +64,8 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
           </label>
           <input
             type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
           />
         </div>
@@ -53,7 +73,9 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
         <div className="w-full flex items-center gap-2 mt-4">
           <label className="text-white text-[0.65rem]">شماره تماس:</label>
           <input
-            type="text"
+            type="number"
+            value={mobile}
+            onChange={(e) => setMobile(Number(e.target.value))}
             className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
             maxLength={11}
           />
@@ -78,6 +100,8 @@ export default function SubmitBox({ isSubmitOpen }: SubmitProps) {
           <textarea
             placeholder="مثال: لطفا کمی شکر به قهوه اضافه کنید."
             className="bg-[#D9D9D980] p-2 text-[0.6rem] min-h-24 max-h-24 rounded-xl outline-none border-none font-medium"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
             draggable="false"
           ></textarea>
         </div>

@@ -48,7 +48,7 @@ export default function ShoppingCart() {
         </ul>
       </main>
       <CartDetails onOpen={handleOpenSubmit} itemsCount={items.length} />
-      <SubmitBox isSubmitOpen={isSubmitOpen} />
+      <SubmitBox isSubmitOpen={isSubmitOpen} onClose={handleCloseSubmit} />
     </div>
   );
 }
