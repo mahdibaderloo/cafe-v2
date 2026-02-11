@@ -68,7 +68,9 @@ export const useCartStore = create<CartStore>()(
       increaseItemCount: (id) =>
         set((state) => {
           const updatedItems = state.items.map((item) =>
-            item.id === id ? { ...item, count: item.count + 1 } : item,
+            item.id === id && item.count < 15
+              ? { ...item, count: item.count + 1 }
+              : item,
           );
 
           return {
