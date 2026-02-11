@@ -7,9 +7,10 @@ import MenuItems from "../features/main-menu/MenuItems";
 import Lines from "../features/main-menu/Lines";
 import VerticalMenu from "../components/VerticalMenu";
 import ItemDetails from "../components/ItemDetails";
+import RouteError from "../components/RouteError";
 
 export default function MainMenu() {
-  const { data: items = [], isLoading } = useItems();
+  const { data: items = [], isLoading, isError } = useItems();
   const { lines } = useCategoryStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -32,6 +33,8 @@ export default function MainMenu() {
   }
 
   if (isLoading) return <p>Loading...</p>;
+
+  if (isError) return <RouteError />;
 
   return (
     <>
