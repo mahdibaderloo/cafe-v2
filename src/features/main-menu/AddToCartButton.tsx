@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import cartIcon from "../../assets/images/cart.svg";
 import { useCartStore } from "../../store/cartStore";
 
@@ -24,6 +25,7 @@ export default function AddToCartButton({ item }: ItemProp) {
 
   function handleClickAdd(e: React.MouseEvent) {
     e.stopPropagation();
+    toast.success("محصول به سبد خرید اضافه شد");
     addItem(selectedItem);
   }
 

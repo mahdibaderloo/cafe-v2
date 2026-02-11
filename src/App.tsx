@@ -7,6 +7,7 @@ import AboutUs from "./pages/AboutUs";
 import Login from "./pages/Login";
 import MainMenu from "./pages/MainMenu";
 import RouteError from "./components/RouteError";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster position="top-center" />
+    </>
+  );
 }
 
 export default App;
