@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 import cartIcon from "../../assets/images/cart.svg";
 import { useCartStore } from "../../store/cartStore";
+import { useNavigate } from "react-router-dom";
 
 interface Item {
   id: number;
@@ -17,6 +18,7 @@ interface ItemProp {
 
 export default function AddToCartButton({ item }: ItemProp) {
   const { addItem } = useCartStore();
+  const navigate = useNavigate();
 
   const selectedItem = {
     ...item,
@@ -25,7 +27,21 @@ export default function AddToCartButton({ item }: ItemProp) {
 
   function handleClickAdd(e: React.MouseEvent) {
     e.stopPropagation();
-    toast.success("محصول به سبد خرید اضافه شد");
+    toast.success((t) => (
+      <div className="flex justify-between items-center gap-4">
+        <span>محصول به سبد خرید اضافه شد</span>
+        <button
+          className="text-[#4c3d34] underline text-[0.5rem]"
+          onClick={() => {
+            toast.dismiss(t.id);
+            navigate("/shopping-cart");
+          }}
+        >
+          مشاهده سبد خرید
+        </button>
+      </div>
+    ));
+
     addItem(selectedItem);
   }
 

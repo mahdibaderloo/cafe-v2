@@ -28,7 +28,16 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <Toaster position="top-center" />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            fontSize: "0.5rem",
+            fontFamily: "system-ui",
+            fontWeight: "bold",
+          },
+        }}
+      />
     </>
   );
 }
