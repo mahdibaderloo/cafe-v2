@@ -24,14 +24,14 @@ export default function HorizontalMenu({
 }: MenuProps) {
   return (
     <div
-      className="fixed right-2 bottom-0 flex items-start gap-2"
+      className="fixed right-2 bottom-0 sm:bottom-2 sm:right-3 flex items-start gap-2"
       onClick={(e) => e.stopPropagation()}
     >
       <div
-        className="bg-(--green-color) w-10 h-10 flex justify-center items-center rounded-xl shadow-[0px_1px_2px_0px_#00000073] mb-3"
+        className="bg-(--green-color) w-10 h-10 sm:w-12 sm:h-12 flex justify-center items-center rounded-xl shadow-[0px_1px_2px_0px_#00000073] mb-3"
         onClick={onToggleMenu}
       >
-        <img src={menuIcon} alt="icon" className="w-6" />
+        <img src={menuIcon} alt="icon" className="w-6 sm:w-7.5" />
       </div>
       <ul
         className={`flex gap-2 transition-all duration-300 ${
