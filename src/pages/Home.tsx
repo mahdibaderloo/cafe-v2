@@ -32,45 +32,46 @@ export default function Home() {
   );
 
   return (
-    <>
-      <div
-        className="w-full bg-[#503C31] h-screen overflow-hidden"
-        onClick={handleCloseMenu}
-      >
-        <img src={mainPic} alt="main pic" className="w-full" />
-        <div className="w-full h-full bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll pb-42">
-          <div className="w-[88%] h-16 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-2 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
-            <img
-              src={coffee}
-              alt="coffee"
-              className="absolute -left-2 -top-1"
-            />
-            <img
-              src={leaf}
-              alt="leaf"
-              className="absolute -right-1 -bottom-2"
-            />
-            <p className="font-bold text-white absolute text-shadow-lg/30 text-xl pr-3">
-              خرید دون قهوه
-            </p>
-          </div>
-          <ul className="pt-3 p-4 flex items-center justify-between gap-x-1 gap-y-3 flex-wrap">
-            {sortedCategories.map((category) => {
-              const imageUrl = categoryImageUrl(category.image);
-              return (
-                <HomeCategoryIem
-                  key={category.label}
-                  category={category}
-                  image={imageUrl}
-                />
-              );
-            })}
-          </ul>
+    <div
+      className="w-full bg-[#503C31] h-screen overflow-hidden"
+      onClick={handleCloseMenu}
+    >
+      <header className="w-full">
+        <img src={mainPic} alt="main pic" className="w-full" loading="lazy" />
+      </header>
 
-          <div className="w-full h-22" />
+      <main className="w-full max-h-[calc(100vh-22%)] bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll">
+        <div className="w-[88%] sm:w-[82%] h-16 sm:h-30 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-2 sm:mt-6 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
+          <img
+            src={coffee}
+            alt="coffee"
+            className="absolute -left-2 -top-1 sm:w-60"
+          />
+          <img
+            src={leaf}
+            alt="leaf"
+            className="absolute -right-1 -bottom-2 sm:w-24"
+          />
+          <p className="font-bold text-white absolute text-shadow-lg/30 text-xl sm:text-3xl pr-3 sm:pr-8">
+            خرید دون قهوه
+          </p>
         </div>
-      </div>
+
+        <ul className="pt-3 sm:pt-7 sm:pb-10 p-4 sm:p-11.5 flex items-center justify-between sm:justify-center gap-x-1 sm:gap-x-3 gap-y-3 flex-wrap">
+          {sortedCategories.map((category) => {
+            const imageUrl = categoryImageUrl(category.image);
+            return (
+              <HomeCategoryIem
+                key={category.label}
+                category={category}
+                image={imageUrl}
+              />
+            );
+          })}
+        </ul>
+        <div className="w-full h-28 sm:h-48" />
+      </main>
       <HorizontalMenu isMenuOpen={isMenuOpen} onToggleMenu={handleToggleMenu} />
-    </>
+    </div>
   );
 }

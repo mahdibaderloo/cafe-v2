@@ -24,7 +24,7 @@ export default function HorizontalMenu({
 }: MenuProps) {
   return (
     <div
-      className="fixed right-2 bottom-2 flex items-start gap-2"
+      className="fixed right-2 bottom-0 flex items-start gap-2"
       onClick={(e) => e.stopPropagation()}
     >
       <div
