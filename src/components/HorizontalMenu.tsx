@@ -24,7 +24,7 @@ export default function HorizontalMenu({
 }: MenuProps) {
   return (
     <div
-      className="fixed right-2 bottom-0 sm:bottom-2 sm:right-3 flex items-start gap-2"
+      className="fixed right-2 bottom-0 sm:bottom-2 sm:right-3 flex items-start gap-2 sm:gap-4"
       onClick={(e) => e.stopPropagation()}
     >
       <div
@@ -34,7 +34,7 @@ export default function HorizontalMenu({
         <img src={menuIcon} alt="icon" className="w-6 sm:w-7.5" />
       </div>
       <ul
-        className={`flex gap-2 transition-all duration-300 ${
+        className={`flex gap-2 sm:gap-3 transition-all duration-300 ${
           isMenuOpen
             ? "opacity-100 translate-x-0"
             : "opacity-0 translate-x-4 pointer-events-none"

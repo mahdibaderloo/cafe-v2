@@ -31,11 +31,8 @@ function App() {
       <Toaster
         position="top-center"
         toastOptions={{
-          style: {
-            fontSize: "0.5rem",
-            fontFamily: "system-ui",
-            fontWeight: "bold",
-          },
+          className:
+            "w-[90vw]! max-w-[600px]! sm:p-2! rounded-lg! sm:rounded-xl! font-bold font-systemUi",
         }}
       />
     </>

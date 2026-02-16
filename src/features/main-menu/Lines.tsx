@@ -9,7 +9,7 @@ export default function Lines() {
   }
 
   return (
-    <div className="w-[75%] bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)]">
+    <div className="w-full bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)]">
       <ul className="flex flex-col gap-3 my-4">
         {lines.map((line) => {
           return (
