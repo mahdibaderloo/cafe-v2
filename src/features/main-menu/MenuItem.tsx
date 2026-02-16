@@ -29,13 +29,13 @@ export default function MenuItem({ item, image, onToggleDetails }: ItemProps) {
 
   return (
     <li
-      className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 px-3 rounded-3xl flex justify-between sm:gap-4 h-34 sm:h-40"
+      className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] mx-2 py-2 sm:py-3 px-3 rounded-3xl flex justify-between sm:gap-4 h-34 sm:h-40"
       onClick={(e) => {
         handleSetItem(item);
         onToggleDetails(e);
       }}
     >
-      <div className="sm:w-36 flex items-center justify-center p-1">
+      <div className="sm:w-34 flex items-center justify-center p-1">
         <img src={image} alt="product-image" className="w-full" />
       </div>
       <div className="sm:w-[40%] flex flex-col justify-between items-center">

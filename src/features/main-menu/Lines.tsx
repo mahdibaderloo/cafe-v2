@@ -10,15 +10,15 @@ export default function Lines() {
 
   return (
     <div className="w-full bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)]">
-      <ul className="flex flex-col gap-3 my-4">
+      <ul className="flex flex-col gap-3 my-4 sm:mx-8">
         {lines.map((line) => {
           return (
             <li
               key={line}
-              className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] shadow-[0px_2px_6px_0px_#00000040] mx-2 py-2 px-3 rounded-3xl flex justify-center items-center h-18"
+              className="bg-[linear-gradient(304.79deg,#748F80_-6.47%,#503D32_108.97%)] shadow-[0px_2px_6px_0px_#00000040] mx-2 py-2 px-3 rounded-3xl flex justify-center items-center h-18 sm:h-20"
               onClick={() => handleSetCategory(line)}
             >
-              <p className="text-white font-medium text-[1rem]">
+              <p className="text-white font-medium sm:font-semibold text-[1rem]">
                 {setLabel(line)}
               </p>
             </li>

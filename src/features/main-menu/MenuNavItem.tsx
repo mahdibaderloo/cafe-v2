@@ -31,7 +31,7 @@ export default function MenuNavItem({ image, category }: NavProps) {
       <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-full h-fit sm:h-19 sm:w-19 p-1 flex justify-center items-center">
         <img src={image} alt="category-image" className="" />
       </div>
-      <p className="text-[0.48rem] sm:text-[0.65rem] text-white font-medium">
+      <p className="text-[0.48rem] sm:text-[0.65rem] sm:py-0.5 text-white font-medium">
         {category.label}
       </p>
     </li>
