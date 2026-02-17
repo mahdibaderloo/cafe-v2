@@ -33,7 +33,7 @@ export default function HomeCategoryIem({ category, image }: CategoryProps) {
     >
       <Link to="/menu" className="flex flex-col justify-center items-center">
         <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-17 sm:w-23 h-17 sm:h-23 flex justify-center items-center">
-          <img src={image} alt="coffee" />
+          <img src={image} alt="coffee" className="sm:w-19" />
         </div>
         <p className="text-[0.625rem] sm:text-[0.8rem] text-white py-1 sm:py-1.5 font-medium">
           {category.label}
