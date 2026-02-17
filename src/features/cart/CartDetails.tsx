@@ -18,7 +18,7 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
       />
 
       <div className="bg-[#4C3D34] w-full h-full shadow-[0px_-4px_8px_0px_#00000033] rounded-t-2xl px-2 py-6 flex flex-col justify-between">
-        <div className="w-[90%] sm:w-[80%] h-10 sm:h-13 bg-white rounded-xl p-1 mx-auto flex justify-between items-center z-40">
+        <div className="w-[90%] sm:w-[80%] h-10 sm:h-14 bg-white rounded-xl p-1 mx-auto flex justify-between items-center z-40">
           <button className="w-[25%] h-full bg-[#503D32] rounded-[0.6rem] text-white font-medium sm:font-semibold text-[0.8rem] sm:text-[1rem]">
             تایید
           </button>
@@ -46,7 +46,7 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
         </div>
 
         <button
-          className={`w-[90%] sm:w-[80%] h-10 sm:h-13 bg-white ${itemsCount > 0 ? "opacity-100" : "opacity-50"} shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] sm:text-[1.2rem] mt-4 mx-auto`}
+          className={`w-[90%] sm:w-[80%] h-10 sm:h-14 bg-white ${itemsCount > 0 ? "opacity-100" : "opacity-50"} shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] sm:text-[1.2rem] mt-4 mx-auto`}
           onClick={onOpen}
           disabled={itemsCount === 0}
         >
