@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useSubmitOrder } from "../../hooks/useSubmitOrder";
 import { useCartStore } from "../../store/cartStore";
 
@@ -7,27 +7,48 @@ interface SubmitProps {
   onClose: () => void;
 }
 
+interface FormValues {
+  username: string;
+  mobile: string;
+  desc: string;
+  isTakeAway: boolean;
+}
+
 export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
-  const [isTakeAway, setIsTakeAway] = useState(false);
-  const [username, setUsername] = useState("");
-  const [mobile, setMobile] = useState(0);
-  const [desc, setDesc] = useState("");
   const { mutate: submitOrder, isPending } = useSubmitOrder();
   const { items, totalPrice, removeAll } = useCartStore();
 
-  function handleSubmit() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<FormValues>({
+    defaultValues: {
+      username: "",
+      mobile: "",
+      desc: "",
+      isTakeAway: false,
+    },
+  });
+
+  const isTakeAway = watch("isTakeAway");
+
+  function onSubmit(data: FormValues) {
     submitOrder(
       {
         totalPrice,
-        username,
-        mobile,
+        username: data.username.trim(),
+        mobile: data.mobile?.trim() || "-",
         order: JSON.stringify(items),
-        isTakeAway,
-        desc: desc,
+        isTakeAway: data.isTakeAway,
+        desc: data.desc,
       },
       {
         onSuccess: () => {
           removeAll();
+          reset();
           onClose();
         },
       },
@@ -37,7 +58,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   return (
     <div
       className={`
-        fixed bottom-0 left-0 w-full h-fit
+        fixed bottom-0 left-0 w-full
         bg-[linear-gradient(156.16deg,#566C5F_0%,#503D32_106.49%)]
         z-50 p-4 rounded-t-2xl
         shadow-[0px_-4px_8px_0px_#00000033]
@@ -53,63 +74,69 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
         <h3 className="text-white font-semibold">ثبت نهایی</h3>
       </header>
 
-      <form className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <div className="w-full flex items-center gap-2 mt-4">
-          <label className="text-white text-[0.65rem]">
+          <label className="text-white text-[0.7rem]">
             نام و نام خانوادگی:
           </label>
           <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
+            {...register("username", {
+              required: "وارد کردن نام الزامی است",
+            })}
+            className="bg-[#D9D9D980] w-30 rounded-lg outline-none text-[0.7rem] p-1.5 font-semibold"
           />
         </div>
+        {errors.username && (
+          <p className="text-red-300 text-[0.6rem] mt-1">
+            {errors.username.message}
+          </p>
+        )}
 
         <div className="w-full flex items-center gap-2 mt-4">
-          <label className="text-white text-[0.65rem]">شماره تماس:</label>
+          <label className="text-white text-[0.7rem]">شماره تماس:</label>
           <input
-            type="number"
-            value={mobile}
-            onChange={(e) => setMobile(Number(e.target.value))}
-            className="bg-[#D9D9D980] w-30 rounded-lg outline-none border-none text-[0.65rem] p-1.5 font-semibold"
-            maxLength={11}
+            {...register("mobile", {
+              validate: (value) => {
+                if (!value) return true;
+
+                const mobileRegex = /^09\d{9}$/;
+                return mobileRegex.test(value) || "شماره موبایل معتبر نیست";
+              },
+            })}
+            className="bg-[#D9D9D980] w-30 rounded-lg outline-none text-[0.7rem] p-1.5 font-semibold"
           />
         </div>
+        {errors.mobile && (
+          <p className="text-red-300 text-[0.6rem] mt-1">
+            {errors.mobile.message}
+          </p>
+        )}
 
-        <div
-          className="w-fit flex items-center gap-2 mt-6"
-          onClick={() => setIsTakeAway((t) => !t)}
-        >
-          <div
-            className={`w-4 h-4 rounded-full shadow-[0px_2px_4px_0px_#00000047] ${
-              isTakeAway
-                ? "bg-white border-3 border-white"
-                : "border-3 border-white"
-            } transition-all delay-100`}
+        <div className="w-fit flex items-center gap-2 mt-6">
+          <input
+            type="checkbox"
+            {...register("isTakeAway")}
+            className={`appearance-none w-4 h-4 rounded-full shadow-[0px_2px_4px_0px_#00000047] ${isTakeAway ? "bg-white border-3 border-white" : "border-3 border-white"} transition-all delay-100`}
           />
-          <p className="text-white text-[0.65rem]">بیرون بر</p>
+          <p className="text-white text-[0.7rem]">بیرون بر</p>
         </div>
 
         <div className="w-full flex flex-col gap-2 mt-4">
           <label className="text-white text-[0.75rem]">توضیحات:</label>
           <textarea
+            {...register("desc")}
             placeholder="مثال: لطفا کمی شکر به قهوه اضافه کنید."
-            className="bg-[#D9D9D980] p-2 text-[0.6rem] min-h-24 max-h-24 rounded-xl outline-none border-none font-medium"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
-            draggable="false"
-          ></textarea>
+            className="bg-[#D9D9D980] p-2 text-[0.7rem] min-h-24 max-h-24 rounded-xl outline-none font-medium"
+          />
         </div>
 
         <div className="w-full flex justify-center">
           <button
-            type="button"
-            onClick={handleSubmit}
+            type="submit"
             disabled={isPending}
-            className="w-[90%] h-10 bg-white shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-6 mx-auto"
+            className="w-[90%] h-10 bg-white rounded-xl text-[#503D32] font-semibold text-[0.85rem] mt-6"
           >
-            ثبت سفارش
+            {isPending ? "در حال ثبت..." : "ثبت سفارش"}
           </button>
         </div>
       </form>
