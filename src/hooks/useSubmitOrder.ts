@@ -4,7 +4,7 @@ import supabase from "../supabase/supabase";
 interface Submit {
   totalPrice: number;
   username: string;
-  mobile: number;
+  mobile: string | "-";
   order: string;
   isTakeAway: boolean;
   desc?: string;
