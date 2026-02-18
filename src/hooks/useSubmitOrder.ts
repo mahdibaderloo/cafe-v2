@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import supabase from "../supabase/supabase";
+import toast from "react-hot-toast";
 
 interface Submit {
   totalPrice: number;
@@ -14,16 +15,20 @@ export function useSubmitOrder() {
   return useMutation({
     mutationFn: submitOrder,
     onSuccess: () => {
-      console.log("Successfully");
+      toast.success("سفارش شما با موفقیت ثبت شد", {
+        style: { width: "fit-content" },
+      });
     },
-    onError: (err) => {
-      console.log(err.message);
+    onError: () => {
+      toast.error("مشکلی در ثبت سفارش پیش آمده. مجدد تلاش کنید", {
+        style: { width: "fit-content" },
+      });
     },
   });
 }
 
 async function submitOrder(data: Submit) {
-  const { error } = await supabase.from("orders").insert([
+  const { error } = await supabase.from("orderss").insert([
     {
       username: data.username,
       mobile: data.mobile,

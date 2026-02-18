@@ -147,7 +147,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
           <button
             type="submit"
             disabled={isPending}
-            className="w-[90%] sm:w-[84%] h-10 sm:h-12 bg-white rounded-xl text-[#503D32] font-semibold text-[0.85rem] sm:text-[1.1rem] mt-6"
+            className={`w-[90%] sm:w-[84%] h-10 sm:h-12 ${isPending ? "bg-[#d9d9d980]" : "bg-white"} rounded-xl text-[#503D32] font-semibold text-[0.85rem] sm:text-[1.1rem] mt-6`}
           >
             {isPending ? "در حال ثبت..." : "ثبت سفارش"}
           </button>
