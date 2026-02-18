@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useSubmitOrder } from "../../hooks/useSubmitOrder";
 import { useCartStore } from "../../store/cartStore";
 
@@ -21,7 +21,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
     reset,
   } = useForm<FormValues>({
@@ -33,7 +33,10 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
     },
   });
 
-  const isTakeAway = watch("isTakeAway");
+  const isTakeAway = useWatch({
+    control,
+    name: "isTakeAway",
+  });
 
   function onSubmit(data: FormValues) {
     submitOrder(
