@@ -39,9 +39,11 @@ const items: Items = [
 
 export default function ContactUs() {
   return (
-    <div className="mt-50">
-      <p className="text-white text-sm mr-4">ارتباط با ما</p>
-      <ul className="flex items-center justify-center gap-2 mt-4">
+    <div className="mt-50 sm:mt-70">
+      <p className="text-white text-sm sm:text-[1rem] sm:font-semibold mr-4">
+        ارتباط با ما
+      </p>
+      <ul className="flex items-center justify-center gap-2 mt-4 sm:mt-8">
         {items.map((item) => (
           <ContactUsItem key={item.id} item={item} />
         ))}

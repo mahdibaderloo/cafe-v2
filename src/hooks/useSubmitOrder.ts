@@ -28,7 +28,7 @@ export function useSubmitOrder() {
 }
 
 async function submitOrder(data: Submit) {
-  const { error } = await supabase.from("orderss").insert([
+  const { error } = await supabase.from("orders").insert([
     {
       username: data.username,
       mobile: data.mobile,
