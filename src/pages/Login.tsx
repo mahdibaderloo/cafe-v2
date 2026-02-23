@@ -1,6 +1,15 @@
 import coffeeImage from "../assets/images/login-pic.png";
+import eyeOpenIcon from "../assets/images/eye-open.svg";
+import eyeCloseIcon from "../assets/images/eye-close.svg";
+import { useState } from "react";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+
+  function handleShowPassword() {
+    setShowPassword((t) => (t === false ? true : false));
+  }
+
   return (
     <div className="w-full h-screen bg-[#485158] flex justify-center items-center">
       <div className="flex lg:w-[80%] xl:w-200 h-80 xl:h-100 bg-white rounded-3xl overflow-hidden">
@@ -28,12 +37,23 @@ export default function Login() {
               >
                 رمز عبور
               </label>
-              <input
-                type="text"
-                id="password"
-                className="bg-[#F2F2F2] w-45 xl:w-50 h-7 xl:h-9 border-3 border-[#748F80] rounded-lg outline-none py-0.5 text-[0.6rem] xl:text-[0.65rem] pl-1 font-semibold font-sans"
-                dir="ltr"
-              />
+
+              <div className="bg-[#F2F2F2] flex items-center w-45 xl:w-50 h-7 xl:h-9 border-3 border-[#748F80] rounded-lg">
+                <img
+                  src={showPassword ? eyeOpenIcon : eyeCloseIcon}
+                  alt="eye-icon"
+                  className="mr-1 cursor-pointer"
+                  onClick={handleShowPassword}
+                />
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  className={`w-full outline-none py-0.5 ${showPassword ? "text-[0.6rem] xl:text-[0.65rem] font-semibold" : "text-[0.8rem] xl:text-[1rem] font-semibold"} tracking-wider pl-1 font-sans`}
+                  maxLength={12}
+                  dir="ltr"
+                />
+              </div>
             </div>
             <div className="w-full flex justify-center">
               <button className="bg-[#485158] text-[0.9rem] xl:text-[1rem] font-semibold text-white w-30 h-9 xl:w-32 xl:h-10 rounded-lg mt-8 cursor-pointer">
