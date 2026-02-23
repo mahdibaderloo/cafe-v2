@@ -15,7 +15,7 @@ const menuItems = [
   { id: 1, label: "صفحه اصلی", icon: homeIcon, url: "/" },
   { id: 2, label: "سبد خرید", icon: cartIcon, url: "/shopping-cart" },
   { id: 3, label: "درباره ما", icon: aboutUsIcon, url: "/about-us" },
-  { id: 4, label: "پنل ادمین", icon: adminIcon, url: "/admin" },
+  { id: 4, label: "پنل ادمین", icon: adminIcon, url: "/login" },
 ];
 
 export default function HorizontalMenu({
