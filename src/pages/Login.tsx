@@ -3,6 +3,8 @@ import eyeOpenIcon from "../assets/images/eye-open.svg";
 import eyeCloseIcon from "../assets/images/eye-close.svg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLogin } from "../hooks/admin/useLogin";
+import { useNavigate } from "react-router-dom";
 
 interface FormValues {
   email: string;
@@ -11,6 +13,7 @@ interface FormValues {
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -22,6 +25,8 @@ export default function Login() {
     },
   });
 
+  const { isPending, mutate } = useLogin();
+
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|yahoo|google|outlook)\.com$/i;
 
   function handleShowPassword() {
@@ -29,7 +34,11 @@ export default function Login() {
   }
 
   function onSubmitLogin(data: FormValues) {
-    console.log(data);
+    mutate(data, {
+      onSuccess: () => {
+        navigate("/dashboard");
+      },
+    });
   }
 
   return (
@@ -98,8 +107,11 @@ export default function Login() {
               </p>
             </div>
             <div className="w-full flex justify-center">
-              <button className="bg-[#485158] text-[0.9rem] xl:text-[1rem] font-semibold text-white w-30 h-9 xl:w-32 xl:h-10 rounded-lg mt-8 cursor-pointer">
-                ورود
+              <button
+                disabled={isPending}
+                className={`${isPending ? "bg-[#9d9e9e] text-[0.7rem] xl:text-[0.8rem]" : "bg-[#485158] text-[0.9rem] xl:text-[1rem]"} font-semibold text-white w-30 h-9 xl:w-32 xl:h-10 rounded-lg mt-8 cursor-pointer`}
+              >
+                {isPending ? "بررسی اطلاعات..." : "ورود"}
               </button>
             </div>
           </form>
