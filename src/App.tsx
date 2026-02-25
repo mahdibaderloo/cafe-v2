@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import MainMenu from "./pages/MainMenu";
 import RouteError from "./components/RouteError";
 import { Toaster } from "react-hot-toast";
+import Dashboard from "./pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
       { path: "/shopping-cart", element: <ShoppingCart /> },
       { path: "/about-us", element: <AboutUs /> },
       { path: "/login", element: <Login /> },
+      { path: "/dashboard", element: <Dashboard /> },
       { path: "*", element: <RouteError /> },
     ],
   },
