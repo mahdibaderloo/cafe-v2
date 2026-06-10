@@ -3,6 +3,7 @@ import dashboardIcon from "../../assets/images/dashboard.svg";
 import productsIcon from "../../assets/images/products.svg";
 import ordersIcon from "../../assets/images/orders.svg";
 import profileIcon from "../../assets/images/profile.svg";
+import logoutIcon from "../../assets/images/logout.svg";
 import { Link } from "react-router-dom";
 
 const options = [
@@ -14,17 +15,27 @@ const options = [
 
 export default function DashboardNav() {
   return (
-    <nav>
-      <img src={logo} alt="logo" />
-      <ul>
+    <nav className="bg-white h-screen w-50">
+      <img src={logo} alt="logo" className="mx-auto" />
+      <ul className="flex flex-col h-[70%]">
         {options.map((option) => (
           <li key={option.id}>
-            <Link to={option.path}>
-              <img src={option.icon} alt="icon" />
-              <p>{option.title}</p>
+            <Link to={option.path} className="flex gap-1 items-center p-3 pr-4">
+              <div className="w-10 pr-1">
+                <img src={option.icon} alt="icon" className="w-4" />
+              </div>
+              <p className="text-gray-500 font-medium text-sm">
+                {option.title}
+              </p>
             </Link>
           </li>
         ))}
+        <li className="flex gap-1 items-center p-3 pr-4 mt-auto cursor-pointer">
+          <div className="w-10 pr-1">
+            <img src={logoutIcon} alt="icon" className="w-4" />
+          </div>
+          <p className="text-gray-500 font-medium text-sm">خروج</p>
+        </li>
       </ul>
     </nav>
   );
