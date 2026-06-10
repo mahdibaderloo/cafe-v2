@@ -21,7 +21,7 @@ export default function ContactUsItem({ item }: ItemProp) {
             className={`${item.id === 2 ? "w-7 sm:w-11" : "w-9 sm:w-14"}`}
           />
         </div>
-        <p className="text-white text-[0.7rem] sm:text-[0.8rem] sm:font-medium font-light mt-1.5 sm:mt-2">
+        <p className="text-white text-[0.7rem] sm:text-[0.8rem] font-medium mt-1.5 sm:mt-2">
           {item.text}
         </p>
       </a>
