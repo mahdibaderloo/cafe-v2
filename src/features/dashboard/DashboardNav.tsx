@@ -15,9 +15,9 @@ const options = [
 
 export default function DashboardNav() {
   return (
-    <nav className="bg-white h-screen w-50">
+    <nav className="bg-white h-screen w-70">
       <img src={logo} alt="logo" className="mx-auto" />
-      <ul className="flex flex-col h-[70%]">
+      <ul className="flex flex-col h-[60%]">
         {options.map((option) => (
           <li key={option.id}>
             <Link to={option.path} className="flex gap-1 items-center p-3 pr-4">
