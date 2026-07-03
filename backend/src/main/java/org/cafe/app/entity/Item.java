@@ -17,4 +17,8 @@ public class Item {
     private String description;
     private BigDecimal price;
     private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }
