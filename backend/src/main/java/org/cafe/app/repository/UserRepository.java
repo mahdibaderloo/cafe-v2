@@ -1,9 +1,9 @@
 package org.cafe.app.repository;
 
-import org.cafe.app.entity.OrderItem;
+import org.cafe.app.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderItemRepository extends JpaRepository<OrderItem, Long>  {
+public interface UserRepository extends JpaRepository<User, Long> {
 }
