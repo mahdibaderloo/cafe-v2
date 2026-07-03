@@ -20,6 +20,13 @@ public class ItemService {
         return itemRepository.findAll().stream().map(this::toDto).toList();
     }
 
+    public ItemDto getItemById(Long id) {
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item not found"));
+
+        return toDto(item);
+    }
+
     private ItemDto toDto(Item item) {
         return new ItemDto(
                 item.getId(),
@@ -31,4 +38,5 @@ public class ItemService {
                 item.getImage()
         );
     }
+
 }
