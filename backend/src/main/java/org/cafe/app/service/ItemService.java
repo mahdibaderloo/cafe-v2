@@ -1,5 +1,6 @@
 package org.cafe.app.service;
 
+import org.cafe.app.dto.ItemDto;
 import org.cafe.app.entity.Item;
 import org.cafe.app.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,19 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<Item> getAllItems() {
-        return itemRepository.findAll();
+    public List<ItemDto> getAllItems() {
+        return itemRepository.findAll().stream().map(this::toDto).toList();
+    }
+
+    private ItemDto toDto(Item item) {
+        return new ItemDto(
+                item.getId(),
+                item.getProductName(),
+                item.getPrice(),
+                item.getDescription(),
+                item.getCategory().getId(),
+                item.getCategory().getName(),
+                item.getImage()
+        );
     }
 }

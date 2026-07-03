@@ -12,4 +12,7 @@ public class ItemDto {
     private String image;
     private String description;
     private String categoryName;
+
+    public ItemDto(Long id, String productName, BigDecimal price, String description, Long id1, String name, String image) {
+    }
 }
