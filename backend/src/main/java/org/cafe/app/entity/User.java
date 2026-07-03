@@ -2,6 +2,7 @@ package org.cafe.app.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.cafe.app.enums.Role;
 
 @Entity
 @Table(name = "users")
