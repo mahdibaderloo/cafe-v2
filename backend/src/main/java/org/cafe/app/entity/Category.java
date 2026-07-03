@@ -14,4 +14,10 @@ public class Category {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parent;
 }
