@@ -8,5 +8,4 @@ public class CategoryDto {
     private Long id;
     private String name;
     private String image;
-    private Category parent;
 }
