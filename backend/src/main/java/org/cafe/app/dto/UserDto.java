@@ -9,7 +9,4 @@ public class UserDto {
     private String email;
     private String image;
     private String role;
-
-    public UserDto(Long id, String username, String image, String email, String role) {
-    }
 }

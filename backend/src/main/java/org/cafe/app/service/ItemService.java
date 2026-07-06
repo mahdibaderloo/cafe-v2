@@ -1,5 +1,6 @@
 package org.cafe.app.service;
 
+import lombok.Data;
 import org.cafe.app.dto.ItemDto;
 import org.cafe.app.entity.Item;
 import org.cafe.app.repository.ItemRepository;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Data
 @Service
 public class ItemService {
 

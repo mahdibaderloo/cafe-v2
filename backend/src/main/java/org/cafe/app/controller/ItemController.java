@@ -1,5 +1,6 @@
 package org.cafe.app.controller;
 
+import lombok.Data;
 import org.cafe.app.dto.ItemDto;
 import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.service.ItemService;
@@ -11,15 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Data
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
 
     private final ItemService itemService;
-
-    public ItemController(ItemRepository itemRepository, ItemService itemService) {
-        this.itemService = itemService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ItemDto>> getItems () {
