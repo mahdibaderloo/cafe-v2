@@ -1,6 +1,7 @@
 package org.cafe.app.dto;
 
 import lombok.Data;
+import org.cafe.app.entity.Category;
 
 import java.math.BigDecimal;
 
