@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useCategories } from "../hooks/useCategories";
-import { categoryImageUrl } from "../utils/imageUrl";
-import { CATEGORY_ORDER } from "../utils/categoriesOrder";
 
 import HorizontalMenu from "../components/HorizontalMenu";
 import HomeCategoryIem from "../features/home/HomeCategoryIem";
@@ -10,9 +8,10 @@ import mainPic from "../assets/images/main-pic.png";
 import coffee from "../assets/images/coffee.png";
 import leaf from "../assets/images/leaf.png";
 import RouteError from "../components/RouteError";
+import type { Category } from "../types/category.type";
 
 export default function Home() {
-  const { categories, isLoading, isError } = useCategories();
+  const { data: categories, isLoading, isError } = useCategories();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleToggleMenu() {
@@ -26,10 +25,6 @@ export default function Home() {
   if (isLoading) return <p>Loading...</p>;
 
   if (isError) return <RouteError />;
-
-  const sortedCategories = [...categories].sort(
-    (a, b) => CATEGORY_ORDER.indexOf(a.label) - CATEGORY_ORDER.indexOf(b.label),
-  );
 
   return (
     <div
@@ -58,15 +53,8 @@ export default function Home() {
         </div>
 
         <ul className="pt-3 sm:pt-7 sm:pb-10 p-4 sm:p-11.5 flex items-center justify-between sm:justify-center gap-x-1 sm:gap-x-3 gap-y-3 flex-wrap">
-          {sortedCategories.map((category) => {
-            const imageUrl = categoryImageUrl(category.image);
-            return (
-              <HomeCategoryIem
-                key={category.label}
-                category={category}
-                image={imageUrl}
-              />
-            );
+          {categories.map((category: Category) => {
+            return <HomeCategoryIem key={category.id} category={category} />;
           })}
         </ul>
         <div className="w-full h-28 sm:h-48" />

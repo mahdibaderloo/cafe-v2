@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import supabase from "../../supabase/supabase";
 import toast from "react-hot-toast";
 
 export function useLogout() {
@@ -7,7 +6,7 @@ export function useLogout() {
 
   return useMutation({
     mutationKey: ["logout-admin"],
-    mutationFn: logout,
+    // mutationFn: logout,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin"] });
       toast.success("شما از پنل خارج شدید");
@@ -18,10 +17,10 @@ export function useLogout() {
   });
 }
 
-async function logout() {
-  const { error } = await supabase.auth.signOut();
+// async function logout() {
+//   const { error } = await auth.signOut();
 
-  if (error) {
-    throw new Error(error.message);
-  }
-}
+//   if (error) {
+//     throw new Error(error.message);
+//   }
+// }

@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import supabase from "../supabase/supabase";
+import { getItems } from "../services/item";
+import { useCategoryStore } from "../store/categoryStore";
 
 interface Items {
   id: number;
-  product: string;
+  productName: string;
   image: string;
   category: string;
   price: number;
@@ -11,16 +12,11 @@ interface Items {
 }
 
 export function useItems() {
+  const { category, line } = useCategoryStore();
+  const selectedCategory = category ? category : line;
+
   return useQuery<Items[]>({
     queryKey: ["items"],
-    queryFn: fetchItems,
+    queryFn: () => getItems(selectedCategory as number),
   });
-}
-
-async function fetchItems() {
-  const { data: items, error } = await supabase.from("items").select("*");
-
-  if (error) throw new Error("Can't fetch items.");
-
-  return items;
 }

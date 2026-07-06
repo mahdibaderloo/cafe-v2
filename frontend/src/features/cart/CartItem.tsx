@@ -1,6 +1,5 @@
 import plusIcon from "../../assets/images/plus.svg";
 import minusIcon from "../../assets/images/minus.svg";
-import { itemImageUrl } from "../../utils/imageUrl";
 
 interface Item {
   id: number;
@@ -18,11 +17,11 @@ interface ItemProp {
 }
 
 export default function CartItem({ item, increase, decrease }: ItemProp) {
-  const imageUrl = itemImageUrl(item.category, item.image);
+  // const imageUrl = itemImageUrl(item.category, item.image);
   return (
     <li className="bg-[#4C3D34] rounded-xl sm:rounded-2xl shadow-[0px_3px_4.6px_0px_#00000066] w-full sm:w-[90%] h-18 sm:h-24 overflow-hidden p-1 sm:p-2 flex">
       <div className="bg-[#566C5F] rounded-xl sm:rounded-2xl shadow-[1px_2px_5px_0px_#00000040] w-23 sm:w-26 h-full flex justify-center items-center">
-        <img src={imageUrl} alt="item-image" className="w-16 sm:w-18" />
+        <img src={item.image} alt="item-image" className="w-16 sm:w-18" />
       </div>
 
       <div className="text-white font-medium w-full flex flex-col justify-center gap-3 sm:gap-4 mr-2 sm:mr-4">

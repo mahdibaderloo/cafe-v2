@@ -11,7 +11,7 @@ import RouteError from "../components/RouteError";
 
 export default function MainMenu() {
   const { data: items = [], isLoading, isError } = useItems();
-  const { lines } = useCategoryStore();
+  const { line } = useCategoryStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
@@ -51,7 +51,7 @@ export default function MainMenu() {
           onClick={handleCloseDetails}
         />
 
-        {lines.length > 0 ? (
+        {line !== 0 ? (
           <Lines />
         ) : (
           <MenuItems

@@ -1,15 +1,15 @@
 import { create } from "zustand";
 
 type CategoryStore = {
-  category: string;
-  setCategory: (category: string) => void;
-  lines: string[];
-  setLines: (lines: string[]) => void;
+  category: number;
+  setCategory: (category: number) => void;
+  line: number | null;
+  setLine: (line: number | null) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
-  category: "cold",
+  category: 1,
   setCategory: (category) => set({ category }),
-  lines: [],
-  setLines: (lines) => set({ lines }),
+  line: null,
+  setLine: (line) => set({ line }),
 }));

@@ -1,12 +1,11 @@
 import { useCategoryStore } from "../../store/categoryStore";
-import { itemImageUrl } from "../../utils/imageUrl";
 import MenuItem from "./MenuItem";
 
 interface Item {
   id: number;
-  product: string;
+  product_name: string;
   image: string;
-  category: string;
+  category: number;
   price: number;
   desc: string;
 }
@@ -25,12 +24,11 @@ export default function MenuItems({ items, onToggleDetails }: MenuItemsProps) {
     <div className="w-full bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)] overflow-scroll">
       <ul className="flex flex-col gap-3 my-3 sm:mx-8">
         {sortedItems.map((item) => {
-          const imageUrl = itemImageUrl(item.category, item.image);
           return (
             <MenuItem
               key={item.id}
               item={item}
-              image={imageUrl}
+              image={item.image}
               onToggleDetails={onToggleDetails}
             />
           );

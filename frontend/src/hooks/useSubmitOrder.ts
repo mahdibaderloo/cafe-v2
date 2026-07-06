@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import supabase from "../supabase/supabase";
 import toast from "react-hot-toast";
 
 interface Submit {
@@ -13,7 +12,7 @@ interface Submit {
 
 export function useSubmitOrder() {
   return useMutation({
-    mutationFn: submitOrder,
+    // mutationFn: submitOrder,
     onSuccess: () => {
       toast.success("سفارش شما با موفقیت ثبت شد", {
         style: { width: "fit-content" },
@@ -27,19 +26,19 @@ export function useSubmitOrder() {
   });
 }
 
-async function submitOrder(data: Submit) {
-  const { error } = await supabase.from("orders").insert([
-    {
-      username: data.username,
-      mobile: data.mobile,
-      order: JSON.parse(data.order),
-      total_price: data.totalPrice,
-      is_takeaway: data.isTakeAway,
-      desc: data.desc || "",
-    },
-  ]);
+// async function submitOrder(data: Submit) {
+//   const { error } = await from("orders").insert([
+//     {
+//       username: data.username,
+//       mobile: data.mobile,
+//       order: JSON.parse(data.order),
+//       total_price: data.totalPrice,
+//       is_takeaway: data.isTakeAway,
+//       desc: data.desc || "",
+//     },
+//   ]);
 
-  if (error) {
-    throw new Error(error.message);
-  }
-}
+//   if (error) {
+//     throw new Error(error.message);
+//   }
+// }

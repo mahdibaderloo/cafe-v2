@@ -1,42 +1,35 @@
 import { Link } from "react-router-dom";
 import { useCategoryStore } from "../../store/categoryStore";
+import type { Category } from "../../types/category.type";
 
-interface Category {
-  id: string;
-  label: string;
-  image?: string;
-  dbCategories: string[];
-}
+export default function HomeCategoryIem({ category }: { category: Category }) {
+  const { setCategory, setLine } = useCategoryStore();
 
-interface CategoryProps {
-  category: Category;
-  image: string;
-}
-
-export default function HomeCategoryIem({ category, image }: CategoryProps) {
-  const { setCategory, setLines } = useCategoryStore();
-
-  function handleSetCategory(key: string[]) {
-    if (key.length > 1) {
-      setLines(key);
+  function handleSetCategory(id: number, parentId: number | null) {
+    if (parentId === null) {
+      setLine(id);
     } else {
-      setCategory(key[0]);
-      setLines([]);
+      setCategory(id);
+      setLine(0);
     }
   }
 
   return (
     <li
-      key={category.label}
+      key={category.id}
       className="w-18 sm:w-24 bg-(--green-color) p-0.5 rounded-xl overflow-hidden"
-      onClick={() => handleSetCategory(category.dbCategories)}
+      onClick={() => handleSetCategory(category.id, category.parentId)}
     >
       <Link to="/menu" className="flex flex-col justify-center items-center">
         <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-17 sm:w-23 h-17 sm:h-23 flex justify-center items-center">
-          <img src={image} alt="coffee" className="sm:w-19" />
+          <img
+            src={`http://localhost:8080/uploads/categories/${category.image}`}
+            alt="coffee"
+            className="sm:w-19"
+          />
         </div>
         <p className="text-[0.625rem] sm:text-[0.8rem] text-white py-1 sm:py-1.5 font-medium">
-          {category.label}
+          {category.name}
         </p>
       </Link>
     </li>

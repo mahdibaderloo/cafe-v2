@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import supabase from "../../supabase/supabase";
 import toast from "react-hot-toast";
 
 interface Login {
@@ -12,11 +11,11 @@ export function useLogin() {
 
   return useMutation({
     mutationKey: ["login-admin"],
-    mutationFn: login,
+    // mutationFn: login,
     onSuccess: (data) => {
       toast.success("با موفقیت وارد شدید");
 
-      queryClient.setQueryData(["admin"], data.user);
+      queryClient.setQueryData(["admin"], user);
     },
     onError: () => {
       toast.error("اطلاعات وارد شده صحیح نیست");
@@ -24,21 +23,21 @@ export function useLogin() {
   });
 }
 
-async function login({ email, password }: Login) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+// async function login({ email, password }: Login) {
+//   const { data, error } = await .auth.signInWithPassword({
+//     email,
+//     password,
+//   });
 
-  if (error) {
-    throw new Error(error.message);
-  }
+//   if (error) {
+//     throw new Error(error.message);
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 // async function getAdmin() {
-//   const { data, error } = await supabase.auth.getUser();
+//   const { data, error } = await.auth.getUser();
 
 //   if (error) {
 //     return;
@@ -52,7 +51,7 @@ async function login({ email, password }: Login) {
 
 // export async function isValidAdmin(email, password) {
 
-//   const { data: profile, error: profileError } = await supabase
+//   const { data: profile, error: profileError } = await
 //     .from("profiles")
 //     .select("*")
 //     .eq("user_id", user.id)
@@ -67,7 +66,7 @@ async function login({ email, password }: Login) {
 
 // export async function editAdminData(adminData) {
 //   const { id, username, email, password, image } = adminData;
-//   const { data, error } = await supabase
+//   const { data, error } = await
 //     .from("profiles")
 //     .update({ username, email, password, image })
 //     .eq("id", id)
@@ -83,7 +82,7 @@ async function login({ email, password }: Login) {
 // }
 
 // export async function logout() {
-//   const { error } = await supabase.auth.signOut();
+//   const { error } = await .auth.signOut();
 
 //   if (error) {
 //     console.error("Logout error:", error);
