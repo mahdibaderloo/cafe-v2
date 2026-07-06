@@ -2,9 +2,7 @@ package org.cafe.app.service;
 
 import lombok.Data;
 import org.cafe.app.dto.CategoryDto;
-import org.cafe.app.dto.ItemDto;
 import org.cafe.app.entity.Category;
-import org.cafe.app.entity.Item;
 import org.cafe.app.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,6 @@ package org.cafe.app.controller;
 
 import lombok.Data;
 import org.cafe.app.dto.ItemDto;
-import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.service.ItemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
