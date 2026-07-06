@@ -1,23 +1,24 @@
 package org.cafe.app.controller;
 
-import org.cafe.app.repository.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.cafe.app.dto.LoginRequestDto;
+import org.cafe.app.dto.UserDto;
+import org.cafe.app.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/liilo")
+@RequestMapping("/api/users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-//    @GetMapping("user")
-//    public void getUser(String email) {
-//        userRepository.findByEmail(email);
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<UserDto> login(@RequestBody LoginRequestDto request) {
+        return ResponseEntity.ok(userService.login(request.getEmail(), request.getPassword()));
+    }
 
 }
