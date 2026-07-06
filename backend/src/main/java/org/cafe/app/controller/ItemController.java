@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @Data
 @RestController
 @RequestMapping("/api/items")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ItemController {
 
     private final ItemService itemService;
 
-    @GetMapping
-    public ResponseEntity<List<ItemDto>> getItems () {
-        return ResponseEntity.ok(itemService.getAllItems());
+    @GetMapping("/category-id/{id}")
+    public ResponseEntity<List<ItemDto>> getItems (@PathVariable Long id) {
+        return ResponseEntity.ok(itemService.getItemsByCategory(id));
     }
 
     @GetMapping("/{id}")

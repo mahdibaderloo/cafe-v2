@@ -1,6 +1,5 @@
 package org.cafe.app.service;
 
-import lombok.Data;
 import org.cafe.app.dto.ItemDto;
 import org.cafe.app.entity.Item;
 import org.cafe.app.repository.ItemRepository;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Data
 @Service
 public class ItemService {
 
@@ -19,14 +17,23 @@ public class ItemService {
     }
 
     public List<ItemDto> getAllItems() {
-        return itemRepository.findAll().stream().map(this::toDto).toList();
+        return itemRepository.findAll()
+                .stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public List<ItemDto> getItemsByCategory(Long id) {
+        return itemRepository.findByCategory(id)
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     public ItemDto getItemById(Long id) {
-        Item item = itemRepository.findById(id)
+        return itemRepository.findById(id)
+                .map(this::toDto)
                 .orElseThrow(() -> new RuntimeException("Item not found"));
-
-        return toDto(item);
     }
 
     private ItemDto toDto(Item item) {
@@ -40,5 +47,4 @@ public class ItemService {
                 item.getImage()
         );
     }
-
 }
