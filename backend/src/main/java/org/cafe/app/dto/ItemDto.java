@@ -1,7 +1,6 @@
 package org.cafe.app.dto;
 
 import lombok.Data;
-import org.cafe.app.entity.Category;
 
 import java.math.BigDecimal;
 
@@ -12,8 +11,16 @@ public class ItemDto {
     private BigDecimal price;
     private String image;
     private String description;
+    private Long categoryId;
     private String categoryName;
 
-    public ItemDto(Long id, String productName, BigDecimal price, String description, Long id1, String name, String image) {
+    public ItemDto(Long id, String productName, BigDecimal price, String description, Long categoryId, String categoryName, String image) {
+        this.id = id;
+        this.productName = productName;
+        this.price = price;
+        this.description = description;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.image = image;
     }
 }

@@ -7,6 +7,7 @@ import org.cafe.app.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @Data
 @RestController
 @RequestMapping("/api/users")

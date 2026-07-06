@@ -1,6 +1,5 @@
 package org.cafe.app.service;
 
-import lombok.Data;
 import org.cafe.app.dto.CategoryDto;
 import org.cafe.app.entity.Category;
 import org.cafe.app.repository.CategoryRepository;
@@ -8,18 +7,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Data
 @Service
 public class CategoryService {
 
-    final private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public List<CategoryDto> getMainCategories() {
-        return categoryRepository.findByParentIsNull().stream().map(this::toDto).toList();
+        return categoryRepository.findByParentIsNull()
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     public List<CategoryDto> getSubCategories(Long id) {
-        return categoryRepository.findByParentId(id).stream().map(this::toDto).toList();
+        return categoryRepository.findByParentId(id)
+                .stream()
+                .map(this::toDto)
+                .toList();
     }
 
     private CategoryDto toDto(Category category) {
@@ -27,7 +35,7 @@ public class CategoryService {
                 category.getId(),
                 category.getName(),
                 category.getImage(),
-                category.getParent()
+                category.getParent() == null ? null : category.getParent().getId()
         );
     }
 }

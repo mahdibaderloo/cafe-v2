@@ -11,6 +11,11 @@ public class UserDto {
     private String image;
     private String role;
 
-    public UserDto(Long id, String username, String email, Role role, String image, String password) {
+    public UserDto(Long id, String username, String email, Role userRole, String image, String role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.image = image;
+        this.role = role;
     }
 }

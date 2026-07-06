@@ -3,30 +3,28 @@ package org.cafe.app.controller;
 import org.cafe.app.dto.CategoryDto;
 import org.cafe.app.service.CategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("api/categories")
+@RequestMapping("/api/categories")
 public class CategoryController {
 
-    final private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> getCategories () {
+    public ResponseEntity<List<CategoryDto>> getCategories() {
         return ResponseEntity.ok(categoryService.getMainCategories());
     }
 
     @GetMapping("/{id}/children")
-    public ResponseEntity<List<CategoryDto>> getChildrenCategories (@PathVariable Long id) {
+    public ResponseEntity<List<CategoryDto>> getChildrenCategories(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.getSubCategories(id));
     }
 }
