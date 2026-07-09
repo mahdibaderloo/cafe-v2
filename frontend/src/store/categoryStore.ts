@@ -1,15 +1,9 @@
 import { create } from "zustand";
-
-type CategoryStore = {
-  category: number;
-  setCategory: (category: number) => void;
-  line: number | null;
-  setLine: (line: number | null) => void;
-};
+import type { CategoryStore } from "../types/category.type";
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
   category: 1,
   setCategory: (category) => set({ category }),
-  line: null,
+  line: 4,
   setLine: (line) => set({ line }),
 }));

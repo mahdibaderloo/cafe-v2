@@ -51,7 +51,7 @@ export default function MainMenu() {
           onClick={handleCloseDetails}
         />
 
-        {line !== 0 ? (
+        {line ? (
           <Lines />
         ) : (
           <MenuItems

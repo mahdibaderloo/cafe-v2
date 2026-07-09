@@ -13,10 +13,10 @@ interface Items {
 
 export function useItems() {
   const { category, line } = useCategoryStore();
-  const selectedCategory = category ? category : line;
+  const selectedCategory = line ? line : category;
 
   return useQuery<Items[]>({
-    queryKey: ["items"],
+    queryKey: ["items", category, line],
     queryFn: () => getItems(selectedCategory as number),
   });
 }

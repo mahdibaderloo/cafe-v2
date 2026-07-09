@@ -2,21 +2,9 @@ import toast from "react-hot-toast";
 import cartIcon from "../../assets/images/cart.svg";
 import { useCartStore } from "../../store/cartStore";
 import { useNavigate } from "react-router-dom";
+import type { Item } from "../../types/item.type";
 
-interface Item {
-  id: number;
-  product: string;
-  image: string;
-  category: string;
-  price: number;
-  desc: string;
-}
-
-interface ItemProp {
-  item: Item;
-}
-
-export default function AddToCartButton({ item }: ItemProp) {
+export default function AddToCartButton({ item }: { item: Item }) {
   const { addItem } = useCartStore();
   const navigate = useNavigate();
 

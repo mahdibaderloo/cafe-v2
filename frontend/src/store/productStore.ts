@@ -1,17 +1,9 @@
 import { create } from "zustand";
-
-interface Product {
-  id: number;
-  product: string;
-  category: string;
-  image: string;
-  price: number;
-  desc: string;
-}
+import type { Item } from "../types/item.type";
 
 interface ProductStore {
-  item: Product | null;
-  setItem: (item: Product) => void;
+  item: Item | null;
+  setItem: (item: Item) => void;
 }
 
 export const useProductStore = create<ProductStore>()((set) => ({

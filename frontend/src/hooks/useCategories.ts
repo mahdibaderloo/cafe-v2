@@ -5,5 +5,9 @@ export function useCategories() {
   return useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
   });
 }
