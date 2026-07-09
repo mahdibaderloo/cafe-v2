@@ -7,3 +7,8 @@ export interface Item {
   price: number;
   desc: string;
 }
+
+export interface MenuItemsProps {
+  items: Item[];
+  onToggleDetails: (e: React.MouseEvent) => void;
+}

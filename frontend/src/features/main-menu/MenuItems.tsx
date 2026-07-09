@@ -1,10 +1,5 @@
-import type { Item } from "../../types/item.type";
+import type { MenuItemsProps } from "../../types/item.type";
 import MenuItem from "./MenuItem";
-
-interface MenuItemsProps {
-  items: Item[];
-  onToggleDetails: (e: React.MouseEvent) => void;
-}
 
 export default function MenuItems({ items, onToggleDetails }: MenuItemsProps) {
   return (
