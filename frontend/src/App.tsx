@@ -9,6 +9,10 @@ import MainMenu from "./pages/MainMenu";
 import RouteError from "./components/RouteError";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
+import Products from "./pages/dashboard/Products";
+import Orders from "./pages/dashboard/Orders";
+import Profile from "./pages/dashboard/Profile";
+import DashboardOverview from "./pages/dashboard/DashboardOverview";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +24,16 @@ const router = createBrowserRouter([
       { path: "/shopping-cart", element: <ShoppingCart /> },
       { path: "/about-us", element: <AboutUs /> },
       { path: "/login", element: <Login /> },
-      { path: "/dashboard", element: <Dashboard /> },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
+        children: [
+          { index: true, element: <DashboardOverview /> },
+          { path: "products", element: <Products /> },
+          { path: "orders", element: <Orders /> },
+          { path: "profile", element: <Profile /> },
+        ],
+      },
       { path: "*", element: <RouteError /> },
     ],
   },

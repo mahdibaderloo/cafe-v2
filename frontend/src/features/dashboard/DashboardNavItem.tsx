@@ -6,10 +6,13 @@ export default function DashboardNavItem({ option }: { option: NavOption }) {
     <li key={option.id}>
       <NavLink
         to={option.path}
+        end={option.path === "/dashboard"}
         className={({ isActive }) =>
-          isActive
-            ? "bg-[#5A3A3F] flex gap-1 items-center p-2 pr-4 rounded-md"
-            : "hover:bg-[#785459] transition-all duration-150 flex gap-1 items-center p-2 pr-4 rounded-md"
+          `flex gap-1 items-center p-2 pr-4 rounded-md transition-all duration-150 ${
+            isActive
+              ? "bg-[#5A3A3F] text-white"
+              : "hover:bg-[#785459] text-white/80 hover:text-white"
+          }`
         }
       >
         <div className="w-10 pr-1">
