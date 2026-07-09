@@ -13,6 +13,8 @@ import Products from "./pages/dashboard/Products";
 import Orders from "./pages/dashboard/Orders";
 import Profile from "./pages/dashboard/Profile";
 import DashboardOverview from "./pages/dashboard/DashboardOverview";
+import ProductsItems from "./pages/dashboard/ProductsItems";
+import ProductsCategories from "./pages/dashboard/ProductsCategories";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +31,14 @@ const router = createBrowserRouter([
         element: <Dashboard />,
         children: [
           { index: true, element: <DashboardOverview /> },
-          { path: "products", element: <Products /> },
+          {
+            path: "products",
+            element: <Products />,
+            children: [
+              { index: true, element: <ProductsCategories /> },
+              { path: ":categoryId", element: <ProductsItems /> },
+            ],
+          },
           { path: "orders", element: <Orders /> },
           { path: "profile", element: <Profile /> },
         ],
