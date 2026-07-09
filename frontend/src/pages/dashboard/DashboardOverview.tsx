@@ -1,3 +1,11 @@
+import Chart from "../../features/dashboard/overview/Chart";
+import Summary from "../../features/dashboard/overview/Summary";
+
 export default function DashboardOverview() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <Summary />
+      <Chart />
+    </div>
+  );
 }
