@@ -1,13 +1,17 @@
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";
+import useModalStore from "../../store/modal";
 
 export default function ModalItemForm() {
+  const { closeModal } = useModalStore();
+
   return (
     <form className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 z-50">
       <img
         src={closeIcon}
         alt="close-icon"
         className="self-end lg:cursor-pointer"
+        onClick={() => closeModal()}
       />
       <div className="bg-[#D9D9D9] relative flex items-center justify-center w-22 h-22 rounded-2xl cursor-pointer overflow-hidden shadow">
         <img src={itemIcon} alt="profile" className="" />
