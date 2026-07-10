@@ -21,12 +21,7 @@ export default function ProductsItems() {
           <p>دسته بندی ها</p>
           <img src={backIcon} alt="back-icon" className="w-3" />
         </Link>
-        {line ? (
-          <CategoryLines />
-        ) : (
-          // <Items items={items} onToggleDetails={(e) => handleToggleDetails(e)} />
-          <Items items={items!} />
-        )}
+        {line ? <CategoryLines /> : <Items items={items!} />}
       </div>
     </div>
   );

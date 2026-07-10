@@ -11,3 +11,8 @@ export interface CategoryStore {
   line: number | null;
   setLine: (line: number | null) => void;
 }
+
+export interface CategoryLineProp {
+  line: Category;
+  onclick: (id: number) => void;
+}
