@@ -1,16 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useRef, useState } from "react";
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";
 import { useItem } from "../../hooks/useItem";
 import useModalStore from "../../store/modal";
 import { useProductStore } from "../../store/productStore";
-
-type ItemFormData = {
-  productName: string;
-  price: number;
-  description: string;
-};
+import type { ItemFormData } from "../../types/modal.type";
 
 export default function ModalItemForm() {
   const { closeModal } = useModalStore();
@@ -20,22 +15,41 @@ export default function ModalItemForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const {
+    control,
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setValue,
     setError,
+    formState: { errors, isSubmitting },
   } = useForm<ItemFormData>({
     defaultValues: {
       productName: data?.productName || "",
-      price: data?.price || "",
+      price: data?.price || 0,
       description: data?.description || "",
     },
     values: {
       productName: data?.productName || "",
-      price: data?.price || "",
+      price: data?.price || 0,
       description: data?.description || "",
     },
   });
+
+  const priceValue = useWatch({
+    control,
+    name: "price",
+  });
+
+  const formatPrice = (value: string) => {
+    const numbers = value.replace(/\D/g, "");
+    if (!numbers) return "";
+    return parseInt(numbers, 10).toLocaleString("en-US");
+  };
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPrice(e.target.value);
+    const numericValue = parseInt(formatted.replace(/,/g, "")) || 0;
+    setValue("price", numericValue, { shouldValidate: true });
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -89,12 +103,11 @@ export default function ModalItemForm() {
   };
 
   if (isLoading) return <p>Loading...</p>;
-  console.log(item?.image);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 z-50 max-h-[90vh] overflow-y-auto"
+      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 z-50"
     >
       <img
         src={closeIcon}
@@ -121,11 +134,7 @@ export default function ModalItemForm() {
             className="w-full h-full object-cover"
           />
         ) : (
-          <img
-            src={item?.image ? item.image : itemIcon}
-            alt="profile"
-            className=""
-          />
+          <img src={itemIcon} alt="profile" className="" />
         )}
         <span className="absolute bottom-0 text-[0.6rem] bg-[#676767] text-[#464646] w-full text-center">
           تغییر عکس
@@ -140,7 +149,7 @@ export default function ModalItemForm() {
           <input
             type="text"
             id="productName"
-            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 text-sm shadow ${
+            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 font-medium shadow ${
               errors.productName ? "border-red-500" : "border-transparent"
             }`}
             {...register("productName")}
@@ -154,11 +163,12 @@ export default function ModalItemForm() {
           <input
             type="text"
             id="price"
-            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 text-sm shadow ${
+            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 text-sm font-medium shadow ${
               errors.price ? "border-red-500" : "border-transparent"
             }`}
             inputMode="decimal"
-            {...register("price")}
+            value={priceValue ? priceValue.toLocaleString() : ""}
+            onChange={handlePriceChange}
           />
         </div>
       </div>
@@ -168,7 +178,7 @@ export default function ModalItemForm() {
           <label htmlFor="description">توضیحات</label>
           <textarea
             id="description"
-            className="bg-white/40 rounded-xl min-h-20 w-full border border-transparent outline-none p-4 text-sm shadow max-h-30 2xl:max-h-40"
+            className="bg-white/40 rounded-xl min-h-20 w-full border border-transparent outline-none p-4 shadow max-h-30 2xl:max-h-40"
             {...register("description")}
           />
         </div>

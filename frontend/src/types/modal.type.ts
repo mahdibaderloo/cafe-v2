@@ -3,3 +3,9 @@ export interface ModalStore {
   openModal: () => void;
   closeModal: () => void;
 }
+
+export interface ItemFormData {
+  productName: string;
+  price: number;
+  description: string;
+}

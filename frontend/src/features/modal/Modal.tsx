@@ -1,5 +1,6 @@
 import useModalStore from "../../store/modal";
 import ModalItemForm from "./ModalItemForm";
+// import ModalSubmit from "./ModalSubmit";
 
 export default function Modal() {
   const { closeModal } = useModalStore();
@@ -11,6 +12,7 @@ export default function Modal() {
         onClick={() => closeModal()}
       />
       <ModalItemForm />
+      {/* <ModalSubmit /> */}
     </div>
   );
 }
