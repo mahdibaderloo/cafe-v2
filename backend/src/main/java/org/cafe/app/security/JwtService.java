@@ -46,7 +46,11 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return extractAllClaims(token).getSubject();
+        try {
+            return extractAllClaims(token).getSubject();
+        } catch (JwtException e) {
+            return null;
+        }
     }
 
     public Date extractExpiration(String token) {
@@ -61,8 +65,12 @@ public class JwtService {
         if (!validateToken(token)) {
             return false;
         }
-        return extractUsername(token)
-                .equals(userDetails.getUsername());
+
+        String username = extractUsername(token);
+        boolean isUsernameMatch = username.equals(userDetails.getUsername());
+        boolean isNotExpired = !isTokenExpired(token);
+
+        return isUsernameMatch && isNotExpired;
     }
 
     public boolean validateToken(String token) {
