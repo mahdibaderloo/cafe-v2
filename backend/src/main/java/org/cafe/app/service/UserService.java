@@ -10,7 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+    import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +36,7 @@ public class UserService {
                 throw new RuntimeException("خطا در احراز هویت کاربر");
             }
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+            UserDetails userDetails = (UserDetails) principal;
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("کاربر پیدا نشد"));
 
