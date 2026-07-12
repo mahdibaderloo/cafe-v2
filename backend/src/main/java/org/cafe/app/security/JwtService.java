@@ -24,7 +24,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() * expirationTime))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key())
                 .compact();
     }
@@ -33,7 +33,7 @@ public class JwtService {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() * expirationTime))
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key())
                 .compact();
     }
@@ -42,7 +42,7 @@ public class JwtService {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key())
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody();
 
         return claims.getSubject();
