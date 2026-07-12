@@ -1,37 +1,61 @@
 package org.cafe.app.service;
 
-import lombok.Data;
-import org.cafe.app.dto.UserDto;
+import lombok.RequiredArgsConstructor;
+import org.cafe.app.dto.LoginResponseDto;
 import org.cafe.app.entity.User;
 import org.cafe.app.repository.UserRepository;
+import org.cafe.app.security.JwtService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
-@Data
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    final private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public UserDto login(String email, String password) {
-        User user = userRepository.findByEmailAndPassword(email, password)
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+    @Transactional
+    public LoginResponseDto login(String email, String password) {
 
-//        if (!passwordEncoder.matches(password, user.getPassword())) {
-//            throw new RuntimeException("Invalid email or password");
-//        }
-        return toDto(user);
-    }
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password)
+            );
 
-    private UserDto toDto(User user) {
-        return new UserDto(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getRole(),
-                user.getImage(),
-                user.getPassword()
-        );
+            Object principal = authentication.getPrincipal();
+            if (principal == null) {
+                throw new RuntimeException("خطا در احراز هویت کاربر");
+            }
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("کاربر پیدا نشد"));
+
+            String token = jwtService.generateToken(userDetails);
+
+            return LoginResponseDto.builder()
+                    .token(token)
+                    .id(user.getId())
+                    .username(user.getUsername())
+                    .email(user.getEmail())
+                    .image(user.getImage())
+                    .role(user.getRole().name())
+                    .build();
+        } catch (BadCredentialsException e) {
+            throw new RuntimeException("ایمیل یا رمز عبور اشتباه است!");
+        } catch (Exception e) {
+            throw new RuntimeException("خطا در ورود: " + e.getMessage());
+        }
+
     }
 }

@@ -1,6 +1,5 @@
 package org.cafe.app.controller;
 
-import lombok.Data;
 import org.cafe.app.dto.ItemDto;
 import org.cafe.app.service.ItemService;
 import org.springframework.http.ResponseEntity;
@@ -8,13 +7,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Data
 @RestController
 @RequestMapping("/api/items")
 @CrossOrigin(origins = "http://localhost:5173")
 public class ItemController {
 
     private final ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/category-id/{id}")
     public ResponseEntity<List<ItemDto>> getItems (@PathVariable Long id) {
