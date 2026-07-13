@@ -16,6 +16,6 @@ public class OrderRequestDto {
     private String phoneNumber;
     private boolean takeAway;
     private String description;
-    private List<OrderItemRequestDTO> items;
+    private List<OrderItemRequestDto> items;
 
 }
