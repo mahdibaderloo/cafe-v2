@@ -2,6 +2,7 @@ package org.cafe.app.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.cafe.app.enums.DiscountType;
 
 import java.time.LocalDateTime;
 
@@ -13,11 +14,13 @@ public class Discount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private DiscountType type;
+
     private String code;
-    private String type;
     private LocalDateTime createdAt;
     private boolean isActive;
     private LocalDateTime expiresAt;
-    private int maxUsage;
+    private Integer maxUsage;
     private int usedCount;
 }
