@@ -1,5 +1,6 @@
 package org.cafe.app.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.cafe.app.dto.ItemDto;
 import org.cafe.app.service.ItemService;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/items")
 @CrossOrigin(origins = "http://localhost:5173")
+@RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
-
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
 
     @GetMapping("/category-id/{id}")
     public ResponseEntity<List<ItemDto>> getItems (@PathVariable Long id) {
