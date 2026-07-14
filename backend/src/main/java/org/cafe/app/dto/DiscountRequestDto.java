@@ -26,9 +26,6 @@ public class DiscountRequestDto {
     private String code;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiresAt;
 
     @Positive(message = "Max usage must be positive")
