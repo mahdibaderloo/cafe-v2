@@ -1,0 +1,40 @@
+package org.cafe.app.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.cafe.app.enums.DiscountType;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class DiscountRequestDto {
+
+    @NotNull(message = "Discount type is required")
+    private DiscountType type;
+
+    @NotBlank(message = "Discount code is required")
+    @Size(min = 3, max = 50, message = "Code must be between 3 and 50 characters")
+    private String code;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime expiresAt;
+
+    @Positive(message = "Max usage must be positive")
+    private Integer maxUsage;
+
+    @NotNull(message = "Discount value is required")
+    @Positive(message = "Discount value must be positive")
+    private BigDecimal discountValue;
+}
