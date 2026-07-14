@@ -1,11 +1,13 @@
 package org.cafe.app.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
 import org.cafe.app.enums.DiscountType;
 import org.cafe.app.repository.DiscountRepository;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,14 +18,49 @@ import java.util.Optional;
 
 import static org.hibernate.validator.internal.engine.messageinterpolation.el.RootResolver.FORMATTER;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DiscountService {
 
     private final DiscountRepository discountRepository;
-
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    @Scheduled(fixedDelay = 1800000)
+    @Transactional
+    public void autoUpdateDiscountStatus() {
+        log.info("🔄 Starting auto-update discount status at: {}", LocalDateTime.now());
+
+        List<Discount> activeDiscounts = discountRepository.findByIsActiveTrue();
+
+        int updatedCount = 0;
+
+        for (Discount discount : activeDiscounts) {
+            boolean shouldDeactivate = false;
+            String reason = "";
+
+            if (discount.getExpiresAt() != null &&
+                    discount.getExpiresAt().isBefore(LocalDateTime.now())) {
+                shouldDeactivate = true;
+                reason = "expired";
+            }
+
+            if (discount.getMaxUsage() != null &&
+                    discount.getUsedCount() >= discount.getMaxUsage()) {
+                shouldDeactivate = true;
+                reason = "max usage reached";
+            }
+
+            if (shouldDeactivate) {
+                discount.setActive(false);
+                discountRepository.save(discount);
+                updatedCount++;
+                log.info("🔴 Deactivated discount: {} - Reason: {}", discount.getCode(), reason);
+            }
+        }
+        log.info("✅ Auto-update completed. Deactivated {} discount(s)", updatedCount);
+    }
 
     public List<DiscountResponseDto> getAllDiscounts () {
         return discountRepository.findAll()
@@ -57,10 +94,10 @@ public class DiscountService {
                 .code(discount.getCode())
                 .type(discount.getType().name())
                 .createdAt(discount.getCreatedAt() != null ?
-                        discount.getCreatedAt().format(DateTimeFormatter.ofPattern(String.valueOf(FORMATTER))) :
+                        discount.getCreatedAt().format(FORMATTER) :
                         null)
                 .expiresAt(discount.getExpiresAt() != null ?
-                        discount.getExpiresAt().format(DateTimeFormatter.ofPattern(String.valueOf(FORMATTER))) :
+                        discount.getExpiresAt().format(FORMATTER) :
                         null)
                 .isActive(discount.isActive())
                 .maxUsage(discount.getMaxUsage())
