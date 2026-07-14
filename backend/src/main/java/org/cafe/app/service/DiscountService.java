@@ -1,10 +1,13 @@
 package org.cafe.app.service;
 
 import lombok.RequiredArgsConstructor;
+import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
+import org.cafe.app.enums.DiscountType;
 import org.cafe.app.repository.DiscountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,6 +32,25 @@ public class DiscountService {
                 .toList();
     };
 
+    @Transactional
+    public DiscountResponseDto generateDiscountCode(DiscountRequestDto request) {
+
+        Discount discount = Discount.builder()
+                .discountValue(request.getDiscountValue())
+                .code(request.getCode())
+                .type(request.getType())
+                .maxUsage(request.getMaxUsage())
+                .isActive(true)
+                .usedCount(0)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(request.getExpiresAt())
+                .build();
+
+        Discount savedDiscount = discountRepository.save(discount);
+
+        return toDto(savedDiscount);
+    }
+
     public DiscountResponseDto toDto (Discount discount) {
         return DiscountResponseDto.builder()
                 .id(discount.getId())
@@ -46,4 +68,5 @@ public class DiscountService {
                 .discountValue(discount.getDiscountValue())
                 .build();
     }
+
 }

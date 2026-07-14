@@ -1,14 +1,14 @@
 package org.cafe.app.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
 import org.cafe.app.service.DiscountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +24,12 @@ public class DiscountController {
     @GetMapping("/all")
     public ResponseEntity<List<DiscountResponseDto>> getAllDiscounts () {
         return ResponseEntity.ok(discountService.getAllDiscounts());
+    }
+
+    @PostMapping("/submit-code")
+    public ResponseEntity<DiscountResponseDto> generateNewCode (@Valid @RequestBody DiscountRequestDto request) {
+        DiscountResponseDto response = discountService.generateDiscountCode(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
