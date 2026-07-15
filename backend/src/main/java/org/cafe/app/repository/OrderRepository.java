@@ -27,4 +27,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "ORDER BY count DESC " +
             "LIMIT 1")
     List<Object[]> findTopProduct();
+
 }

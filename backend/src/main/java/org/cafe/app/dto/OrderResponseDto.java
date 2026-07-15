@@ -21,5 +21,6 @@ public class OrderResponseDto {
     private String phoneNumber;
     private boolean takeAway;
     private String description;
+    private String orderCode;
     private List<OrderItemResponseDto> items;
 }

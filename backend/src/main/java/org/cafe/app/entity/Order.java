@@ -27,6 +27,7 @@ public class Order {
     private String phoneNumber;
     private boolean takeAway;
     private String description;
+    private String orderCode;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;

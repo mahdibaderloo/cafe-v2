@@ -1,6 +1,7 @@
 package org.cafe.app.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.cafe.app.dto.*;
 import org.cafe.app.entity.Item;
 import org.cafe.app.entity.Order;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,12 +66,17 @@ public class OrderService {
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto requestDto) {
 
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmmss"));
+        String randomPart = RandomStringUtils.secure().nextNumeric(2);
+        String orderCode = timestamp + randomPart;
+
         Order order = Order.builder()
                 .createdAt(LocalDateTime.now())
                 .username(requestDto.getUsername())
                 .phoneNumber(requestDto.getPhoneNumber())
                 .takeAway(requestDto.isTakeAway())
                 .description(requestDto.getDescription())
+                .orderCode(orderCode)
                 .build();
 
         List<OrderItem> orderItems = new ArrayList<>();
