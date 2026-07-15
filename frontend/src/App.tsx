@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/dashboard/Products";
 import Orders from "./pages/dashboard/Orders";
-import Profile from "./pages/dashboard/Profile";
+import Discounts from "./pages/dashboard/Discounts";
 import DashboardOverview from "./pages/dashboard/DashboardOverview";
 import ProductsItems from "./pages/dashboard/ProductsItems";
 import ProductsCategories from "./pages/dashboard/ProductsCategories";
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
             ],
           },
           { path: "orders", element: <Orders /> },
-          { path: "profile", element: <Profile /> },
+          { path: "discounts", element: <Discounts /> },
         ],
       },
       { path: "*", element: <RouteError /> },
