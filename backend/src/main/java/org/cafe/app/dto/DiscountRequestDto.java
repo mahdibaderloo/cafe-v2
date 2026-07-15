@@ -22,7 +22,7 @@ public class DiscountRequestDto {
     private DiscountType type;
 
     @NotBlank(message = "Discount code is required")
-    @Size(min = 3, max = 50, message = "Code must be between 3 and 50 characters")
+    @Size(min = 5, max = 10, message = "Code must be between 3 and 50 characters")
     private String code;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
