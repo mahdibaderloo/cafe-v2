@@ -7,11 +7,11 @@ import org.cafe.app.entity.Order;
 import org.cafe.app.entity.OrderItem;
 import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.repository.OrderRepository;
+import org.cafe.app.utils.PersianDateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +24,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
     private final ItemRepository itemRepository;
+    private final PersianDateUtil persianDateUtil;
 
     public DashboardStatsDto getDashboardStats() {
 
         Long totalOrders = orderRepository.countTotalOrders();
 
-        LocalDateTime startOfMonth = LocalDateTime.now()
-                .withDayOfMonth(1)
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0);
-
+        LocalDateTime startOfMonth = persianDateUtil.getCurrentPersianMonthStart();
         LocalDateTime now = LocalDateTime.now();
         BigDecimal monthlySales = orderRepository.sumSalesBetweenDates(startOfMonth, now);
         if (monthlySales == null) monthlySales = BigDecimal.ZERO;
