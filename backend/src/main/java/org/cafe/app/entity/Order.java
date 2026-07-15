@@ -27,6 +27,8 @@ public class Order {
     private String phoneNumber;
     private boolean takeAway;
     private String description;
+
+    @Column(unique = true, length = 12)
     private String orderCode;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
