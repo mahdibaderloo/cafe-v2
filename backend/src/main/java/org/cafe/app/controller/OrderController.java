@@ -2,6 +2,7 @@ package org.cafe.app.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.cafe.app.dto.DashboardStatsDto;
 import org.cafe.app.dto.OrderRequestDto;
 import org.cafe.app.dto.OrderResponseDto;
 import org.cafe.app.entity.Order;
@@ -31,6 +32,11 @@ public class OrderController {
 
         OrderResponseDto response = orderService.createOrder(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<DashboardStatsDto> getDashboardStats () {
+        return ResponseEntity.ok(orderService.getDashboardStats());
     }
 
 }
