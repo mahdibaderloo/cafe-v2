@@ -1,10 +1,7 @@
 package org.cafe.app.service;
 
 import lombok.RequiredArgsConstructor;
-import org.cafe.app.dto.ItemDto;
-import org.cafe.app.dto.OrderItemRequestDto;
-import org.cafe.app.dto.OrderRequestDto;
-import org.cafe.app.dto.OrderResponseDto;
+import org.cafe.app.dto.*;
 import org.cafe.app.entity.Item;
 import org.cafe.app.entity.Order;
 import org.cafe.app.entity.OrderItem;
@@ -27,6 +24,38 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemService orderItemService;
     private final ItemRepository itemRepository;
+
+    public DashboardStatsDto getDashboardStats() {
+
+        Long totalOrders = orderRepository.countTotalOrders();
+
+        LocalDateTime startOfMonth = LocalDateTime.now()
+                .withDayOfMonth(1)
+                .withHour(0)
+                .withMinute(0)
+                .withSecond(0);
+
+        LocalDateTime now = LocalDateTime.now();
+        BigDecimal monthlySales = orderRepository.sumSalesBetweenDates(startOfMonth, now);
+        if (monthlySales == null) monthlySales = BigDecimal.ZERO;
+
+        List<Object[]> topProductResult = orderRepository.findTopProduct();
+        String topProduct = "هیچ محصولی ثبت نشده";
+        Long topProductCount = 0L;
+
+        if (!topProductResult.isEmpty()) {
+            Object[] result = topProductResult.getFirst();
+            topProduct = (String) result[0];
+            topProductCount = (Long) result[1];
+        }
+
+        return DashboardStatsDto.builder()
+                .totalOrders(totalOrders)
+                .monthlySales(monthlySales)
+                .topProduct(topProduct)
+                .topProductCount(topProductCount)
+                .build();
+    }
 
     public List<OrderResponseDto> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
