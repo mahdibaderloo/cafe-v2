@@ -23,8 +23,8 @@ public class ItemService {
                 .toList();
     }
 
-    public List<ItemDto> getItemsByCategory(Long id) {
-        return itemRepository.findByCategory(id)
+    public List<ItemDto> getItemsByCategoryId(Long id) {
+        return itemRepository.findByCategoryId(id)
                 .stream()
                 .map(this::toDto)
                 .toList();
