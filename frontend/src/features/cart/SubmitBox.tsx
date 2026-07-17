@@ -74,30 +74,30 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
       `}
     >
       <header className="w-full flex justify-center">
-        <h3 className="text-white font-semibold sm:text-[1.4rem]">ثبت نهایی</h3>
+        <h3 className="text-white font-semibold text-lg sm:text-xl">ثبت نهایی</h3>
       </header>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-4 sm:mt-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-8">
         <div className="w-full flex items-center gap-2">
-          <label className="text-white text-[0.7rem] sm:text-[0.8rem] sm:font-semibold">
-            نام و نام خانوادگی:
+          <label className="text-white text-md sm:text-lg sm:font-semibold">
+            نام و نام خانوادگی :
           </label>
           <input
             {...register("username", {
               required: "وارد کردن نام الزامی است",
             })}
-            className="bg-[#D9D9D980] w-30 sm:w-44 rounded-lg outline-none text-[0.7rem] sm:text-[0.8rem] p-1.5 sm:p-2.5 font-semibold"
+            className="bg-[#D9D9D980] w-44 h-12 sm:w-50 sm:h-14 rounded-lg outline-none text-md sm:text-lg p-1.5 sm:p-2.5 font-semibold"
           />
         </div>
         {errors.username && (
-          <p className="text-red-300 text-[0.6rem] sm:text-[0.7rem] mt-1">
+          <p className="text-red-300 text-xs sm:text-sm mt-1">
             {errors.username.message}
           </p>
         )}
 
         <div className="w-full flex items-center gap-2 mt-4">
-          <label className="text-white text-[0.7rem] sm:text-[0.8rem] sm:font-semibold">
-            شماره تماس:
+          <label className="text-white text-md sm:text-lg sm:font-semibold">
+            شماره تماس :
           </label>
           <input
             {...register("mobile", {
@@ -108,11 +108,11 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
                 return mobileRegex.test(value) || "شماره موبایل معتبر نیست";
               },
             })}
-            className="bg-[#D9D9D980] w-30 sm:w-44 rounded-lg outline-none text-[0.7rem] sm:text-[0.8rem] p-1.5 sm:p-2.5 font-semibold"
+            className="bg-[#D9D9D980] w-44 h-12 sm:w-50 sm:h-14 rounded-lg outline-none text-md sm:text-lg p-1.5 sm:p-2.5 font-semibold"
           />
         </div>
         {errors.mobile && (
-          <p className="text-red-300 text-[0.6rem] sm:text-[0.7rem] mt-1">
+          <p className="text-red-300 text-xs sm:text-sm mt-1">
             {errors.mobile.message}
           </p>
         )}
@@ -122,24 +122,24 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
             id="takeAway"
             type="checkbox"
             {...register("isTakeAway")}
-            className={`appearance-none w-4 h-4 sm:w-6 sm:h-6 rounded-full shadow-[0px_2px_4px_0px_#00000047] ${isTakeAway ? "bg-white border-3 border-white" : "border-3 border-white"} transition-all delay-100`}
+            className={`appearance-none w-6 h-6 sm:w-8 sm:h-8 rounded-full shadow-[0px_2px_4px_0px_#00000047] ${isTakeAway ? "bg-white border-3 border-white" : "border-3 border-white"} transition-all delay-100`}
           />
           <label
             htmlFor="takeAway"
-            className="text-white text-[0.7rem] sm:text-[0.9rem] sm:font-semibold"
+            className="text-white text-md sm:text-lg sm:font-semibold"
           >
             بیرون بر
           </label>
         </div>
 
-        <div className="w-full flex flex-col gap-2 mt-4 sm:mt-6">
-          <label className="text-white text-[0.75rem] sm:text-[0.9rem] sm:font-semibold">
+        <div className="w-full flex flex-col gap-2 mt-8">
+          <label className="text-white text-md sm:text-lg sm:font-semibold">
             توضیحات:
           </label>
           <textarea
             {...register("desc")}
             placeholder="مثال: لطفا کمی شکر به قهوه اضافه کنید."
-            className="bg-[#D9D9D980] p-2 text-[0.7rem] sm:text-[0.9rem] min-h-24 max-h-24 rounded-xl outline-none font-medium"
+            className="bg-[#D9D9D980] p-2 text-sm sm:text-[0.9rem] min-h-30 max-h-30 rounded-xl outline-none font-medium"
           />
         </div>
 
@@ -147,7 +147,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
           <button
             type="submit"
             disabled={isPending}
-            className={`w-[90%] sm:w-[84%] h-10 sm:h-12 ${isPending ? "bg-[#d9d9d980]" : "bg-white"} rounded-xl text-[#503D32] font-semibold text-[0.85rem] sm:text-[1.1rem] mt-6`}
+            className={`w-full sm:w-[84%] h-14 sm:h-16 ${isPending ? "bg-[#d9d9d980]" : "bg-white"} rounded-xl text-[#503D32] font-semibold text-lg sm:text-xl mt-6`}
           >
             {isPending ? "در حال ثبت..." : "ثبت سفارش"}
           </button>

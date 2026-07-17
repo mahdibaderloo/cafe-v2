@@ -31,8 +31,8 @@ export default function ShoppingCart() {
       />
       <Header text="سبد خرید" />
 
-      <main className="w-full p-4 h-68 sm:pb-6 overflow-scroll">
-        <ul className="flex flex-col sm:items-center gap-2 sm:gap-3 pb-8">
+      <main className="w-full p-4 h-[54%] sm:pb-6 overflow-scroll">
+        <ul className="flex flex-col sm:items-center gap-3 sm:gap-4 pb-8">
           {items.length === 0 ? (
             <EmptyCart />
           ) : (
