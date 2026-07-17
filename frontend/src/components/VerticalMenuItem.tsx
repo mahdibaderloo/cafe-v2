@@ -12,16 +12,16 @@ interface Item {
 
 export default function VerticalMenuItem({ item, onToggleMenu }: Item) {
   return (
-    <li className="mt-0.5 w-10.5 sm:w-12" onClick={onToggleMenu}>
+    <li className="mt-0.5 w-16 sm:w-14" onClick={onToggleMenu}>
       <Link to={item.url} className="flex flex-col items-center gap-1">
-        <div className="bg-[#596D6C] p-2 rounded-xl w-8 h-8 sm:w-10 sm:h-10 shadow-[0px_1px_2px_0px_#00000073] flex items-center justify-center">
+        <div className="bg-[#596D6C] p-2 rounded-2xl w-11 h-11 sm:w-12 sm:h-12 shadow-[0px_1px_2px_0px_#00000073] flex items-center justify-center">
           <img
             src={item.icon}
             alt={item.label}
-            className={item.id === 4 ? "w-4.5 sm:w-5" : "w-5 sm:w-5.5"}
+            className={item.id === 4 ? "w-6 sm:w-7" : "w-7 sm:w-8.5"}
           />
         </div>
-        <p className="text-[0.5rem] sm:text-[0.55rem] text-white font-medium">
+        <p className="text-[0.7rem] sm:text-xs text-white">
           {item.label}
         </p>
       </Link>

@@ -36,7 +36,7 @@ export default function Home() {
       </header>
 
       <main className="w-full max-h-[calc(100vh-22%)] bg-[linear-gradient(180deg,#503C31_0%,#748F80_100%)] overflow-scroll">
-        <div className="w-[88%] sm:w-[82%] h-16 sm:h-30 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-2 sm:mt-6 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
+        <div className="w-[92%] sm:w-[82%] h-30 sm:h-34 bg-[linear-gradient(100.71deg,#705748_29.67%,#14512F_107.09%)] mx-auto mt-4 sm:mt-6 rounded-2xl shadow-[0px_3px_6px_0px_#00000040] overflow-hidden relative flex items-center">
           <img
             src={coffee}
             alt="coffee"
@@ -47,17 +47,17 @@ export default function Home() {
             alt="leaf"
             className="absolute -right-1 -bottom-2 sm:w-24"
           />
-          <p className="font-bold text-white absolute text-shadow-lg/30 text-xl sm:text-3xl pr-3 sm:pr-8">
+          <p className="font-bold text-white absolute text-shadow-lg/30 text-2xl sm:text-3xl pr-6 sm:pr-8">
             خرید دون قهوه
           </p>
         </div>
 
-        <ul className="pt-3 sm:pt-7 sm:pb-10 p-4 sm:p-11.5 flex items-center justify-between sm:justify-center gap-x-1 sm:gap-x-3 gap-y-3 flex-wrap">
+        <ul className="pt-6 sm:pt-7 sm:pb-10 p-8 sm:p-11.5 flex items-center justify-between sm:justify-center gap-x-2 sm:gap-x-3 gap-y-3 flex-wrap">
           {categories.map((category: Category) => {
             return <HomeCategoryIem key={category.id} category={category} />;
           })}
         </ul>
-        <div className="w-full h-28 sm:h-48" />
+        <div className="w-full h-40 sm:h-48" />
       </main>
       <HorizontalMenu isMenuOpen={isMenuOpen} onToggleMenu={handleToggleMenu} />
     </div>

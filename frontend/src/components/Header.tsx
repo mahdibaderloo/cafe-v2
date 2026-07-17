@@ -8,13 +8,13 @@ export default function Header({ text }: Text) {
 
   return (
     <header className="w-full h-fit flex justify-between items-center p-4">
-      <div className="w-[8%]" />
-      <h3 className="text-white sm:text-xl font-bold">{text}</h3>
+      <div className="w-[10%]" />
+      <h3 className="text-white text-xl sm:text-2xl font-bold">{text}</h3>
       <div
-        className="bg-[#14512F] rounded-xl h-7.5 w-7.5 sm:h-9 sm:w-9 flex justify-center items-center"
+        className="bg-[#14512F] rounded-xl h-10 w-10 sm:h-12 sm:w-12 flex justify-center items-center"
         onClick={() => navigate(-1)}
       >
-        <img src={backButton} alt="icon" className="sm:w-5" />
+        <img src={backButton} alt="icon" className="" />
       </div>
     </header>
   );
