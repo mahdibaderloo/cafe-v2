@@ -15,7 +15,7 @@ export default function CategoryLines() {
   if (isLoading) return <p>loading...</p>;
 
   return (
-    <ul className="flex items-center gap-2 2xl:gap-3 w-full flex-wrap mx-auto mt-4 2xl:mt-8">
+    <ul className="flex items-center gap-2 2xl:gap-3 w-full flex-wrap mx-auto mt-4 xl:mt-8">
       {lines.map((line: Category) => (
         <CategoryLine key={line.id} line={line} onclick={handleSetCategory} />
       ))}

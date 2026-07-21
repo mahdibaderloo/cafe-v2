@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import type { FormValues } from "../../types/dashboard.type";
 import { useLogin } from "../../hooks/admin/useLogin";
 import eyeOpenIcon from "../../assets/images/eye-open.svg";
@@ -8,7 +7,6 @@ import eyeCloseIcon from "../../assets/images/eye-close.svg";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -29,11 +27,7 @@ export default function LoginForm() {
   }
 
   function onSubmitLogin(data: FormValues) {
-    mutate(data, {
-      onSuccess: () => {
-        navigate("/dashboard");
-      },
-    });
+    mutate(data);
   }
   return (
     <section className="lg:w-[60%] xl:w-[62%] flex flex-col items-center pt-8 xl:pt-12">
@@ -82,7 +76,7 @@ export default function LoginForm() {
                 },
               })}
               className={`w-full outline-none py-0.5 ${showPassword ? "text-md xl:text-lg font-semibold" : "text-md xl:text-lg font-semibold"} tracking-wider px-1 xl:px-2 font-sans`}
-              maxLength={12}
+              maxLength={20}
               dir="ltr"
             />
           </div>

@@ -39,19 +39,19 @@ export default function ModalItemForm() {
     name: "price",
   });
 
-  const formatPrice = (value: string) => {
+  function formatPrice (value: string) {
     const numbers = value.replace(/\D/g, "");
     if (!numbers) return "";
     return parseInt(numbers, 10).toLocaleString("en-US");
   };
 
-  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handlePriceChange (e: React.ChangeEvent<HTMLInputElement>) {
     const formatted = formatPrice(e.target.value);
     const numericValue = parseInt(formatted.replace(/,/g, "")) || 0;
     setValue("price", numericValue, { shouldValidate: true });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleImageChange (e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -60,13 +60,13 @@ export default function ModalItemForm() {
       };
       reader.readAsDataURL(file);
     }
-  };
+  }
 
-  const handleImageClick = () => {
+  function handleImageClick () {
     fileInputRef.current?.click();
-  };
+  }
 
-  const validateForm = (data: ItemFormData) => {
+  function validateForm (data: ItemFormData) {
     let isValid = true;
 
     if (!data.productName || data.productName.trim() === "") {
@@ -86,28 +86,28 @@ export default function ModalItemForm() {
     }
 
     return isValid;
-  };
+  }
 
-  const onSubmit = (formData: ItemFormData) => {
+  function onSubmit (formData: ItemFormData) {
     if (!validateForm(formData)) {
       return;
     }
 
     console.log("Form Data:", formData);
     closeModal();
-  };
+  }
 
-  const handleDelete = () => {
+  function handleDelete () {
     console.log("Delete item:", item?.id);
     closeModal();
-  };
+  }
 
   if (isLoading) return <p>Loading...</p>;
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 z-50"
+      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 2xl:w-240 z-50"
     >
       <img
         src={closeIcon}
@@ -124,7 +124,7 @@ export default function ModalItemForm() {
         className="hidden"
       />
       <div
-        className="bg-[#D9D9D9] relative flex items-center justify-center w-22 h-22 rounded-2xl cursor-pointer overflow-hidden shadow"
+        className="bg-[#D9D9D9] relative flex items-center justify-center w-26 h-26 2xl:w-36 2xl:h-36 rounded-2xl cursor-pointer overflow-hidden shadow"
         onClick={handleImageClick}
       >
         {imagePreview ? (
@@ -136,34 +136,34 @@ export default function ModalItemForm() {
         ) : (
           <img src={itemIcon} alt="profile" className="" />
         )}
-        <span className="absolute bottom-0 text-[0.6rem] bg-[#676767] text-[#464646] w-full text-center">
+        <span className="absolute bottom-0 text-[0.8rem] 2xl:text-[1rem] bg-[#676767] text-[#464646] w-full text-center">
           تغییر عکس
         </span>
       </div>
 
-      <div className="w-full flex flex-col md:flex-row items-start md:items-center mt-8 2xl:mt-12 gap-4 md:gap-0">
-        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-xs text-white w-full">
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center mt-8 2xl:mt-12 gap-4 gap-10">
+        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
           <label htmlFor="productName">
             نام محصول <span className="text-red-400">*</span>
           </label>
           <input
             type="text"
             id="productName"
-            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 font-medium shadow ${
+            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full w-full border outline-none pr-4 font-medium shadow ${
               errors.productName ? "border-red-500" : "border-transparent"
             }`}
             {...register("productName")}
           />
         </div>
 
-        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-xs text-white w-full">
+        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
           <label htmlFor="price">
             قیمت محصول <span className="text-red-400">*</span>
           </label>
           <input
             type="text"
             id="price"
-            className={`bg-white/40 rounded-xl h-10 w-full md:w-[90%] border outline-none pr-4 text-sm font-medium shadow ${
+            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full w-full border outline-none pr-4 text-sm 2xl:text-lg font-medium shadow ${
               errors.price ? "border-red-500" : "border-transparent"
             }`}
             inputMode="decimal"
@@ -174,11 +174,11 @@ export default function ModalItemForm() {
       </div>
 
       <div className="w-full flex items-start mt-8 2xl:mt-12">
-        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-xs text-white w-full">
+        <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
           <label htmlFor="description">توضیحات</label>
           <textarea
             id="description"
-            className="bg-white/40 rounded-xl min-h-20 w-full border border-transparent outline-none p-4 shadow max-h-30 2xl:max-h-40"
+            className="bg-white/40 rounded-xl min-h-30 2xl:min-h-40 w-full border border-transparent outline-none p-4 shadow max-h-40 2xl:max-h-60"
             {...register("description")}
           />
         </div>
@@ -188,14 +188,14 @@ export default function ModalItemForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="bg-[#407E5C] hover:bg-[#10743D] text-white font-medium text-sm px-8 py-1.5 rounded-lg transition-all duration-150 lg:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#407E5C] hover:bg-[#10743D] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "در حال ذخیره..." : "ذخیره"}
         </button>
         <button
           type="button"
           onClick={handleDelete}
-          className="bg-[#9F3535] hover:bg-[#790000] text-white font-medium text-sm px-8 py-1.5 rounded-lg transition-all duration-150 lg:cursor-pointer"
+          className="bg-[#9F3535] hover:bg-[#790000] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer"
         >
           حذف
         </button>

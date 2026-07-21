@@ -14,13 +14,13 @@ export default function Item({ item }: { item: Item }) {
 
   return (
     <li
-      className="bg-[#748F80] flex items-center justify-between w-[49%] p-0.5 2xl:p-1 rounded-lg text-white text-xs 2xl:text-sm 2xl:font-medium lg:cursor-pointer shadow-md"
+      className="bg-[#748F80] flex items-center justify-between w-[49%] 2xl:w-[32%] p-0.5 xl:p-1 rounded-lg text-white text-xs xl:text-sm 2xl:font-medium lg:cursor-pointer shadow-md"
       onClick={handleClickItem}
     >
-      <div className="bg-[#B7B7B7] rounded-lg w-8 h-8 2xl:w-10 2xl:h-10 flex justify-center items-center">
-        <img src={itemIcon} alt={item.productName} className="w-3 2xl:w-4" />
+      <div className="bg-[#B7B7B7] rounded-lg w-8 h-8 xl:w-10 xl:h-10 2xl:w-12 2xl:h-12 flex justify-center items-center">
+        <img src={itemIcon} alt={item.productName} className="w-3 xl:w-4" />
       </div>
-      <p>{item.productName}</p>
+      <p className="xl:text-[1rem] 2xl:text-lg">{item.productName}</p>
       <span />
     </li>
   );

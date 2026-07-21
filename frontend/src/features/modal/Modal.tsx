@@ -12,7 +12,7 @@ export default function Modal() {
         onClick={() => closeModal()}
       />
       <ModalItemForm />
-      {/* <ModalSubmit /> */}
+      {/* <ModalSubmit />*/}
     </div>
   );
 }

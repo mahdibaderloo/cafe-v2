@@ -20,12 +20,12 @@ export default function ProductsCategories() {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <ul className="flex gap-4 items-center justify-center flex-wrap lg:w-100 2xl:w-160 mx-auto mt-8 2xl:mt-16">
+    <ul className="flex gap-4 items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16">
       {categories.map((category: Category) => (
         <li
           key={category.id}
           onClick={() => handleSetCategory(category.id)}
-          className="bg-[#748F80] text-white rounded-xl p-1 w-22 h-32 2xl:w-26 2xl:h-38 shadow-md"
+          className="bg-[#748F80] text-white rounded-xl p-1 w-22 h-32 xl:w-26 xl:h-36 2xl:w-36 2xl:h-46 shadow-md"
         >
           <Link
             to={`/dashboard/products/${category.id}`}
@@ -38,7 +38,7 @@ export default function ProductsCategories() {
                 className=""
               />
             </div>
-            <p className="text-xs 2xl:text-sm mt-1">{category.name}</p>
+            <p className="text-xs xl:text-sm 2xl:text-lg mt-1 2xl:mt-0.5 2xl:font-medium">{category.name}</p>
           </Link>
         </li>
       ))}

@@ -1,21 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
-interface Login {
-  email: string;
-  password: string;
-}
+import {login} from "../../services/dashboard.ts";
+import {useNavigate} from "react-router-dom";
 
 export function useLogin() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationKey: ["login-admin"],
-    // mutationFn: login,
+    mutationFn: login,
     onSuccess: (data) => {
+      localStorage.setItem("liilo-admin", JSON.stringify(data));
+      queryClient.setQueryData(["admin"], data);
       toast.success("با موفقیت وارد شدید");
-
-      queryClient.setQueryData(["admin"], user);
+      navigate("/dashboard");
     },
     onError: () => {
       toast.error("اطلاعات وارد شده صحیح نیست");
