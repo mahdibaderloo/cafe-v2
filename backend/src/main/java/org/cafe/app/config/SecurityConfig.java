@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 "/api/categories/**",
                                 "/api/items/**",
                                 "/api/users/login",
+                                "/api/orders/submit-order",
                                 "/uploads/**"
                         ).permitAll()
                         .anyRequest().authenticated()
