@@ -1,26 +1,15 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAdminStore } from "../../store/adminStore";
 
 export function useLogout() {
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { logout } = useAdminStore();
+  const handleLogout = () => {
+    logout();
+    toast.success("با موفقیت خارج شدید");
+    navigate("/login");
+  };
 
-  return useMutation({
-    mutationKey: ["logout-admin"],
-    // mutationFn: logout,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["admin"] });
-      toast.success("شما از پنل خارج شدید");
-    },
-    onError: () => {
-      toast.error("خطایی پیش آمده . دوباره تلاش کنید");
-    },
-  });
+  return { logout: handleLogout };
 }
-
-// async function logout() {
-//   const { error } = await auth.signOut();
-
-//   if (error) {
-//     throw new Error(error.message);
-//   }
-// }
