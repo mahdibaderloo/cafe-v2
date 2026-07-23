@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCategories } from "../../hooks/useCategories";
+import { useCategories } from "../../hooks/items/useCategories";
 import type { Category } from "../../types/category.type";
 import { useCategoryStore } from "../../store/categoryStore";
 
@@ -38,7 +38,9 @@ export default function ProductsCategories() {
                 className=""
               />
             </div>
-            <p className="text-xs xl:text-sm 2xl:text-lg mt-1 2xl:mt-0.5 2xl:font-medium">{category.name}</p>
+            <p className="text-xs xl:text-sm 2xl:text-lg mt-1 2xl:mt-0.5 2xl:font-medium">
+              {category.name}
+            </p>
           </Link>
         </li>
       ))}

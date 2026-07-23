@@ -1,4 +1,4 @@
-import { useCategories } from "../../hooks/useCategories";
+import { useCategories } from "../../hooks/items/useCategories";
 import type { Category } from "../../types/category.type";
 import MenuNavItem from "./MenuNavItem";
 

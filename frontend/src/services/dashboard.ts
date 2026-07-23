@@ -28,7 +28,7 @@ export async function stats(): Promise<DashboardStats> {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در ورود");
+    throw new Error(errorData.message || "خطا در دریافت اطلاعات");
   }
 
   return response.json();

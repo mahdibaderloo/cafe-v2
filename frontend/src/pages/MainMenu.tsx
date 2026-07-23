@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useItems } from "../hooks/useItems";
+import { useItems } from "../hooks/items/useItems";
 import { useCategoryStore } from "../store/categoryStore";
 
 import MainMenuNav from "../features/main-menu/MainMenuNav";

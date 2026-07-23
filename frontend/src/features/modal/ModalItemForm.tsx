@@ -2,7 +2,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { useRef, useState } from "react";
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";
-import { useItem } from "../../hooks/useItem";
+import { useItem } from "../../hooks/items/useItem";
 import useModalStore from "../../store/modal";
 import { useProductStore } from "../../store/productStore";
 import type { ItemFormData } from "../../types/modal.type";
@@ -39,19 +39,19 @@ export default function ModalItemForm() {
     name: "price",
   });
 
-  function formatPrice (value: string) {
+  function formatPrice(value: string) {
     const numbers = value.replace(/\D/g, "");
     if (!numbers) return "";
     return parseInt(numbers, 10).toLocaleString("en-US");
-  };
+  }
 
-  function handlePriceChange (e: React.ChangeEvent<HTMLInputElement>) {
+  function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
     const formatted = formatPrice(e.target.value);
     const numericValue = parseInt(formatted.replace(/,/g, "")) || 0;
     setValue("price", numericValue, { shouldValidate: true });
-  };
+  }
 
-  function handleImageChange (e: React.ChangeEvent<HTMLInputElement>) {
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -62,11 +62,11 @@ export default function ModalItemForm() {
     }
   }
 
-  function handleImageClick () {
+  function handleImageClick() {
     fileInputRef.current?.click();
   }
 
-  function validateForm (data: ItemFormData) {
+  function validateForm(data: ItemFormData) {
     let isValid = true;
 
     if (!data.productName || data.productName.trim() === "") {
@@ -88,7 +88,7 @@ export default function ModalItemForm() {
     return isValid;
   }
 
-  function onSubmit (formData: ItemFormData) {
+  function onSubmit(formData: ItemFormData) {
     if (!validateForm(formData)) {
       return;
     }
@@ -97,7 +97,7 @@ export default function ModalItemForm() {
     closeModal();
   }
 
-  function handleDelete () {
+  function handleDelete() {
     console.log("Delete item:", item?.id);
     closeModal();
   }

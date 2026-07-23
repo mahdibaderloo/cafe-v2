@@ -1,4 +1,4 @@
-import { useLines } from "../../../hooks/useLines";
+import { useLines } from "../../../hooks/items/useLines";
 import { useCategoryStore } from "../../../store/categoryStore";
 import type { Category } from "../../../types/category.type";
 import CategoryLine from "./CategoryLine";

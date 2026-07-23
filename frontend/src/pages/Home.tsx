@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCategories } from "../hooks/useCategories";
+import { useCategories } from "../hooks/items/useCategories";
 
 import HorizontalMenu from "../components/HorizontalMenu";
 import HomeCategoryIem from "../features/home/HomeCategoryIem";

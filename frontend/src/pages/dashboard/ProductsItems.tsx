@@ -1,6 +1,6 @@
 import CategoryLines from "../../features/dashboard/products/CategoryLines";
 import Items from "../../features/dashboard/products/Items";
-import { useItems } from "../../hooks/useItems";
+import { useItems } from "../../hooks/items/useItems";
 import { useCategoryStore } from "../../store/categoryStore";
 import backIcon from "../../assets/images/back.svg";
 import { Link } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useSubmitOrder } from "../../hooks/useSubmitOrder";
+import { useSubmitOrder } from "../../hooks/user/useSubmitOrder";
 import { useCartStore } from "../../store/cartStore";
 
 interface SubmitProps {
@@ -74,7 +74,9 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
       `}
     >
       <header className="w-full flex justify-center">
-        <h3 className="text-white font-semibold text-lg sm:text-xl">ثبت نهایی</h3>
+        <h3 className="text-white font-semibold text-lg sm:text-xl">
+          ثبت نهایی
+        </h3>
       </header>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full mt-8">
