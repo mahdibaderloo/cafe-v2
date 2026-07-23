@@ -8,7 +8,7 @@ export function useSubmitOrder() {
   return useMutation({
     mutationFn: submitOrder,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["stats"] });
+      queryClient.invalidateQueries({ queryKey: ["stats", "orders"] });
       toast.success("سفارش شما با موفقیت ثبت شد", {
         style: { width: "fit-content" },
       });

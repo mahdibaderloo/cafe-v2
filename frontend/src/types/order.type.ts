@@ -32,3 +32,15 @@ export interface SubmitOrderResponse {
   orderCode: string;
   items: OrderItemResponse[];
 }
+
+export interface OrdersResponse {
+  id: number;
+  createdAt: string;
+  totalPrice: number;
+  username: string;
+  phoneNumber: string;
+  takeAway: boolean;
+  description: string;
+  orderCode: string;
+  items: OrderItemResponse[];
+}

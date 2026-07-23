@@ -1,3 +1,9 @@
+import OrdersTable from "../../features/dashboard/orders/OrdersTable";
+
 export default function Orders() {
-  return <div>Orders</div>;
+  return (
+    <div>
+      <OrdersTable />
+    </div>
+  );
 }
