@@ -15,6 +15,7 @@ import Discounts from "./pages/dashboard/Discounts";
 import DashboardOverview from "./pages/dashboard/DashboardOverview";
 import ProductsItems from "./pages/dashboard/ProductsItems";
 import ProductsCategories from "./pages/dashboard/ProductsCategories";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -27,20 +28,25 @@ const router = createBrowserRouter([
       { path: "/about-us", element: <AboutUs /> },
       { path: "/login", element: <Login /> },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute />,
         children: [
-          { index: true, element: <DashboardOverview /> },
           {
-            path: "products",
-            element: <Products />,
+            path: "/dashboard",
+            element: <Dashboard />,
             children: [
-              { index: true, element: <ProductsCategories /> },
-              { path: ":categoryId", element: <ProductsItems /> },
+              { index: true, element: <DashboardOverview /> },
+              {
+                path: "products",
+                element: <Products />,
+                children: [
+                  { index: true, element: <ProductsCategories /> },
+                  { path: ":categoryId", element: <ProductsItems /> },
+                ],
+              },
+              { path: "orders", element: <Orders /> },
+              { path: "discounts", element: <Discounts /> },
             ],
           },
-          { path: "orders", element: <Orders /> },
-          { path: "discounts", element: <Discounts /> },
         ],
       },
       { path: "*", element: <RouteError /> },

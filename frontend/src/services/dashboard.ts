@@ -23,8 +23,13 @@ export async function login(
   return response.json();
 }
 
-export async function stats(): Promise<DashboardStats> {
-  const response = await fetch(`http://localhost:8080/api/orders/stats`, {});
+export async function stats(token: string): Promise<DashboardStats> {
+  const response = await fetch(`http://localhost:8080/api/orders/stats`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!response.ok) {
     const errorData = await response.json();
