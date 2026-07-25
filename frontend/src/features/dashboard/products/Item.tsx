@@ -4,11 +4,12 @@ import useModalStore from "../../../store/modal";
 import { useProductStore } from "../../../store/productStore";
 
 export default function Item({ item }: { item: Item }) {
-  const { openModal } = useModalStore();
+  const { openModal, setType } = useModalStore();
   const { setItem } = useProductStore();
 
   function handleClickItem() {
     setItem(item);
+    setType("item");
     openModal();
   }
 

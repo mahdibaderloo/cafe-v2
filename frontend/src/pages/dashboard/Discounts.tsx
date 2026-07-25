@@ -1,3 +1,9 @@
+import DiscountsTable from "../../features/dashboard/discounts/DiscountsTable";
+
 export default function Discounts() {
-  return <div>Discounts</div>;
+  return (
+    <div>
+      <DiscountsTable />
+    </div>
+  );
 }

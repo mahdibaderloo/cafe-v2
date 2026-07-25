@@ -44,3 +44,8 @@ export interface OrdersResponse {
   orderCode: string;
   items: OrderItemResponse[];
 }
+
+export interface OrderStore {
+  selectedOrder: number;
+  setSelectedOrder: (id: number) => void;
+}

@@ -141,7 +141,7 @@ export default function ModalItemForm() {
         </span>
       </div>
 
-      <div className="w-full flex flex-col md:flex-row items-start md:items-center mt-8 2xl:mt-12 gap-4 gap-10">
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center mt-8 2xl:mt-12 gap-10">
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
           <label htmlFor="productName">
             نام محصول <span className="text-red-400">*</span>
@@ -149,7 +149,7 @@ export default function ModalItemForm() {
           <input
             type="text"
             id="productName"
-            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full w-full border outline-none pr-4 font-medium shadow ${
+            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full border outline-none pr-4 font-medium shadow ${
               errors.productName ? "border-red-500" : "border-transparent"
             }`}
             {...register("productName")}
@@ -163,7 +163,7 @@ export default function ModalItemForm() {
           <input
             type="text"
             id="price"
-            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full w-full border outline-none pr-4 text-sm 2xl:text-lg font-medium shadow ${
+            className={`bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full border outline-none pr-4 text-sm 2xl:text-lg font-medium shadow ${
               errors.price ? "border-red-500" : "border-transparent"
             }`}
             inputMode="decimal"

@@ -16,7 +16,7 @@ export default function DashboardNav() {
         ))}
         <li
           onClick={logout}
-          className="flex gap-1 2xl:gap-4 items-center p-2 xl:p-3 2xl:p-4 pr-4 mt-auto cursor-pointer hover:bg-[#785459] rounded-md transition-all duration-150"
+          className="flex gap-1 2xl:gap-4 items-center h-10 xl:h-12 2xl:h-16 p-2 xl:p-3 2xl:p-4 pr-4 mt-auto cursor-pointer hover:bg-[#785459] rounded-md transition-all duration-150"
         >
           <div className="w-10 pr-1">
             <img src={logoutIcon} alt="icon" className="w-4 xl:w-5.5 2xl:w-7" />

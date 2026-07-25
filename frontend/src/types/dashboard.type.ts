@@ -48,3 +48,15 @@ export interface AdminStore {
   logout: () => void;
   updateAdmin: (data: Partial<Admin>) => void;
 }
+
+export interface DiscountResponse {
+  id: number;
+  type: string;
+  code: string;
+  createdAt: string;
+  isActive: boolean;
+  expiresAt: string;
+  maxUsage: number;
+  usedCount: number;
+  discountValue: number;
+}

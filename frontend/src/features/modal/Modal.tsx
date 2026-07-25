@@ -1,9 +1,10 @@
 import useModalStore from "../../store/modal";
 import ModalItemForm from "./ModalItemForm";
-// import ModalSubmit from "./ModalSubmit";
+import ModalOrder from "./ModalOrder";
+import ModalSubmit from "./ModalSubmit";
 
 export default function Modal() {
-  const { closeModal } = useModalStore();
+  const { closeModal, type } = useModalStore();
 
   return (
     <div className="fixed w-screen h-screen left-0 top-0 flex justify-center items-center">
@@ -11,8 +12,9 @@ export default function Modal() {
         className="bg-black/60 w-full h-full absolute top-0 left-0"
         onClick={() => closeModal()}
       />
-      <ModalItemForm />
-      {/* <ModalSubmit />*/}
+      {type === "item" && <ModalItemForm />}
+      {type === "order" && <ModalOrder />}
+      {type === "submit" && <ModalSubmit />}
     </div>
   );
 }
