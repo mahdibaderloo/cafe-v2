@@ -1,5 +1,6 @@
 package org.cafe.app.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.cafe.app.dto.*;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -125,4 +127,10 @@ public class OrderService {
                 .build();
     }
 
+    public OrderResponseDto getOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with id:" + id));
+
+        return OrderResponseToDto(order);
+    }
 }

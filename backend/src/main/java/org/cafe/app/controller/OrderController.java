@@ -26,6 +26,11 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponseDto> getOrder (@Valid @PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrder(id));
+    }
+
     @PostMapping("/submit-order")
     public ResponseEntity<OrderResponseDto> createOrder(
             @Valid @RequestBody OrderRequestDto requestDto) {
