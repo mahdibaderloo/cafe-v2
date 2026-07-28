@@ -49,3 +49,8 @@ export interface OrderStore {
   selectedOrder: number;
   setSelectedOrder: (id: number) => void;
 }
+
+export interface DiscountStore {
+  selectedDiscount: number;
+  setSelectedDiscount: (id: number) => void;
+}

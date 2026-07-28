@@ -16,12 +16,19 @@ export default function ModalOrder() {
         <p className="font-medium text-white xl:text-lg 2xl:text-xl">
           اطلاعات مشتری
         </p>
-        <img
-          src={closeIcon}
-          alt="close-icon"
-          className="self-end lg:cursor-pointer"
-          onClick={() => closeModal()}
-        />
+        <div className="flex items-center gap-8">
+          {
+            <p className="bg-[#E2E2E2] w-24 py-3 text-[#485158] text-center rounded-2xl font-medium text-lg 2xl:text-xl">
+              بیرون بر
+            </p>
+          }
+          <img
+            src={closeIcon}
+            alt="close-icon"
+            className="lg:cursor-pointer"
+            onClick={() => closeModal()}
+          />
+        </div>
       </div>
 
       <div className="w-full flex items-center gap-30 mt-6 text-white text-[1rem] 2xl:text-lg">
@@ -61,17 +68,19 @@ export default function ModalOrder() {
             <p>تعداد</p>
           </div>
         </li>
-        {/* <li className="w-full flex ">
-          <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
-            <p>محصول</p>
-          </div>
-          <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
-            <p>قیمت</p>
-          </div>
-          <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
-            <p>تعداد</p>
-          </div>
-        </li> */}
+        {data?.items.map((item) => (
+          <li className="w-full flex ">
+            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
+              <p>{item.itemName}</p>
+            </div>
+            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
+              <p>{item.price}</p>
+            </div>
+            <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
+              <p>{item.count}</p>
+            </div>
+          </li>
+        ))}
       </ul>
 
       <div className="w-full flex items-center justify-between mt-8 2xl:mt-16 2xl:text-lg">

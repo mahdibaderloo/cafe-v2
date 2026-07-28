@@ -1,4 +1,5 @@
 import useModalStore from "../../store/modal";
+import ModalDiscountInfo from "./ModalDiscountInfo";
 import ModalItemForm from "./ModalItemForm";
 import ModalOrder from "./ModalOrder";
 import ModalSubmit from "./ModalSubmit";
@@ -15,6 +16,8 @@ export default function Modal() {
       {type === "item" && <ModalItemForm />}
       {type === "order" && <ModalOrder />}
       {type === "submit" && <ModalSubmit />}
+      {type === "discount-info" && <ModalDiscountInfo />}
+      {type === "add-discount" && <ModalSubmit />}
     </div>
   );
 }

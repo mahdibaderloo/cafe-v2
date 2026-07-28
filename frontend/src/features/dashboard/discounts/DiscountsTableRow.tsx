@@ -1,5 +1,5 @@
+import { useDiscountStore } from "../../../store/discountStore";
 import useModalStore from "../../../store/modal";
-import { useOrderStore } from "../../../store/orderStore";
 import type { DiscountResponse } from "../../../types/dashboard.type";
 
 export default function DiscountsTableRow({
@@ -8,10 +8,10 @@ export default function DiscountsTableRow({
   data: DiscountResponse;
 }) {
   const { openModal, setType } = useModalStore();
-  const { setSelectedOrder } = useOrderStore();
+  const { setSelectedDiscount } = useDiscountStore();
 
   function handleOpenModal() {
-    setSelectedOrder(data.id);
+    setSelectedDiscount(data.id);
     setType("order");
     openModal();
   }

@@ -57,3 +57,22 @@ export async function getAllDiscounts(
 
   return response.json();
 }
+
+export async function getDiscount(
+  token: string,
+  id: number,
+): Promise<DiscountResponse> {
+  const response = await fetch(`http://localhost:8080/api/discount/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "خطا در دریافت اطلاعات");
+  }
+
+  return response.json();
+}
