@@ -2,6 +2,7 @@ import closeIcon from "../../assets/images/close.svg";
 import { useOrder } from "../../hooks/dashboard/useOrder";
 import useModalStore from "../../store/modal";
 import { useOrderStore } from "../../store/orderStore";
+import toomaanIcon from "../../assets/images/toomaan-white.svg";
 
 export default function ModalOrder() {
   const { closeModal } = useModalStore();
@@ -51,7 +52,7 @@ export default function ModalOrder() {
             <span className="font-light mr-4">{data?.orderCode}</span>
           </p>
           <p className="font-medium">
-            تاریخ : <span className="font-light mr-4">1405/5/20</span>
+            تاریخ : <span className="font-light mr-4">{data?.createdAt}</span>
           </p>
         </div>
       </div>
@@ -75,6 +76,7 @@ export default function ModalOrder() {
             </div>
             <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
               <p>{item.price}</p>
+              <img src={toomaanIcon} alt="تومان" />
             </div>
             <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
               <p>{item.count}</p>
@@ -84,10 +86,17 @@ export default function ModalOrder() {
       </ul>
 
       <div className="w-full flex items-center justify-between mt-8 2xl:mt-16 2xl:text-lg">
-        <p className="font-medium text-white">
-          قابل پرداخت :{" "}
-          <span className="font-light mr-2">{data?.totalPrice} تومان</span>
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="font-medium text-white">قابل پرداخت : </p>
+          <div className="font-light mr-2 flex items-center">
+            <p>{data?.totalPrice}</p>
+            <img
+              src={toomaanIcon}
+              alt="تومان"
+              className="lg:w-6 xl:w-7 2xl:w-8"
+            />
+          </div>
+        </div>
         <button className="bg-[#95999D] hover:bg-[#7e8081] text-white text-sm xl:text-[1rem] 2xl:text-lg px-4 py-2 xl:px-6 xl:py-3 rounded-2xl transition-all duration-150 lg:cursor-pointer">
           چاپ فاکتور
         </button>
