@@ -10,8 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/discount")
@@ -24,6 +24,11 @@ public class DiscountController {
     @GetMapping("/all")
     public ResponseEntity<List<DiscountResponseDto>> getAllDiscounts () {
         return ResponseEntity.ok(discountService.getAllDiscounts());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Discount>> getDiscount (@Valid @PathVariable Long id) {
+        return ResponseEntity.ok(discountService.getDiscount(id));
     }
 
     @PostMapping("/submit-code")

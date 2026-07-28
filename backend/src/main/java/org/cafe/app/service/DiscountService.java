@@ -1,5 +1,6 @@
 package org.cafe.app.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cafe.app.dto.DiscountRequestDto;
@@ -86,6 +87,10 @@ public class DiscountService {
         Discount savedDiscount = discountRepository.save(discount);
 
         return toDto(savedDiscount);
+    }
+
+    public Optional<Discount> getDiscount(@Valid Long id) {
+        return discountRepository.findById(id);
     }
 
     public DiscountResponseDto toDto (Discount discount) {
