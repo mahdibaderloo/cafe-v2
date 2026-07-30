@@ -72,7 +72,7 @@ export default function ModalOrder() {
         {data?.items.map((item) => (
           <li className="w-full flex ">
             <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
-              <p>{item.itemName}</p>
+              <p>{`${item.itemName} (${item.categoryName})`}</p>
             </div>
             <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
               <p>{item.price}</p>

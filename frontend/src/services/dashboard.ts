@@ -1,5 +1,6 @@
 import type {
   DashboardStats,
+  DiscountRequest,
   DiscountResponse,
   LoginCredentials,
   LoginResponse,
@@ -72,6 +73,30 @@ export async function getDiscount(
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "خطا در دریافت اطلاعات");
+  }
+
+  return response.json();
+}
+
+export async function addNewDiscount(
+  token: string,
+  data: DiscountRequest,
+): Promise<DiscountResponse> {
+  const response = await fetch(
+    `http://localhost:8080/api/discount/submit-code`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    },
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "خطا در ثبت کد تخفیف");
   }
 
   return response.json();

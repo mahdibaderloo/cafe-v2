@@ -16,6 +16,7 @@ export interface OrderItemResponse {
   itemId: number;
   itemName: string;
   itemDescription: string;
+  categoryName: string;
   count: number;
   price: number;
   subtotal: number;

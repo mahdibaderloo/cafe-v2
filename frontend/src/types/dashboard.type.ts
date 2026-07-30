@@ -60,3 +60,11 @@ export interface DiscountResponse {
   usedCount: number;
   discountValue: number;
 }
+
+export interface DiscountRequest {
+  type: string;
+  code: string;
+  expiresAt: string;
+  maxUsage: number;
+  discountValue: number;
+}
