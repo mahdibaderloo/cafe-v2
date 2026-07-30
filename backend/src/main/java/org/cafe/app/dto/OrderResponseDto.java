@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.cafe.app.enums.DiscountType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,4 +24,6 @@ public class OrderResponseDto {
     private String description;
     private String orderCode;
     private List<OrderItemResponseDto> items;
+    private DiscountType discountType;
+    private BigDecimal discountValue;
 }
