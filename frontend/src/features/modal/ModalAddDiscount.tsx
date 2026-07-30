@@ -89,12 +89,18 @@ export default function ModalAddDiscount() {
               required: "نوع تخفیف را انتخاب کنید",
             })}
             id="type"
-            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white"
+            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white lg:cursor-pointer"
           >
-            <option value="PERCENTAGE" className="bg-[#485158] text-white">
+            <option
+              value="PERCENTAGE"
+              className="bg-[#485158] text-white lg:cursor-pointer"
+            >
               درصدی
             </option>
-            <option value="FIXED_AMOUNT" className="bg-[#485158] text-white">
+            <option
+              value="FIXED_AMOUNT"
+              className="bg-[#485158] text-white lg:cursor-pointer"
+            >
               مبلغ ثابت
             </option>
           </select>

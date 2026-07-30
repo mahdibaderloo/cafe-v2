@@ -1,9 +1,9 @@
-import type { Item } from "../../../types/item.type";
+import type { ItemResponse } from "../../../types/item.type";
 import itemIcon from "../../../assets/images/dashboard-item.svg";
 import useModalStore from "../../../store/modal";
 import { useProductStore } from "../../../store/productStore";
 
-export default function Item({ item }: { item: Item }) {
+export default function Item({ item }: { item: ItemResponse }) {
   const { openModal, setType } = useModalStore();
   const { setItem } = useProductStore();
 

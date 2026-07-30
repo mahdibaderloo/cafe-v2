@@ -1,7 +1,7 @@
-import type { Item as ItemProp } from "../../../types/item.type";
+import type { ItemResponse } from "../../../types/item.type";
 import Item from "./Item";
 
-export default function Items({ items }: { items: ItemProp[] }) {
+export default function Items({ items }: { items: ItemResponse[] }) {
   return (
     <ul className="flex items-center gap-2 xl:gap-3 w-full flex-wrap mx-auto mt-4 xl:mt-8">
       {items.map((item) => (

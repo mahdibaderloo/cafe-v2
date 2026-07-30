@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import type { Item } from "../types/item.type";
+import type { ItemResponse } from "../types/item.type";
 
 interface ProductStore {
-  item: Item | null;
-  setItem: (item: Item) => void;
+  item: ItemResponse | null;
+  setItem: (item: ItemResponse) => void;
 }
 
 export const useProductStore = create<ProductStore>()((set) => ({

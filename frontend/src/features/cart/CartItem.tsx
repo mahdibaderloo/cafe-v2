@@ -1,9 +1,9 @@
 import plusIcon from "../../assets/images/plus.svg";
 import minusIcon from "../../assets/images/minus.svg";
-import type {Item} from "../../types/item.type.ts";
+import type { ItemResponse } from "../../types/item.type.ts";
 
 interface ItemProp {
-  item: Item;
+  item: ItemResponse;
   increase: (id: number) => void;
   decrease: (id: number) => void;
 }
@@ -20,9 +20,7 @@ export default function CartItem({ item, increase, decrease }: ItemProp) {
         <p className="text-md sm:text-lg mt-2">{item.productName}</p>
 
         <div className="flex items-center justify-between">
-          <p className="text-md sm:text-lg">
-            {item.price.toLocaleString()}
-          </p>
+          <p className="text-md sm:text-lg">{item.price.toLocaleString()}</p>
           <div className="bg-white w-24 h-8 sm:w-28 sm:h-10 mt-auto mr-auto ml-1 mb-1 rounded-lg flex justify-between items-center p-0.5">
             <img
               src={plusIcon}

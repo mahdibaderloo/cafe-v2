@@ -1,4 +1,5 @@
 import type {
+  LastFiveOrderPrice,
   OrdersResponse,
   SubmitOrderRequest,
   SubmitOrderResponse,
@@ -56,6 +57,24 @@ export async function getOrder(
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "خطا در پردازش سفارشات");
+  }
+
+  return response.json();
+}
+
+export async function getLastFivePrice(
+  token: string,
+): Promise<LastFiveOrderPrice[]> {
+  const response = await fetch(`http://localhost:8080/api/orders/last-five`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "خطا در دریافت آخرین تراکنش ها");
   }
 
   return response.json();

@@ -6,13 +6,16 @@ import { useItem } from "../../hooks/items/useItem";
 import useModalStore from "../../store/modal";
 import { useProductStore } from "../../store/productStore";
 import type { ItemFormData } from "../../types/modal.type";
+import type { ItemRequest } from "../../types/item.type";
+import { useUpdateItem } from "../../hooks/items/useUpdateItem";
 
 export default function ModalItemForm() {
-  const { closeModal } = useModalStore();
+  const { closeModal, setType } = useModalStore();
   const { item } = useProductStore();
   const { data, isLoading } = useItem(item?.id as number);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const { mutate } = useUpdateItem();
 
   const {
     control,
@@ -22,11 +25,6 @@ export default function ModalItemForm() {
     setError,
     formState: { errors, isSubmitting },
   } = useForm<ItemFormData>({
-    defaultValues: {
-      productName: data?.productName || "",
-      price: data?.price || 0,
-      description: data?.description || "",
-    },
     values: {
       productName: data?.productName || "",
       price: data?.price || 0,
@@ -93,13 +91,22 @@ export default function ModalItemForm() {
       return;
     }
 
-    console.log("Form Data:", formData);
-    closeModal();
+    const requestData: ItemRequest = {
+      productName: formData.productName,
+      price: formData.price,
+      description: formData.description || "",
+      categoryId: Number(item?.categoryId),
+      image: imagePreview || data?.image || "",
+    };
+
+    mutate({
+      id: item?.id as number,
+      data: requestData,
+    });
   }
 
   function handleDelete() {
-    console.log("Delete item:", item?.id);
-    closeModal();
+    setType("submit");
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -133,6 +140,12 @@ export default function ModalItemForm() {
             alt="product"
             className="w-full h-full object-cover"
           />
+        ) : data?.image ? (
+          <img
+            src={data.image}
+            alt="product"
+            className="w-full h-full object-cover"
+          />
         ) : (
           <img src={itemIcon} alt="profile" className="" />
         )}
@@ -154,6 +167,11 @@ export default function ModalItemForm() {
             }`}
             {...register("productName")}
           />
+          {errors.productName && (
+            <span className="text-red-300 text-xs">
+              {errors.productName.message}
+            </span>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
@@ -170,6 +188,9 @@ export default function ModalItemForm() {
             value={priceValue ? priceValue.toLocaleString() : ""}
             onChange={handlePriceChange}
           />
+          {errors.price && (
+            <span className="text-red-300 text-xs">{errors.price.message}</span>
+          )}
         </div>
       </div>
 

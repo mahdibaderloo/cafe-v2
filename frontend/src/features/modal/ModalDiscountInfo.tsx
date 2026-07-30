@@ -38,6 +38,7 @@ export default function ModalDiscountInfo() {
           <input
             type="text"
             id="code"
+            readOnly
             value={`${data?.discountValue} ${data?.type === "PERCENTAGE" ? "%" : "تومان"}`}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[60%] border-none outline-none pr-4 font-medium shadow"
           />
@@ -48,6 +49,7 @@ export default function ModalDiscountInfo() {
           <input
             type="text"
             id="max-usage"
+            readOnly
             value={data?.maxUsage}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow"
           />
@@ -59,6 +61,7 @@ export default function ModalDiscountInfo() {
           <input
             type="text"
             id="create-time"
+            readOnly
             value={data?.createdAt}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[60%] border-none outline-none pr-4 font-medium shadow"
           />
@@ -69,6 +72,7 @@ export default function ModalDiscountInfo() {
           <input
             type="text"
             id="used-count"
+            readOnly
             value={data?.usedCount}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow"
           />
@@ -81,6 +85,7 @@ export default function ModalDiscountInfo() {
           <input
             type="text"
             id="expire-time"
+            readOnly
             value={data?.expiresAt}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[30%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow"
           />

@@ -55,3 +55,8 @@ export interface DiscountStore {
   selectedDiscount: number;
   setSelectedDiscount: (id: number) => void;
 }
+
+export interface LastFiveOrderPrice {
+  orderId: number;
+  totalPrice: number;
+}
