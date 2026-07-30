@@ -9,7 +9,7 @@ export default function Item({ item }: { item: ItemResponse }) {
 
   function handleClickItem() {
     setItem(item);
-    setType("item");
+    setType("edit-item");
     openModal();
   }
 

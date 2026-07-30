@@ -1,21 +1,21 @@
-import { useForm, useWatch } from "react-hook-form";
 import { useRef, useState } from "react";
+import useModalStore from "../../store/modal";
+import { useAddItem } from "../../hooks/items/useAddItem";
+import type { ItemFormData } from "../../types/modal.type";
+import { useForm, useWatch } from "react-hook-form";
+import type { ItemRequest } from "../../types/item.type";
+import { useParams } from "react-router-dom";
+
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";
-import { useItem } from "../../hooks/items/useItem";
-import useModalStore from "../../store/modal";
-import { useProductStore } from "../../store/productStore";
-import type { ItemFormData } from "../../types/modal.type";
-import type { ItemRequest } from "../../types/item.type";
-import { useUpdateItem } from "../../hooks/items/useUpdateItem";
 
-export default function ModalItemForm() {
-  const { closeModal, setType } = useModalStore();
-  const { item } = useProductStore();
-  const { data, isLoading } = useItem(item?.id as number);
+export default function ModalAddItem() {
+  const { closeModal } = useModalStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { mutate } = useUpdateItem();
+  const { mutate } = useAddItem();
+  const params = useParams();
+  const categoryId = params.categoryId;
 
   const {
     control,
@@ -24,13 +24,7 @@ export default function ModalItemForm() {
     setValue,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<ItemFormData>({
-    values: {
-      productName: data?.productName || "",
-      price: data?.price || 0,
-      description: data?.description || "",
-    },
-  });
+  } = useForm<ItemFormData>();
 
   const priceValue = useWatch({
     control,
@@ -94,22 +88,13 @@ export default function ModalItemForm() {
     const requestData: ItemRequest = {
       productName: formData.productName,
       price: formData.price,
+      image: imagePreview || "",
       description: formData.description || "",
-      categoryId: Number(item?.categoryId),
-      image: imagePreview || data?.image || "",
+      categoryId: Number(categoryId),
     };
 
-    mutate({
-      id: item?.id as number,
-      data: requestData,
-    });
+    mutate(requestData);
   }
-
-  function handleDelete() {
-    setType("submit");
-  }
-
-  if (isLoading) return <p>Loading...</p>;
 
   return (
     <form
@@ -134,23 +119,13 @@ export default function ModalItemForm() {
         className="bg-[#D9D9D9] relative flex items-center justify-center w-26 h-26 2xl:w-36 2xl:h-36 rounded-2xl cursor-pointer overflow-hidden shadow"
         onClick={handleImageClick}
       >
-        {imagePreview ? (
-          <img
-            src={imagePreview}
-            alt="product"
-            className="w-full h-full object-cover"
-          />
-        ) : data?.image ? (
-          <img
-            src={data.image}
-            alt="product"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <img src={itemIcon} alt="profile" className="" />
-        )}
+        <img
+          src={imagePreview ? imagePreview : itemIcon}
+          alt="product"
+          className={`${imagePreview ? "w-full h-full object-cover" : "w-15 h-15"}`}
+        />
         <span className="absolute bottom-0 text-[0.8rem] 2xl:text-[1rem] bg-[#676767] text-[#464646] w-full text-center">
-          تغییر عکس
+          افزودن عکس
         </span>
       </div>
 
@@ -205,20 +180,13 @@ export default function ModalItemForm() {
         </div>
       </div>
 
-      <div className="flex items-center w-full justify-center gap-8 md:gap-30 mt-8 2xl:mt-12">
+      <div className="flex items-center w-full justify-start gap-8 md:gap-30 mt-8 2xl:mt-12">
         <button
           type="submit"
           disabled={isSubmitting}
           className="bg-[#407E5C] hover:bg-[#10743D] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "در حال ذخیره..." : "ذخیره"}
-        </button>
-        <button
-          type="button"
-          onClick={handleDelete}
-          className="bg-[#9F3535] hover:bg-[#790000] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer"
-        >
-          حذف
         </button>
       </div>
     </form>

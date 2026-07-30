@@ -21,7 +21,7 @@ export default function ProductsCategories() {
 
   return (
     <ul className="flex gap-4 items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16">
-      {categories.map((category: Category) => (
+      {categories?.map((category: Category) => (
         <li
           key={category.id}
           onClick={() => handleSetCategory(category.id)}

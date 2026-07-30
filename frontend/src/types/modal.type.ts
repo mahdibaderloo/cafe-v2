@@ -1,5 +1,6 @@
 export type ModalType =
-  | "item"
+  | "edit-item"
+  | "add-item"
   | "order"
   | "discount-info"
   | "add-discount"

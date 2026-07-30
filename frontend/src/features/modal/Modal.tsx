@@ -1,7 +1,8 @@
 import useModalStore from "../../store/modal";
 import ModalAddDiscount from "./ModalAddDiscount";
+import ModalAddItem from "./ModalAddItem";
 import ModalDiscountInfo from "./ModalDiscountInfo";
-import ModalItemForm from "./ModalItemForm";
+import ModalEditItem from "./ModalEditItem";
 import ModalOrder from "./ModalOrder";
 import ModalSubmit from "./ModalSubmit";
 
@@ -14,7 +15,8 @@ export default function Modal() {
         className="bg-black/60 w-full h-full absolute top-0 left-0"
         onClick={() => closeModal()}
       />
-      {type === "item" && <ModalItemForm />}
+      {type === "edit-item" && <ModalEditItem />}
+      {type === "add-item" && <ModalAddItem />}
       {type === "order" && <ModalOrder />}
       {type === "submit" && <ModalSubmit />}
       {type === "discount-info" && <ModalDiscountInfo />}
