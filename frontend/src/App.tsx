@@ -16,6 +16,7 @@ import DashboardOverview from "./pages/dashboard/DashboardOverview";
 import ProductsItems from "./pages/dashboard/ProductsItems";
 import ProductsCategories from "./pages/dashboard/ProductsCategories";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PrintOrder from "./pages/dashboard/PrintOrder";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ const router = createBrowserRouter([
                 ],
               },
               { path: "orders", element: <Orders /> },
+              { path: "orders/:orderId/print", element: <PrintOrder /> },
               { path: "discounts", element: <Discounts /> },
             ],
           },

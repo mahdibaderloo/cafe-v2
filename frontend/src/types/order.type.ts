@@ -44,6 +44,8 @@ export interface OrdersResponse {
   description: string;
   orderCode: string;
   items: OrderItemResponse[];
+  discountType: string;
+  discountValue: number;
 }
 
 export interface OrderStore {

@@ -9,3 +9,15 @@ export const options = [
   { id: 3, title: "سفارشات", icon: ordersIcon, path: "/dashboard/orders" },
   { id: 4, title: "تخفیفات", icon: percentIcon, path: "/dashboard/discounts" },
 ];
+
+export function calcTotal(
+  totalPrice: number,
+  discountValue: number,
+  discountType: string,
+) {
+  if (discountType === "PERCENTAGE") {
+    return (totalPrice * discountValue) / 100;
+  } else {
+    return totalPrice - discountValue;
+  }
+}
