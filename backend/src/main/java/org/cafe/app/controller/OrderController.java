@@ -3,6 +3,7 @@ package org.cafe.app.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.cafe.app.dto.DashboardStatsDto;
+import org.cafe.app.dto.OrderPriceDto;
 import org.cafe.app.dto.OrderRequestDto;
 import org.cafe.app.dto.OrderResponseDto;
 import org.cafe.app.entity.Order;
@@ -44,4 +45,8 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getDashboardStats());
     }
 
+    @GetMapping("/last-five")
+    public ResponseEntity<List<OrderPriceDto>> getLastFiveOrdersPrices() {
+        return ResponseEntity.ok(orderService.getLastFiveOrdersPrices());
+    }
 }

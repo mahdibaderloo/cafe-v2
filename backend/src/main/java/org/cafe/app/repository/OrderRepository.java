@@ -28,4 +28,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "LIMIT 1")
     List<Object[]> findTopProduct();
 
+    List<Order> findTop5ByOrderByIdDesc();
 }

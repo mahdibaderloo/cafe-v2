@@ -3,6 +3,7 @@ package org.cafe.app.service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.aspectj.weaver.ast.Or;
 import org.cafe.app.dto.*;
 import org.cafe.app.entity.Item;
 import org.cafe.app.entity.Order;
@@ -132,5 +133,13 @@ public class OrderService {
                 .orElseThrow(() -> new RuntimeException("Order not found with id:" + id));
 
         return OrderResponseToDto(order);
+    }
+
+    public List<OrderPriceDto> getLastFiveOrdersPrices() {
+        List<Order> lastFiveOrders = orderRepository.findTop5ByOrderByIdDesc();
+
+        return lastFiveOrders.stream()
+                .map(order -> new OrderPriceDto(order.getId(), order.getTotalPrice()))
+                .collect(Collectors.toList());
     }
 }
