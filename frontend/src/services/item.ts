@@ -1,60 +1,33 @@
 import type { ItemRequest, ItemResponse } from "../types/item.type";
+import { apiClient } from "./api";
 
-export async function getItems(id: number): Promise<ItemResponse[]> {
-  const response = await fetch(
-    `http://localhost:8080/api/items/category-id/${id}`,
-  );
-  return response.json();
+export async function getItems(id: number) {
+  return apiClient<ItemResponse[]>(`items/category-id/${id}`);
 }
 
-export async function getItem(id: number): Promise<ItemResponse> {
-  const response = await fetch(`http://localhost:8080/api/items/${id}`);
-  return response.json();
+export async function getItem(id: number) {
+  return apiClient<ItemResponse>(`items/${id}`);
 }
 
-export async function createItem(data: ItemRequest): Promise<ItemResponse> {
-  const response = await fetch(`http://localhost:8080/api/items/create-item`, {
+export async function createItem(data: ItemRequest) {
+  return apiClient<ItemResponse>("items/create-item", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
+    auth: true,
   });
-
-  if (!response.ok) {
-    throw new Error("خطا در ایجاد آیتم");
-  }
-
-  return response.json();
 }
 
-export async function updateItem(
-  id: number,
-  data: ItemRequest,
-): Promise<ItemResponse> {
-  const response = await fetch(`http://localhost:8080/api/items/${id}`, {
+export async function updateItem(id: number, data: ItemRequest) {
+  return apiClient<ItemResponse>(`items/update/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(data),
+    auth: true,
   });
-
-  if (!response.ok) {
-    throw new Error("خطا در بروزرسانی آیتم");
-  }
-
-  return response.json();
 }
 
 export async function deleteItem(id: number) {
-  const response = await fetch(`http://localhost:8080/api/items/${id}`, {
+  return apiClient(`items/delete/${id}`, {
     method: "DELETE",
+    auth: true,
   });
-
-  if (!response.ok) {
-    throw new Error("خطا در حذف آیتم");
-  }
-
-  return response;
 }

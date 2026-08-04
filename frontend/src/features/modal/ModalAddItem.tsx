@@ -13,7 +13,8 @@ export default function ModalAddItem() {
   const { closeModal } = useModalStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { mutate } = useAddItem();
+  const { mutate, error } = useAddItem();
+  console.log(error);
   const params = useParams();
   const categoryId = params.categoryId;
 

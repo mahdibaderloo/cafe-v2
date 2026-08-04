@@ -3,13 +3,26 @@ import { useOrder } from "../../hooks/dashboard/useOrder";
 import useModalStore from "../../store/modal";
 import { useOrderStore } from "../../store/orderStore";
 import toomaanIcon from "../../assets/images/toomaan-white.svg";
+import { useNavigate } from "react-router-dom";
+import { calcTotal } from "../../utils/dashboard";
 
 export default function ModalOrder() {
   const { closeModal } = useModalStore();
   const { selectedOrder } = useOrderStore();
   const { data, isLoading } = useOrder(selectedOrder);
+  const navigate = useNavigate();
 
   if (isLoading) return <p>Loading...</p>;
+
+  const showDiscount =
+    data?.discountType === "PERCENTAGE"
+      ? `${data.discountValue}%`
+      : data?.discountValue;
+
+  function handlePrint() {
+    closeModal();
+    navigate(`/dashboard/orders/${data?.orderCode}/print`);
+  }
 
   return (
     <div className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 2xl:w-240 z-50">
@@ -85,19 +98,52 @@ export default function ModalOrder() {
         ))}
       </ul>
 
-      <div className="w-full flex items-center justify-between mt-8 2xl:mt-16 2xl:text-lg">
-        <div className="flex items-center gap-2">
-          <p className="font-medium text-white">قابل پرداخت : </p>
-          <div className="font-light mr-2 flex items-center">
-            <p>{data?.totalPrice}</p>
-            <img
-              src={toomaanIcon}
-              alt="تومان"
-              className="lg:w-6 xl:w-7 2xl:w-8"
-            />
+      <div className="w-full flex items-end justify-between mt-8 2xl:mt-16 2xl:text-lg">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <p className="font-medium text-white">مبلغ کل : </p>
+            <div className="font-light mr-2 flex items-center gap-2">
+              <p>{data?.totalPrice}</p>
+              <img
+                src={toomaanIcon}
+                alt="تومان"
+                className="lg:w-6 xl:w-7 2xl:w-8"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="font-medium text-white">تخفیف : </p>
+            <div className="font-light mr-2 flex items-center gap-2">
+              <p>{showDiscount}</p>
+              <img
+                src={toomaanIcon}
+                alt="تومان"
+                className="lg:w-6 xl:w-7 2xl:w-8"
+              />
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <p className="font-medium text-white">قابل پرداخت : </p>
+            <div className="font-light mr-2 flex items-center gap-2">
+              <p>
+                {calcTotal(
+                  data?.totalPrice as number,
+                  data?.discountValue as number,
+                  data?.discountType as string,
+                )}
+              </p>
+              <img
+                src={toomaanIcon}
+                alt="تومان"
+                className="lg:w-6 xl:w-7 2xl:w-8"
+              />
+            </div>
           </div>
         </div>
-        <button className="bg-[#95999D] hover:bg-[#7e8081] text-white text-sm xl:text-[1rem] 2xl:text-lg px-4 py-2 xl:px-6 xl:py-3 rounded-2xl transition-all duration-150 lg:cursor-pointer">
+        <button
+          onClick={handlePrint}
+          className="bg-[#95999D] hover:bg-[#7e8081] text-white text-sm xl:text-[1rem] 2xl:text-lg px-4 py-2 xl:px-6 xl:py-3 rounded-2xl transition-all duration-150 lg:cursor-pointer"
+        >
           چاپ فاکتور
         </button>
       </div>

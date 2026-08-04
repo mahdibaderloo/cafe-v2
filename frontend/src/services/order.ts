@@ -4,78 +4,29 @@ import type {
   SubmitOrderRequest,
   SubmitOrderResponse,
 } from "../types/order.type";
+import { apiClient } from "./api";
 
-export async function submitOrder(
-  data: SubmitOrderRequest,
-): Promise<SubmitOrderResponse> {
-  const response = await fetch(
-    `http://localhost:8080/api/orders/submit-order`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    },
-  );
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در ثبت سفارش");
-  }
-
-  return response.json();
+export function submitOrder(data: SubmitOrderRequest) {
+  return apiClient<SubmitOrderResponse>("orders/submit-order", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
 }
 
-export async function getAllOrders(token: string): Promise<OrdersResponse[]> {
-  const response = await fetch("http://localhost:8080/api/orders", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export function getAllOrders() {
+  return apiClient<OrdersResponse[]>("orders", {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در پردازش سفارشات");
-  }
-
-  return response.json();
 }
 
-export async function getOrder(
-  token: string,
-  id: number,
-): Promise<OrdersResponse> {
-  const response = await fetch(`http://localhost:8080/api/orders/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export function getOrder(id: number) {
+  return apiClient<OrdersResponse>(`orders/${id}`, {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در پردازش سفارشات");
-  }
-
-  return response.json();
 }
 
-export async function getLastFivePrice(
-  token: string,
-): Promise<LastFiveOrderPrice[]> {
-  const response = await fetch(`http://localhost:8080/api/orders/last-five`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export function getLastFivePrice() {
+  return apiClient<LastFiveOrderPrice[]>("orders/last-five", {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در دریافت آخرین تراکنش ها");
-  }
-
-  return response.json();
 }

@@ -1,15 +1,17 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteItem } from "../../services/item";
 import { toast } from "react-hot-toast";
 import useModalStore from "../../store/modal";
 
 export function useDeleteItem() {
   const { closeModal } = useModalStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (id: number) => deleteItem(id),
     onSuccess: () => {
       toast.success("محصول با موفقیت حذف شد");
+      queryClient.invalidateQueries({ queryKey: ["items"] });
       closeModal();
     },
     onError: (error: Error) => {

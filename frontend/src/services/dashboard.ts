@@ -5,99 +5,37 @@ import type {
   LoginCredentials,
   LoginResponse,
 } from "../types/dashboard.type.ts";
+import { apiClient } from "./api.ts";
 
-export async function login(
-  credentials: LoginCredentials,
-): Promise<LoginResponse> {
-  const response = await fetch(`http://localhost:8080/api/users/login`, {
+export async function login(credentials: LoginCredentials) {
+  return apiClient<LoginResponse>("users/login", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(credentials),
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در ورود");
-  }
-
-  return response.json();
 }
 
-export async function stats(token: string): Promise<DashboardStats> {
-  const response = await fetch(`http://localhost:8080/api/orders/stats`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function stats(): Promise<DashboardStats> {
+  return apiClient<DashboardStats>("orders/stats", {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در دریافت اطلاعات");
-  }
-
-  return response.json();
 }
 
-export async function getAllDiscounts(
-  token: string,
-): Promise<DiscountResponse[]> {
-  const response = await fetch(`http://localhost:8080/api/discount/all`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getAllDiscounts() {
+  return apiClient<DiscountResponse[]>("discount/all", {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در دریافت اطلاعات");
-  }
-
-  return response.json();
 }
 
-export async function getDiscount(
-  token: string,
-  id: number,
-): Promise<DiscountResponse> {
-  const response = await fetch(`http://localhost:8080/api/discount/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+export async function getDiscount(id: number) {
+  return apiClient<DiscountResponse>(`discount/${id}`, {
+    auth: true,
   });
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در دریافت اطلاعات");
-  }
-
-  return response.json();
 }
 
-export async function addNewDiscount(
-  token: string,
-  data: DiscountRequest,
-): Promise<DiscountResponse> {
-  const response = await fetch(
-    `http://localhost:8080/api/discount/submit-code`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    },
-  );
-
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "خطا در ثبت کد تخفیف");
-  }
-
-  return response.json();
+export async function addNewDiscount(data: DiscountRequest) {
+  return apiClient<DiscountResponse>("discount/submit-code", {
+    method: "POST",
+    body: JSON.stringify(data),
+    auth: true,
+  });
 }
