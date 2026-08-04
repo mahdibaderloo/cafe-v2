@@ -28,11 +28,12 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith("/api/users/login") ||
-                path.startsWith("/api/categories") ||
-                path.startsWith("/api/items") ||
-                path.startsWith("/api/orders/submit-order") ||
-                path.startsWith("/uploads");
+
+        return path.startsWith("/api/users/login")
+                || path.startsWith("/api/categories")
+                || (request.getMethod().equals("GET") && path.startsWith("/api/items"))
+                || path.startsWith("/api/orders/submit-order")
+                || path.startsWith("/uploads");
     }
 
     @Override
@@ -55,7 +56,7 @@ public class JwtFilter extends OncePerRequestFilter {
         email = jwtService.extractEmail(jwt);
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);  // ✅ email
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authenticationToken =

@@ -24,30 +24,26 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private Long expirationTime;
 
-    // ✅ کلید مخفی
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    // ✅ تولید توکن از UserDetails
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", userDetails.getAuthorities().iterator().next().getAuthority());
         return generateToken(claims, userDetails.getUsername());
     }
 
-    // ✅ تولید توکن با claims و subject
     public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
-                .claims(claims)          // ✅ جدید
-                .subject(subject)        // ✅ جدید
-                .issuedAt(new Date())    // ✅ جدید
-                .expiration(new Date(System.currentTimeMillis() + expirationTime))  // ✅ جدید
+                .claims(claims)
+                .subject(subject)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    // ✅ استخراج username از توکن
     public String extractUsername(String token) {
         try {
             return extractClaim(token, Claims::getSubject);
@@ -56,34 +52,28 @@ public class JwtService {
         }
     }
 
-    // ✅ استخراج email (همون username)
     public String extractEmail(String token) {
         return extractUsername(token);
     }
 
-    // ✅ استخراج یک Claim خاص
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    // ✅ استخراج تاریخ انقضا
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // ✅ بررسی انقضای توکن
     public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // ✅ بررسی اعتبار توکن با UserDetails
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    // ✅ بررسی اعتبار توکن
     public boolean validateToken(String token) {
         try {
             extractAllClaims(token);
@@ -93,16 +83,14 @@ public class JwtService {
         }
     }
 
-    // ✅ استخراج همه Claims
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .verifyWith(getSigningKey())   // ✅ جدید
+                .verifyWith(getSigningKey())
                 .build()
-                .parseSignedClaims(token)      // ✅ جدید
-                .getPayload();                 // ✅ جدید
+                .parseSignedClaims(token)
+                .getPayload();
     }
 
-    // ✅ متد قدیمی برای سازگاری (اختیاری)
     public String getUsernameFromJwtToken(String token) {
         return extractUsername(token);
     }

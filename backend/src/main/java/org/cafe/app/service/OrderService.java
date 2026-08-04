@@ -41,7 +41,7 @@ public class OrderService {
         if (monthlySales == null) monthlySales = BigDecimal.ZERO;
 
         List<Object[]> topProductResult = orderRepository.findTopProduct();
-        String topProduct = "هیچ محصولی ثبت نشده";
+        String topProduct = "محصولی ثبت نشده";
         Long topProductCount = 0L;
 
         if (!topProductResult.isEmpty()) {

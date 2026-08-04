@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.cafe.app.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,13 +35,15 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/categories/**",
-                                "/api/items/**",
-                                "/api/users/login",
-                                "/api/orders/submit-order",
-                                "/uploads/**"
-                        ).permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
+
+                        .requestMatchers(HttpMethod.GET, "/api/items/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/items/category-id/*").permitAll()
+
+                        .requestMatchers("/api/users/login").permitAll()
+                        .requestMatchers("/api/orders/submit-order").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

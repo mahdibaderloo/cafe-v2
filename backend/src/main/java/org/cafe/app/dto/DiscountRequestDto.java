@@ -1,10 +1,7 @@
 package org.cafe.app.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +22,8 @@ public class DiscountRequestDto {
     @Size(min = 5, max = 10, message = "Code must be between 3 and 50 characters")
     private String code;
 
+    @NotNull(message = "تاریخ انقضا الزامی است")
+    @Future(message = "تاریخ انقضا باید در آینده باشد")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime expiresAt;
 

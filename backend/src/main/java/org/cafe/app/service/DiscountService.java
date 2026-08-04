@@ -25,8 +25,6 @@ import static org.hibernate.validator.internal.engine.messageinterpolation.el.Ro
 public class DiscountService {
 
     private final DiscountRepository discountRepository;
-    private static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Scheduled(fixedDelay = 1800000)
     @Transactional
@@ -98,12 +96,8 @@ public class DiscountService {
                 .id(discount.getId())
                 .code(discount.getCode())
                 .type(discount.getType().name())
-                .createdAt(discount.getCreatedAt() != null ?
-                        discount.getCreatedAt().format(FORMATTER) :
-                        null)
-                .expiresAt(discount.getExpiresAt() != null ?
-                        discount.getExpiresAt().format(FORMATTER) :
-                        null)
+                .createdAt(discount.getCreatedAt())
+                .expiresAt(discount.getExpiresAt())
                 .isActive(discount.isActive())
                 .maxUsage(discount.getMaxUsage())
                 .usedCount(discount.getUsedCount())
