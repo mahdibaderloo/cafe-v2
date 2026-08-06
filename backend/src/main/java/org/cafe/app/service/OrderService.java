@@ -2,6 +2,7 @@ package org.cafe.app.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.aspectj.weaver.ast.Or;
 import org.cafe.app.dto.*;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -118,13 +120,27 @@ public class OrderService {
                 .id(order.getId())
                 .createdAt(order.getCreatedAt())
                 .totalPrice(order.getTotalPrice())
+                .orderCode(order.getOrderCode())
                 .username(order.getUsername())
                 .phoneNumber(order.getPhoneNumber())
                 .takeAway(order.isTakeAway())
                 .description(order.getDescription())
                 .items(order.getItems().stream()
-                        .map(orderItemService::convertToItemDto)
+                        .map(this::convertOrderItemToDto)
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    private OrderItemResponseDto convertOrderItemToDto(OrderItem orderItem) {
+        Item item = orderItem.getItem();
+        return OrderItemResponseDto.builder()
+                .itemId(item.getId())
+                .itemName(item.getProductName())
+                .itemDescription(item.getDescription())
+                .categoryName(item.getCategory().getName())
+                .price(orderItem.getPrice())
+                .count(orderItem.getCount())
+                .subtotal(BigDecimal.valueOf((long) orderItem.getPrice().intValue() * orderItem.getCount()))
                 .build();
     }
 
