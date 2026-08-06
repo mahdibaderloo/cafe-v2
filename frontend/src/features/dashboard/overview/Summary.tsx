@@ -14,7 +14,7 @@ export default function Summary() {
       <li className="bg-[#748F80] lg:w-50 xl:w-70 2xl:w-70 h-fit xl:h-32 text-white flex flex-col justify-center items-center gap-4 rounded-xl p-4 shadow-md">
         <p className="xl:text-lg">میزان فروش این ماه</p>
         <p className="font-semibold text-lg xl:text-2xl">
-          {data?.monthlySales}
+          {data?.monthlySales.toLocaleString()}
         </p>
       </li>
       <li className="bg-[#748F80] lg:w-50 xl:w-70 2xl:w-70 h-fit xl:h-32 text-white flex flex-col justify-center items-center gap-4 rounded-xl p-4 shadow-md">

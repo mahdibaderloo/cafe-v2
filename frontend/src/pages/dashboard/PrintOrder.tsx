@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useOrders } from "../../hooks/dashboard/useOrders";
 import type { OrderItemResponse } from "../../types/order.type";
 import { calcTotal } from "../../utils/dashboard";
+import { formatJalaliDate } from "../../utils/date";
 
 export default function PrintOrder() {
   const { data: orders, isLoading } = useOrders();
@@ -27,10 +28,11 @@ export default function PrintOrder() {
       </div>
     );
 
-  const showDiscount =
-    order?.discountType === "PERCENTAGE"
+  const showDiscount = order?.discountValue
+    ? order.discountType === "PERCENTAGE"
       ? `${order.discountValue}%`
-      : order.discountValue;
+      : order.discountValue.toLocaleString()
+    : "0";
 
   const totalItems = order.items.reduce((sum, item) => sum + item.count, 0);
 
@@ -44,17 +46,17 @@ export default function PrintOrder() {
       <div className="mb-12 space-y-2 text-lg">
         <div className="flex gap-4">
           <span className="font-medium">شماره فاکتور :</span>
-          <span>{order.orderCode}</span>
+          <span>{orders.length}</span>
         </div>
 
         <div className="flex gap-4">
           <span className="font-medium">تاریخ فاکتور :</span>
-          <span>{order.createdAt}</span>
+          <span>{formatJalaliDate(order.createdAt)}</span>
         </div>
 
         <div className="flex gap-4">
           <span className="font-medium">زمان صدور :</span>
-          <span>{order.createdAt}</span>
+          <span>{formatJalaliDate(Date.now()!)}</span>
         </div>
       </div>
 
@@ -70,11 +72,7 @@ export default function PrintOrder() {
             </th>
 
             <th className="p-2">فی</th>
-
-            <th className="flex flex-col">
-              <span className="border-b-2 p-1">تخفیف</span>
-              <span className="p-1">بهای کل</span>
-            </th>
+            <th className="p-1">بهای کل</th>
           </tr>
         </thead>
 
@@ -93,9 +91,9 @@ export default function PrintOrder() {
                 <span className="p-1">عدد</span>
               </td>
 
-              <td className="p-2">{item.price}</td>
+              <td className="p-2">{item.price.toLocaleString()}</td>
 
-              <td className="flex flex-col">{item.price * item.count}</td>
+              <td>{(item.price * item.count).toLocaleString()}</td>
             </tr>
           ))}
         </tbody>
@@ -110,7 +108,7 @@ export default function PrintOrder() {
 
           <tr className="flex divide-x-2">
             <td className="flex-1 p-2">مبلغ کل</td>
-            <td className="flex-1 p-2">{order.totalPrice}</td>
+            <td className="flex-1 p-2">{order.totalPrice.toLocaleString()}</td>
           </tr>
 
           <tr className="flex divide-x-2">
@@ -125,7 +123,7 @@ export default function PrintOrder() {
                 order.totalPrice,
                 order.discountValue,
                 order.discountType,
-              )}
+              ).toLocaleString()}
             </td>
           </tr>
 
@@ -136,7 +134,7 @@ export default function PrintOrder() {
                 order.totalPrice,
                 order.discountValue,
                 order.discountType,
-              )}
+              ).toLocaleString()}
             </td>
           </tr>
         </tbody>

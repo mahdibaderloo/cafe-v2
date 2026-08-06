@@ -1,4 +1,4 @@
-export interface OrderItem {
+export interface OrderItemRequest {
   itemId: number;
   count: number;
 }
@@ -8,7 +8,7 @@ export interface SubmitOrderRequest {
   phoneNumber: string;
   takeAway: boolean;
   description: string;
-  items: OrderItem[];
+  items: OrderItemRequest[];
 }
 
 export interface OrderItemResponse {
@@ -61,4 +61,9 @@ export interface DiscountStore {
 export interface LastFiveOrderPrice {
   orderId: number;
   totalPrice: number;
+}
+
+export interface SubmitProps {
+  isSubmitOpen: boolean;
+  onClose: () => void;
 }

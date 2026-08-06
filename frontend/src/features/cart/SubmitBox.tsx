@@ -1,22 +1,16 @@
 import { useForm, useWatch } from "react-hook-form";
 import { useSubmitOrder } from "../../hooks/user/useSubmitOrder";
 import { useCartStore } from "../../store/cartStore";
-
-interface SubmitProps {
-  isSubmitOpen: boolean;
-  onClose: () => void;
-}
-
-interface FormValues {
-  username: string;
-  mobile: string;
-  desc: string;
-  isTakeAway: boolean;
-}
+import type {
+  OrderItemRequest,
+  SubmitOrderRequest,
+  SubmitProps,
+} from "../../types/order.type";
 
 export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const { mutate: submitOrder, isPending } = useSubmitOrder();
-  const { items, totalPrice, removeAll } = useCartStore();
+  const { items, removeAll } = useCartStore();
+  console.log(items);
 
   const {
     register,
@@ -24,29 +18,34 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
     control,
     formState: { errors },
     reset,
-  } = useForm<FormValues>({
+  } = useForm<SubmitOrderRequest>({
     defaultValues: {
       username: "",
-      mobile: "",
-      desc: "",
-      isTakeAway: false,
+      phoneNumber: "",
+      description: "",
+      takeAway: false,
+      items: [],
     },
   });
 
   const isTakeAway = useWatch({
     control,
-    name: "isTakeAway",
+    name: "takeAway",
   });
 
-  function onSubmit(data: FormValues) {
+  function onSubmit(data: SubmitOrderRequest) {
+    const orderItems: OrderItemRequest[] = items.map((item) => ({
+      itemId: item.id,
+      count: item.count,
+    }));
+
     submitOrder(
       {
-        totalPrice,
         username: data.username.trim(),
-        mobile: data.mobile?.trim() || "-",
-        order: JSON.stringify(items),
-        isTakeAway: data.isTakeAway,
-        desc: data.desc,
+        phoneNumber: data.phoneNumber?.trim() || "-",
+        items: orderItems,
+        takeAway: data.takeAway,
+        description: data.description,
       },
       {
         onSuccess: () => {
@@ -102,20 +101,24 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
             شماره تماس :
           </label>
           <input
-            {...register("mobile", {
+            {...register("phoneNumber", {
               validate: (value) => {
                 if (!value) return true;
 
                 const mobileRegex = /^09\d{9}$/;
-                return mobileRegex.test(value) || "شماره موبایل معتبر نیست";
+                return (
+                  mobileRegex.test(value) ||
+                  "شماره موبایل معتبر نیست (مثال: 09123456789)"
+                );
               },
             })}
+            maxLength={11}
             className="bg-[#D9D9D980] w-48 h-12 sm:w-100 sm:h-14 rounded-lg outline-none text-md sm:text-lg p-1.5 sm:p-2.5 font-semibold"
           />
         </div>
-        {errors.mobile && (
+        {errors.phoneNumber && (
           <p className="text-red-300 text-xs sm:text-sm mt-1">
-            {errors.mobile.message}
+            {errors.phoneNumber.message}
           </p>
         )}
 
@@ -123,7 +126,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
           <input
             id="takeAway"
             type="checkbox"
-            {...register("isTakeAway")}
+            {...register("takeAway")}
             className={`appearance-none w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-[0px_2px_4px_0px_#00000047] ${isTakeAway ? "bg-white border-3 border-white" : "border-3 border-white"} transition-all delay-100`}
           />
           <label
@@ -139,7 +142,7 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
             توضیحات:
           </label>
           <textarea
-            {...register("desc")}
+            {...register("description")}
             placeholder="مثال: لطفا کمی شکر به قهوه اضافه کنید."
             className="bg-[#D9D9D980] p-2 text-sm sm:text-lg min-h-30 max-h-30 sm:min-h-40 sm:max-h-40 rounded-xl outline-none font-medium mt-2 sm:mt-4 sm:w-[84%] sm:mx-auto"
           />

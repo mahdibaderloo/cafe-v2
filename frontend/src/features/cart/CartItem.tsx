@@ -1,14 +1,8 @@
 import plusIcon from "../../assets/images/plus.svg";
 import minusIcon from "../../assets/images/minus.svg";
-import type { ItemResponse } from "../../types/item.type.ts";
+import type { CartItemProp } from "../../types/cart.type.ts";
 
-interface ItemProp {
-  item: ItemResponse;
-  increase: (id: number) => void;
-  decrease: (id: number) => void;
-}
-
-export default function CartItem({ item, increase, decrease }: ItemProp) {
+export default function CartItem({ item, increase, decrease }: CartItemProp) {
   // const imageUrl = itemImageUrl(item.category, item.image);
   return (
     <li className="bg-[#4C3D34] rounded-xl sm:rounded-2xl shadow-[0px_3px_4.6px_0px_#00000066] w-full sm:w-[72%] h-22 sm:h-28 overflow-hidden p-1 sm:p-2 flex">

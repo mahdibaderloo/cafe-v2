@@ -13,10 +13,11 @@ export function useSubmitOrder() {
         style: { width: "fit-content" },
       });
     },
-    onError: () => {
+    onError: (error: Error) => {
       toast.error("مشکلی در ثبت سفارش پیش آمده. مجدد تلاش کنید", {
         style: { width: "fit-content" },
       });
+      console.error(error);
     },
   });
 }

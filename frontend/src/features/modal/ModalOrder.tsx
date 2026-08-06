@@ -5,6 +5,7 @@ import { useOrderStore } from "../../store/orderStore";
 import toomaanIcon from "../../assets/images/toomaan-white.svg";
 import { useNavigate } from "react-router-dom";
 import { calcTotal } from "../../utils/dashboard";
+import { formatJalaliDate } from "../../utils/date";
 
 export default function ModalOrder() {
   const { closeModal } = useModalStore();
@@ -14,10 +15,11 @@ export default function ModalOrder() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  const showDiscount =
-    data?.discountType === "PERCENTAGE"
+  const showDiscount = data?.discountValue
+    ? data.discountType === "PERCENTAGE"
       ? `${data.discountValue}%`
-      : data?.discountValue;
+      : data.discountValue.toLocaleString()
+    : "0";
 
   function handlePrint() {
     closeModal();
@@ -65,7 +67,10 @@ export default function ModalOrder() {
             <span className="font-light mr-4">{data?.orderCode}</span>
           </p>
           <p className="font-medium">
-            تاریخ : <span className="font-light mr-4">{data?.createdAt}</span>
+            تاریخ :{" "}
+            <span className="font-light mr-4">
+              {formatJalaliDate(data?.createdAt as string)}
+            </span>
           </p>
         </div>
       </div>
@@ -87,8 +92,8 @@ export default function ModalOrder() {
             <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
               <p>{`${item.itemName} (${item.categoryName})`}</p>
             </div>
-            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
-              <p>{item.price}</p>
+            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center gap-2">
+              <p>{item.price.toLocaleString()}</p>
               <img src={toomaanIcon} alt="تومان" />
             </div>
             <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
@@ -103,7 +108,9 @@ export default function ModalOrder() {
           <div className="flex items-center gap-3">
             <p className="font-medium text-white">مبلغ کل : </p>
             <div className="font-light mr-2 flex items-center gap-2">
-              <p>{data?.totalPrice}</p>
+              <p className="text-white font-medium">
+                {data?.totalPrice.toLocaleString()}
+              </p>
               <img
                 src={toomaanIcon}
                 alt="تومان"
@@ -114,23 +121,18 @@ export default function ModalOrder() {
           <div className="flex items-center gap-3">
             <p className="font-medium text-white">تخفیف : </p>
             <div className="font-light mr-2 flex items-center gap-2">
-              <p>{showDiscount}</p>
-              <img
-                src={toomaanIcon}
-                alt="تومان"
-                className="lg:w-6 xl:w-7 2xl:w-8"
-              />
+              <p className="text-white font-medium">{showDiscount}</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <p className="font-medium text-white">قابل پرداخت : </p>
             <div className="font-light mr-2 flex items-center gap-2">
-              <p>
+              <p className="text-white font-medium">
                 {calcTotal(
                   data?.totalPrice as number,
                   data?.discountValue as number,
                   data?.discountType as string,
-                )}
+                ).toLocaleString()}
               </p>
               <img
                 src={toomaanIcon}
