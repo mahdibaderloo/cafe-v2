@@ -14,11 +14,11 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
       <img
         src={lorax}
         alt="icon"
-        className="absolute -top-12.5 sm:-top-15.5 right-1 sm:right-4 w-34 sm:w-40"
+        className="absolute -top-12.5 sm:-top-20.5 right-1 sm:right-18 w-34 sm:w-45"
       />
 
       <div className="bg-[#4C3D34] w-full h-full shadow-[0px_-4px_8px_0px_#00000033] rounded-t-2xl px-2 py-6 flex flex-col justify-between">
-        <div className="w-[90%] sm:w-[80%] h-14 sm:h-16 bg-white rounded-xl p-1 mx-auto flex justify-between items-center z-40">
+        <div className="w-[90%] sm:w-[70%] h-14 sm:h-16 bg-white rounded-xl p-1 mx-auto flex justify-between items-center z-40">
           <button className="w-[25%] h-full bg-[#503D32] rounded-[0.6rem] text-white sm:font-medium text-lg sm:text-xl">
             تایید
           </button>
@@ -30,23 +30,23 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
           />
         </div>
 
-        <div className="p-4 sm:py-6 sm:px-14 mt-6">
-          <div className="flex justify-between items-center text-white text-md sm:text-[1rem] font-medium sm:font-semibold">
+        <div className="px-8 py-2 sm:py-8 sm:px-30 mt-6">
+          <div className="flex justify-between items-center text-white text-md sm:text-lg font-medium sm:font-semibold">
             <p>جمع قیمت</p>
             <p>{totalPrice.toLocaleString()}</p>
           </div>
-          <div className="flex justify-between items-center text-white text-md sm:text-[1rem] font-medium sm:font-semibold mt-4">
+          <div className="flex justify-between items-center text-white text-md sm:text-lg font-medium sm:font-semibold mt-4 sm:mt-6">
             <p>تخفیف</p>
             <p>0</p>
           </div>
-          <div className="flex justify-between items-center text-white text-xl sm:text-[1.5rem] font-medium sm:font-semibold mt-8">
+          <div className="flex justify-between items-center text-white text-xl sm:text-2xl font-medium sm:font-semibold mt-4 sm:mt-6">
             <p>مجموع</p>
             <p>{totalPrice.toLocaleString()}</p>
           </div>
         </div>
 
         <button
-          className={`w-[90%] sm:w-[80%] h-14 sm:h-16 bg-white ${itemsCount > 0 ? "opacity-100" : "opacity-50"} shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-lg sm:text-xl mt-8 mx-auto`}
+          className={`w-[90%] sm:w-[70%] h-14 sm:h-16 bg-white ${itemsCount > 0 ? "opacity-100" : "opacity-50"} shadow-[0px_2px_4px_0px_#00000040] rounded-xl text-[#503D32] font-semibold text-lg sm:text-xl mt-8 mx-auto`}
           onClick={onOpen}
           disabled={itemsCount === 0}
         >

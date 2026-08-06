@@ -3,7 +3,6 @@ import useModalStore from "../../store/modal";
 import closeIcon from "../../assets/images/close.svg";
 import { useAddDiscount } from "../../hooks/dashboard/useAddDiscount";
 import type { DiscountRequest } from "../../types/dashboard.type";
-import { formatDateToBackend } from "../../utils/date";
 
 export default function ModalAddDiscount() {
   const { closeModal } = useModalStore();
@@ -26,7 +25,7 @@ export default function ModalAddDiscount() {
       type: data.type,
       maxUsage: Number(data.maxUsage),
       discountValue: Number(data.discountValue),
-      expiresAt: formatDateToBackend(data.expiresAt),
+      expiresAt: data.expiresAt,
     };
 
     mutate(discountData, {

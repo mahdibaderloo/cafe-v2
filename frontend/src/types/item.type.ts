@@ -6,7 +6,6 @@ export interface ItemResponse {
   categoryId: string;
   categoryName: string;
   price: number;
-  desc: string;
 }
 
 export interface ItemRequest {
