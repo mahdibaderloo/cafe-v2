@@ -2,6 +2,7 @@ import closeIcon from "../../assets/images/close.svg";
 import { useDiscount } from "../../hooks/dashboard/useDiscount";
 import { useDiscountStore } from "../../store/discountStore";
 import useModalStore from "../../store/modal";
+import { formatJalaliDate } from "../../utils/date";
 
 export default function ModalDiscountInfo() {
   const { closeModal } = useModalStore();
@@ -62,7 +63,7 @@ export default function ModalDiscountInfo() {
             type="text"
             id="create-time"
             readOnly
-            value={data?.createdAt}
+            value={formatJalaliDate(data?.createdAt as string)}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[60%] border-none outline-none pr-4 font-medium shadow"
           />
         </div>
@@ -86,7 +87,7 @@ export default function ModalDiscountInfo() {
             type="text"
             id="expire-time"
             readOnly
-            value={data?.expiresAt}
+            value={formatJalaliDate(data?.expiresAt as string)}
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[30%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow"
           />
         </div>

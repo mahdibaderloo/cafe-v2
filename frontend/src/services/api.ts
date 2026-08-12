@@ -36,9 +36,25 @@ export async function apiClient<T>(
   }
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? "خطایی رخ داده است.");
+    const contentType = response.headers.get("content-type");
+
+    if (contentType?.includes("application/json")) {
+      const error = await response.json();
+      throw new Error(error.message ?? "خطایی رخ داده است.");
+    }
+
+    throw new Error(`Request failed with status ${response.status}`);
   }
 
-  return response.json();
+  if (response.status === 204) {
+    return undefined as T;
+  }
+
+  const contentType = response.headers.get("content-type");
+
+  if (contentType?.includes("application/json")) {
+    return response.json();
+  }
+
+  return response.text() as T;
 }

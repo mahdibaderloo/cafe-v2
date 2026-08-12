@@ -2,8 +2,8 @@ import { create } from "zustand";
 import type { ModalStore, ModalType } from "../types/modal.type";
 
 const useModalStore = create<ModalStore>((set) => ({
-  isOpen: false,
-  type: "order",
+  isOpen: true,
+  type: "add-discount",
 
   openModal: () => set({ isOpen: true }),
   closeModal: () => set({ isOpen: false }),

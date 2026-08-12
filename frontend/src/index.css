@@ -12,3 +12,39 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 }
+
+.avan-root {
+  background: transparent !important;
+  display: flex !important;
+  background: #91979b !important;
+  width: 60% !important;
+  border-radius: 12px !important;
+  padding-left: 4px !important;
+  box-shadow: none !important;
+}
+
+.avan-datetime-picker__trigger,
+.avan-datetime-picker__trigger--placeholder {
+  background: transparent !important;
+  padding-right: 0px !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: none !important;
+  width: 100% !important;
+}
+
+.avan-datetime-picker__trigger:hover,
+.avan-datetime-picker__trigger--placeholder:hover {
+  border: none !important;
+  outline: none !important;
+}
+
+.avan-datetime-picker__body {
+  position: absolute !important;
+  top: -18rem !important;
+  right: 20rem !important;
+}
+
+.avan-calendar {
+  width: 450px !important;
+}

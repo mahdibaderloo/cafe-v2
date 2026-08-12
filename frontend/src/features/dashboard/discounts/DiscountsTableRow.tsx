@@ -9,10 +9,9 @@ export default function DiscountsTableRow({
 }) {
   const { openModal, setType } = useModalStore();
   const { setSelectedDiscount } = useDiscountStore();
-
   function handleOpenModal() {
     setSelectedDiscount(data.id);
-    setType("order");
+    setType("discount-info");
     openModal();
   }
 

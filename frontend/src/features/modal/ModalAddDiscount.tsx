@@ -1,16 +1,23 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import useModalStore from "../../store/modal";
 import closeIcon from "../../assets/images/close.svg";
 import { useAddDiscount } from "../../hooks/dashboard/useAddDiscount";
 import type { DiscountRequest } from "../../types/dashboard.type";
+import { AvanDateTimePicker, AvanProvider } from "@avan-persian/react/client";
+import "@avan-persian/themes/default.css";
+import "@avan-persian/react/client.css";
+import calendarIcon from "../../assets/images/calendar.svg";
 
 export default function ModalAddDiscount() {
   const { closeModal } = useModalStore();
   const { mutate, isPending } = useAddDiscount();
+  const [isOpen, setIsOpen] = useState(false);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     reset,
   } = useForm<DiscountRequest>({
@@ -79,30 +86,65 @@ export default function ModalAddDiscount() {
             <span className="text-red-300 text-xs">{errors.code.message}</span>
           )}
         </div>
-
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-[1rem] xl:text-lg 2xl:text-xl text-white w-full">
           <label htmlFor="type">نوع تخفیف</label>
 
-          <select
-            {...register("type", {
+          <Controller
+            name="type"
+            control={control}
+            rules={{
               required: "نوع تخفیف را انتخاب کنید",
-            })}
-            id="type"
-            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white lg:cursor-pointer"
-          >
-            <option
-              value="PERCENTAGE"
-              className="bg-[#485158] text-white lg:cursor-pointer"
-            >
-              درصدی
-            </option>
-            <option
-              value="FIXED_AMOUNT"
-              className="bg-[#485158] text-white lg:cursor-pointer"
-            >
-              مبلغ ثابت
-            </option>
-          </select>
+            }}
+            render={({ field }) => (
+              <div className="relative w-[90%] md:w-[60%]">
+                <button
+                  type="button"
+                  onClick={() => setIsOpen((prev) => !prev)}
+                  className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-full border-none outline-none pr-4 pl-4 text-sm 2xl:text-lg font-medium shadow text-white text-right flex items-center justify-between lg:cursor-pointer"
+                >
+                  <span>
+                    {field.value === "PERCENTAGE"
+                      ? "درصدی"
+                      : field.value === "FIXED_AMOUNT"
+                        ? "مبلغ ثابت"
+                        : "انتخاب نوع تخفیف"}
+                  </span>
+
+                  <span
+                    className={`transition-transform duration-200 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <ul className="absolute top-full right-0 mt-2 w-full bg-[#485158] rounded-xl overflow-hidden z-50 shadow">
+                    <li
+                      onClick={() => {
+                        field.onChange("PERCENTAGE");
+                        setIsOpen(false);
+                      }}
+                      className="px-4 py-3 hover:bg-white/10 lg:cursor-pointer"
+                    >
+                      درصدی
+                    </li>
+
+                    <li
+                      onClick={() => {
+                        field.onChange("FIXED_AMOUNT");
+                        setIsOpen(false);
+                      }}
+                      className="px-4 py-3 hover:bg-white/10 lg:cursor-pointer"
+                    >
+                      مبلغ ثابت
+                    </li>
+                  </ul>
+                )}
+              </div>
+            )}
+          />
 
           {errors.type && (
             <span className="text-red-300 text-xs">{errors.type.message}</span>
@@ -112,31 +154,49 @@ export default function ModalAddDiscount() {
 
       <div className="w-full flex flex-col md:flex-row items-start mt-4 2xl:mt-10 gap-4 md:gap-0">
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-[1rem] xl:text-lg 2xl:text-xl text-white w-full">
-          <label htmlFor="max-usage">تعداد مجاز استفاده</label>
-          <input
-            {...register("maxUsage", {
-              pattern: {
-                value: /^[0-9]+$/,
-                message: "فقط عدد وارد کنید",
+          <label htmlFor="expire-time">تاریخ انقضا</label>
+          <Controller
+            name="expiresAt"
+            control={control}
+            rules={{
+              required: "تاریخ انقضا الزامی است",
+              validate: (value) => {
+                if (!value) return "تاریخ انقضا الزامی است";
+
+                const selectedDate = new Date(value);
+                const now = new Date();
+
+                if (selectedDate <= now) {
+                  return "تاریخ انقضا باید در آینده باشد";
+                }
+
+                return true;
               },
-              min: {
-                value: 1,
-                message: "حداقل ۱ بار استفاده مجاز است",
-              },
-            })}
-            type="text"
-            id="max-usage"
-            placeholder="مثال: ۱۰۰"
-            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white placeholder-white/60"
-            disabled={isPending}
+            }}
+            render={({ field }) => (
+              <AvanProvider dir="rtl" locale="fa-IR">
+                <AvanDateTimePicker
+                  id="expire-time"
+                  className="rounded-xl h-10 xl:h-12 2xl:h-16 border-none outline-none pr-4 text-sm font-rubik 2xl:text-lg font-medium text-white"
+                  disabled={isPending}
+                  display="popover"
+                  numberOfMonths={1}
+                  placeholder="انتخاب تاریخ انقضا"
+                  value={field.value || null}
+                  onChange={field.onChange}
+                  hourCycle={24}
+                  minuteStep={1}
+                  showSeconds={false}
+                />
+              </AvanProvider>
+            )}
           />
-          {errors.maxUsage && (
+          {errors.expiresAt && (
             <span className="text-red-300 text-xs">
-              {errors.maxUsage.message}
+              {errors.expiresAt.message}
             </span>
           )}
         </div>
-
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-[1rem] xl:text-lg 2xl:text-xl text-white w-full">
           <label htmlFor="value">مقدار تخفیف</label>
           <input
@@ -171,29 +231,28 @@ export default function ModalAddDiscount() {
 
       <div className="w-full flex flex-col md:flex-row items-start mt-4 2xl:mt-10">
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-[1rem] xl:text-lg 2xl:text-xl text-white w-full">
-          <label htmlFor="expire-time">تاریخ انقضا</label>
+          <label htmlFor="max-usage">تعداد مجاز استفاده</label>
           <input
-            {...register("expiresAt", {
-              required: "تاریخ انقضا الزامی است",
-              validate: {
-                futureDate: (value) => {
-                  const selectedDate = new Date(value);
-                  const now = new Date();
-                  if (selectedDate <= now) {
-                    return "تاریخ انقضا باید در آینده باشد";
-                  }
-                  return true;
-                },
+            {...register("maxUsage", {
+              required: "تعداد استفاده الزامی است",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "فقط عدد وارد کنید",
+              },
+              min: {
+                value: 1,
+                message: "حداقل ۱ بار استفاده مجاز است",
               },
             })}
-            type="datetime-local"
-            id="expire-time"
-            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[50%] md:w-[30%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white [&::-webkit-calendar-picker-indicator]:invert"
+            type="text"
+            id="max-usage"
+            placeholder="مثال: ۱۰۰"
+            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white placeholder-white/60"
             disabled={isPending}
           />
-          {errors.expiresAt && (
+          {errors.maxUsage && (
             <span className="text-red-300 text-xs">
-              {errors.expiresAt.message}
+              {errors.maxUsage.message}
             </span>
           )}
         </div>

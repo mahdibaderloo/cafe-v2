@@ -35,7 +35,7 @@ export async function getDiscount(id: number) {
 export async function addNewDiscount(data: DiscountRequest) {
   return apiClient<DiscountResponse>("discount/submit-code", {
     method: "POST",
-    body: JSON.stringify(data),
     auth: true,
+    body: JSON.stringify(data),
   });
 }

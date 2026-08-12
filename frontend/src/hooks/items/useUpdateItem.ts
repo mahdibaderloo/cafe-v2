@@ -12,12 +12,12 @@ export function useUpdateItem() {
     mutationFn: ({ id, data }: { id: number; data: ItemRequest }) =>
       updateItem(id, data),
     onSuccess: () => {
-      toast.success("آیتم جدید با موفقیت اضافه شد");
+      toast.success("آیتم با موفقیت ویرایش شد");
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["items"] });
     },
     onError: (error: Error) => {
-      toast.error("خطا در ثبت آیتم جدید");
+      toast.error("خطا در ویرایش آیتم");
       console.error(error);
     },
   });
