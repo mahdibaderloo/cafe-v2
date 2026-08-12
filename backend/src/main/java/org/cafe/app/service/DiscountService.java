@@ -87,8 +87,8 @@ public class DiscountService {
         return toDto(savedDiscount);
     }
 
-    public Optional<Discount> getDiscount(@Valid Long id) {
-        return discountRepository.findById(id);
+    public Optional<DiscountResponseDto> getDiscount(@Valid Long id) {
+        return discountRepository.findById(id).map(this::toDto);
     }
 
     public DiscountResponseDto toDto (Discount discount) {

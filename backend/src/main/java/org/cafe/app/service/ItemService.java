@@ -89,11 +89,12 @@ public class ItemService {
         return toDto(updatedItem);
     }
 
-    public void deleteItem(Long id) {
+    public String deleteItem(Long id) {
         if (!itemRepository.existsById(id)) {
             throw new RuntimeException("آیتم با شناسه " + id + " یافت نشد");
         }
 
         itemRepository.deleteById(id);
+        return "آیتم حذف شد";
     }
 }

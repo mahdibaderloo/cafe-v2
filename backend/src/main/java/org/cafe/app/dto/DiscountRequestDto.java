@@ -15,22 +15,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class DiscountRequestDto {
 
-    @NotNull(message = "Discount type is required")
+    @NotNull(message = "نوع تخفیف باید مشخص باشد")
     private DiscountType type;
 
-    @NotBlank(message = "Discount code is required")
-    @Size(min = 5, max = 10, message = "Code must be between 3 and 50 characters")
+    @NotBlank(message = "کد تخفیف الزامی است")
+    @Size(min = 5, max = 5, message = "کد تخفیف باید ۵ کاراکتر باشد")
     private String code;
 
     @NotNull(message = "تاریخ انقضا الزامی است")
     @Future(message = "تاریخ انقضا باید در آینده باشد")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime expiresAt;
 
-    @Positive(message = "Max usage must be positive")
+    @NotNull(message = "حداکثر استفاده الزامی است")
+    @Positive(message = "حداکثر استفاده باید حداقل 1 باشد")
     private Integer maxUsage;
 
-    @NotNull(message = "Discount value is required")
-    @Positive(message = "Discount value must be positive")
+    @NotNull(message = "مقدار تخفیف الزامی است")
+    @Positive(message = "مقدار تخفیف باید مثبت باشد")
     private BigDecimal discountValue;
 }

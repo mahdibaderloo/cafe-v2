@@ -27,7 +27,7 @@ public class DiscountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Discount>> getDiscount (@Valid @PathVariable Long id) {
+    public ResponseEntity<Optional<DiscountResponseDto>> getDiscount (@Valid @PathVariable Long id) {
         return ResponseEntity.ok(discountService.getDiscount(id));
     }
 

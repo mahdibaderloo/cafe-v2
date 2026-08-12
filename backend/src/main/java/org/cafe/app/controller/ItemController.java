@@ -44,8 +44,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
-        itemService.deleteItem(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+        return ResponseEntity.ok(itemService.deleteItem(id));
     }
 }
