@@ -1,4 +1,5 @@
 import type {
+  ChartData,
   LastFiveOrderPrice,
   OrdersResponse,
   SubmitOrderRequest,
@@ -33,4 +34,13 @@ export function getLastFivePrice() {
   return apiClient<LastFiveOrderPrice[]>("orders/last-five", {
     auth: true,
   });
+}
+
+export function getChartData(year: number) {
+  return apiClient<ChartData[]>(
+    `orders/statistics/monthly-sales?year=${year}`,
+    {
+      auth: true,
+    },
+  );
 }

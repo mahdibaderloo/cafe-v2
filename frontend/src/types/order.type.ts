@@ -67,3 +67,9 @@ export interface SubmitProps {
   isSubmitOpen: boolean;
   onClose: () => void;
 }
+
+export interface ChartData {
+  month: number;
+  monthName: string;
+  sales: number;
+}
