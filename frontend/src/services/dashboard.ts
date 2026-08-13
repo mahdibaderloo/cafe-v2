@@ -5,6 +5,7 @@ import type {
   LoginCredentials,
   LoginResponse,
 } from "../types/dashboard.type.ts";
+import type { PaginatedResponse } from "../types/pagination.ts";
 import { apiClient } from "./api.ts";
 
 export async function login(credentials: LoginCredentials) {
@@ -20,10 +21,13 @@ export async function stats(): Promise<DashboardStats> {
   });
 }
 
-export async function getAllDiscounts() {
-  return apiClient<DiscountResponse[]>("discount/all", {
-    auth: true,
-  });
+export async function getAllDiscounts(page: number, size: number) {
+  return apiClient<PaginatedResponse<DiscountResponse>>(
+    `discount/all?page=${page}&size=${size}`,
+    {
+      auth: true,
+    },
+  );
 }
 
 export async function getDiscount(id: number) {

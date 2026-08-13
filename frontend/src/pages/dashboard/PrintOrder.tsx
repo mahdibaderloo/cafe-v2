@@ -3,6 +3,7 @@ import { useOrders } from "../../hooks/dashboard/useOrders";
 import type { OrderItemResponse } from "../../types/order.type";
 import { calcTotal } from "../../utils/dashboard";
 import { formatJalaliDate } from "../../utils/date";
+import { coffeeCategories } from "../../utils/categories";
 
 export default function PrintOrder() {
   const { data: orders, isLoading } = useOrders();
@@ -77,25 +78,31 @@ export default function PrintOrder() {
         </thead>
 
         <tbody>
-          {order.items.map((item: OrderItemResponse, index: number) => (
-            <tr
-              key={item.id}
-              className="divide-x-2 border-2 border-black text-sm"
-            >
-              <td>{index + 1}</td>
+          {order.items.map((item: OrderItemResponse, index: number) => {
+            const itemTitle = coffeeCategories.includes(item.categoryName)
+              ? `${item.itemName} (${item.categoryName})`
+              : item.itemName;
 
-              <td className="p-1">{item.itemName}</td>
+            return (
+              <tr
+                key={item.id}
+                className="divide-x-2 border-2 border-black text-sm"
+              >
+                <td>{index + 1}</td>
 
-              <td className="flex flex-col">
-                <span className="border-b-2 p-1">{item.count}</span>
-                <span className="p-1">عدد</span>
-              </td>
+                <td className="p-1">{itemTitle}</td>
 
-              <td className="p-2">{item.price.toLocaleString()}</td>
+                <td className="flex flex-col">
+                  <span className="border-b-2 p-1">{item.count}</span>
+                  <span className="p-1">عدد</span>
+                </td>
 
-              <td>{(item.price * item.count).toLocaleString()}</td>
-            </tr>
-          ))}
+                <td className="p-2">{item.price.toLocaleString()}</td>
+
+                <td>{(item.price * item.count).toLocaleString()}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

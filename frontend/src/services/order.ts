@@ -4,6 +4,7 @@ import type {
   SubmitOrderRequest,
   SubmitOrderResponse,
 } from "../types/order.type";
+import type { PaginatedResponse } from "../types/pagination";
 import { apiClient } from "./api";
 
 export function submitOrder(data: SubmitOrderRequest) {
@@ -13,10 +14,13 @@ export function submitOrder(data: SubmitOrderRequest) {
   });
 }
 
-export function getAllOrders() {
-  return apiClient<OrdersResponse[]>("orders", {
-    auth: true,
-  });
+export function getAllOrders(page: number, size: number) {
+  return apiClient<PaginatedResponse<OrdersResponse>>(
+    `orders?page=${page}&size=${size}`,
+    {
+      auth: true,
+    },
+  );
 }
 
 export function getOrder(id: number) {

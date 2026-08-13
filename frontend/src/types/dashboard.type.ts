@@ -68,3 +68,9 @@ export interface DiscountRequest {
   maxUsage: number;
   discountValue: number;
 }
+
+export interface DiscountPaginationProps {
+  page: number;
+  totalPages: number;
+  onSetPage: (page: number) => void;
+}

@@ -6,6 +6,7 @@ import toomaanIcon from "../../assets/images/toomaan-white.svg";
 import { useNavigate } from "react-router-dom";
 import { calcTotal } from "../../utils/dashboard";
 import { formatJalaliDate } from "../../utils/date";
+import { coffeeCategories } from "../../utils/categories";
 
 export default function ModalOrder() {
   const { closeModal } = useModalStore();
@@ -27,7 +28,7 @@ export default function ModalOrder() {
   }
 
   return (
-    <div className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 2xl:w-240 z-50">
+    <div className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 h-120 xl:w-180 xl:h-150 2xl:w-240 2xl:h-190 z-50 overflow-y-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div className="w-full flex items-center justify-between">
         <p className="font-medium text-white xl:text-lg 2xl:text-xl">
           اطلاعات مشتری
@@ -75,32 +76,38 @@ export default function ModalOrder() {
         </div>
       </div>
 
-      <ul className="flex flex-col items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16 rounded-xl overflow-hidden border-2 border-[#E2E2E2] divide-y-2 divide-[#E2E2E2] text-xs xl:text-sm 2xl:text-[1rem]">
+      <ul className="flex flex-col items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16 rounded-xl border-2 border-[#E2E2E2] divide-y-2 divide-[#E2E2E2] text-xs xl:text-sm 2xl:text-[1rem]">
         <li className="w-full flex ">
-          <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
+          <div className="w-3/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
             <p>محصول</p>
           </div>
-          <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
+          <div className="w-2/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
             <p>قیمت</p>
           </div>
-          <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
+          <div className="w-1/6 px-4 py-2 text-white flex justify-center items-center">
             <p>تعداد</p>
           </div>
         </li>
-        {data?.items.map((item) => (
-          <li className="w-full flex ">
-            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
-              <p>{`${item.itemName} (${item.categoryName})`}</p>
-            </div>
-            <div className="w-1/3 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center gap-2">
-              <p>{item.price.toLocaleString()}</p>
-              <img src={toomaanIcon} alt="تومان" />
-            </div>
-            <div className="w-1/3 px-4 py-2 text-white flex justify-center items-center">
-              <p>{item.count}</p>
-            </div>
-          </li>
-        ))}
+        {data?.items.map((item) => {
+          const itemTitle = coffeeCategories.includes(item.categoryName)
+            ? `${item.itemName} (${item.categoryName})`
+            : item.itemName;
+
+          return (
+            <li className="w-full flex ">
+              <div className="w-3/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
+                <p>{itemTitle}</p>
+              </div>
+              <div className="w-2/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center gap-2">
+                <p>{item.price.toLocaleString()}</p>
+                <img src={toomaanIcon} alt="تومان" />
+              </div>
+              <div className="w-1/6 px-4 py-2 text-white flex justify-center items-center">
+                <p>{item.count}</p>
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
       <div className="w-full flex items-end justify-between mt-8 2xl:mt-16 2xl:text-lg">

@@ -41,8 +41,27 @@
 
 .avan-datetime-picker__body {
   position: absolute !important;
-  top: -18rem !important;
-  right: 20rem !important;
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .avan-datetime-picker__body {
+    top: -14rem !important;
+    right: 11rem !important;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .avan-datetime-picker__body {
+    top: -16rem !important;
+    right: 14rem !important;
+  }
+}
+
+@media (min-width: 1536px) {
+  .avan-datetime-picker__body {
+    top: -18rem !important;
+    right: 20rem !important;
+  }
 }
 
 .avan-calendar {

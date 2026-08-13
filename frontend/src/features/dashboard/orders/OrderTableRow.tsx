@@ -14,7 +14,10 @@ export default function OrderTableRow({ data }: { data: OrdersResponse }) {
   }
 
   return (
-    <li className="flex w-full lg:cursor-pointer" onClick={handleOpenModal}>
+    <li
+      className="flex w-full lg:cursor-pointer hover:bg-[#e2e2e2] transition-all duration-100"
+      onClick={handleOpenModal}
+    >
       <div className="w-1/4 px-4 py-2 text-[#748F80] border-l-2 border-[#587062] flex justify-center items-center">
         <p className="text-sm xl:text-[1rem] 2xl:text-lg 2xl:font-medium">
           {data.orderCode}

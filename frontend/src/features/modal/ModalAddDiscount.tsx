@@ -45,7 +45,7 @@ export default function ModalAddDiscount() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 2xl:w-240 z-50"
+      className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 xl:w-180 2xl:w-240 z-50"
     >
       <div className="w-full flex items-center justify-between">
         <span />
@@ -247,7 +247,7 @@ export default function ModalAddDiscount() {
             type="text"
             id="max-usage"
             placeholder="مثال: ۱۰۰"
-            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white placeholder-white/60"
+            className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[30%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white placeholder-white/60"
             disabled={isPending}
           />
           {errors.maxUsage && (
