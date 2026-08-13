@@ -6,12 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
-import org.cafe.app.enums.DiscountType;
 import org.cafe.app.repository.DiscountRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -61,12 +62,10 @@ public class DiscountService {
         log.info("✅ Auto-update completed. Deactivated {} discount(s)", updatedCount);
     }
 
-    public List<DiscountResponseDto> getAllDiscounts () {
-        return discountRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .toList();
-    };
+    public Page<DiscountResponseDto> getAllDiscounts(Pageable pageable) {
+        return discountRepository.findAll(pageable)
+                .map(this::toDto);
+    }
 
     @Transactional
     public DiscountResponseDto generateDiscountCode(DiscountRequestDto request) {

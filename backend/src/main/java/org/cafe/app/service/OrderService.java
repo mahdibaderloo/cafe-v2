@@ -12,6 +12,8 @@ import org.cafe.app.entity.OrderItem;
 import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.repository.OrderRepository;
 import org.cafe.app.utils.PersianDateUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,12 +62,8 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderResponseDto> getAllOrders() {
-        List<Order> orders = orderRepository.findAll();
-
-        return orders.stream()
-                .map(this::OrderResponseToDto)
-                .collect(Collectors.toList());
+    public Page<OrderResponseDto> getAllOrders(Pageable pageable) {
+        return orderRepository.findAll(pageable).map(this::OrderResponseToDto);
     }
 
     @Transactional

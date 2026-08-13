@@ -4,13 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
-import org.cafe.app.entity.Discount;
 import org.cafe.app.service.DiscountService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +22,8 @@ public class DiscountController {
     private final DiscountService discountService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DiscountResponseDto>> getAllDiscounts () {
-        return ResponseEntity.ok(discountService.getAllDiscounts());
+    public ResponseEntity<Page<DiscountResponseDto>> getAllDiscounts (Pageable pageable) {
+        return ResponseEntity.ok(discountService.getAllDiscounts(pageable));
     }
 
     @GetMapping("/{id}")
