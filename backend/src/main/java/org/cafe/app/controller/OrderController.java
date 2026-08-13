@@ -2,10 +2,7 @@ package org.cafe.app.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.cafe.app.dto.DashboardStatsDto;
-import org.cafe.app.dto.OrderPriceDto;
-import org.cafe.app.dto.OrderRequestDto;
-import org.cafe.app.dto.OrderResponseDto;
+import org.cafe.app.dto.*;
 import org.cafe.app.entity.Order;
 import org.cafe.app.service.OrderService;
 import org.springframework.data.domain.Page;
@@ -50,5 +47,10 @@ public class OrderController {
     @GetMapping("/last-five")
     public ResponseEntity<List<OrderPriceDto>> getLastFiveOrdersPrices() {
         return ResponseEntity.ok(orderService.getLastFiveOrdersPrices());
+    }
+
+    @GetMapping("/statistics/monthly-sales")
+    public ResponseEntity<List<MonthlySalesDto>> getMonthlySales(@RequestParam int year) {
+        return ResponseEntity.ok(orderService.getMonthlySales(year));
     }
 }

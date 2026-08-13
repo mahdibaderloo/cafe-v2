@@ -1,10 +1,11 @@
 package org.cafe.app.service;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.time4j.PlainDate;
+import net.time4j.calendar.PersianCalendar;
+import net.time4j.calendar.PersianMonth;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.aspectj.weaver.ast.Or;
 import org.cafe.app.dto.*;
 import org.cafe.app.entity.Item;
 import org.cafe.app.entity.Order;
@@ -22,7 +23,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,6 +34,21 @@ public class OrderService {
     private final OrderItemService orderItemService;
     private final ItemRepository itemRepository;
     private final PersianDateUtil persianDateUtil;
+
+    private static final String[] MONTH_NAMES = {
+            "فروردین",
+            "اردیبهشت",
+            "خرداد",
+            "تیر",
+            "مرداد",
+            "شهریور",
+            "مهر",
+            "آبان",
+            "آذر",
+            "دی",
+            "بهمن",
+            "اسفند"
+    };
 
     public DashboardStatsDto getDashboardStats() {
 
@@ -155,5 +170,61 @@ public class OrderService {
         return lastFiveOrders.stream()
                 .map(order -> new OrderPriceDto(order.getId(), order.getTotalPrice()))
                 .collect(Collectors.toList());
+    }
+
+    public List<MonthlySalesDto> getMonthlySales(int jalaliYear) {
+
+        List<MonthlySalesDto> result = new ArrayList<>();
+
+        for (int month = 1; month <= 12; month++) {
+
+            LocalDateTime start = jalaliToGregorianStart(jalaliYear, month);
+
+            LocalDateTime end =
+                    jalaliToGregorianStart(
+                            month == 12 ? jalaliYear + 1 : jalaliYear,
+                            month == 12 ? 1 : month + 1
+                    );
+
+            BigDecimal sales = orderRepository.getSalesBetween(start, end);
+
+            result.add(
+                    new MonthlySalesDto(
+                            month,
+                            MONTH_NAMES[month - 1],
+                            sales
+                    )
+            );
+        }
+
+        return result;
+    }
+
+    private LocalDateTime jalaliToGregorianStart(int year, int month) {
+
+        PersianMonth persianMonth = PersianMonth.values()[month - 1];
+
+        PersianCalendar persianDate = PersianCalendar.of(
+                year,
+                persianMonth,
+                1
+        );
+
+        PlainDate gregorianDate =
+                persianDate.transform(PlainDate.axis());
+
+        System.out.println(
+                "INPUT: " + year + "/" + month + "/1"
+                        + " | PERSIAN: " + persianDate
+                        + " | GREGORIAN: " + gregorianDate
+        );
+
+        return LocalDateTime.of(
+                gregorianDate.getYear(),
+                gregorianDate.getMonth(),
+                gregorianDate.getDayOfMonth(),
+                0,
+                0
+        );
     }
 }

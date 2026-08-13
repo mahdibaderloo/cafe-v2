@@ -29,4 +29,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Object[]> findTopProduct();
 
     List<Order> findTop5ByOrderByIdDesc();
+
+    @Query("""
+    SELECT COALESCE(SUM(o.totalPrice), 0)
+    FROM Order o
+    WHERE o.createdAt >= :start
+      AND o.createdAt < :end
+""")
+    BigDecimal getSalesBetween(
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 }
