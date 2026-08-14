@@ -1,5 +1,9 @@
+import { useState } from "react";
 import lorax from "../../assets/images/lorax2.png";
+import { useCode } from "../../hooks/user/useCode";
 import { useCartStore } from "../../store/cartStore";
+import { toast } from "react-hot-toast";
+import type { DiscountResponse } from "../../types/dashboard.type";
 
 interface CartDetailsProps {
   onOpen: () => void;
@@ -7,7 +11,43 @@ interface CartDetailsProps {
 }
 
 export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
-  const { totalPrice } = useCartStore();
+  const { totalPrice, applyDiscount } = useCartStore();
+  const [code, setCode] = useState("");
+  const [discount, setDiscount] = useState<DiscountResponse | null>(null);
+  const { mutate, isPending } = useCode();
+
+  function handleCheckDiscountCode() {
+    const trimmedCode = code.trim();
+
+    if (trimmedCode.length === 0) {
+      toast.error("کد تخفیف را وارد کنید");
+      return;
+    }
+
+    if (discount) {
+      toast.error("کد تخفیف قابل استفاده نیست");
+      return;
+    }
+
+    mutate(code.trim(), {
+      onSuccess: (discount) => {
+        setDiscount(discount);
+        applyDiscount(
+          discount.code,
+          discount.type === "PERCENTAGE" ? "PERCENTAGE" : "FIXED_AMOUNT",
+          discount.discountValue,
+        );
+      },
+    });
+  }
+
+  const discountAmount = discount
+    ? discount.type === "PERCENTAGE"
+      ? (totalPrice * discount.discountValue) / 100
+      : discount.discountValue
+    : 0;
+
+  const finalPrice = Math.max(0, totalPrice - discountAmount);
 
   return (
     <div className="fixed bottom-0 w-full h-fit z-10">
@@ -18,8 +58,14 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
       />
 
       <div className="bg-[#4C3D34] w-full h-full shadow-[0px_-4px_8px_0px_#00000033] rounded-t-2xl px-2 py-6 flex flex-col justify-between">
-        <div className="w-[90%] sm:w-[70%] h-14 sm:h-16 bg-white rounded-xl p-1 mx-auto flex justify-between items-center z-40">
-          <button className="w-[25%] h-full bg-[#503D32] rounded-[0.6rem] text-white sm:font-medium text-lg sm:text-xl">
+        <div
+          className={`w-[90%] sm:w-[70%] h-14 sm:h-16 ${isPending || !!discount ? "bg-[#bbbbbb]" : "bg-white"} rounded-xl p-1 mx-auto flex justify-between items-center z-40`}
+        >
+          <button
+            className={`w-[25%] h-full ${isPending || !!discount ? "bg-[#413f3e]" : "bg-[#503D32]"} rounded-[0.6rem] text-white sm:font-medium text-lg sm:text-xl`}
+            disabled={isPending || !!discount}
+            onClick={handleCheckDiscountCode}
+          >
             تایید
           </button>
           <input
@@ -27,6 +73,9 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
             className="w-[80%] text-lg sm:text-xl text-[#503D32] font-medium sm:font-semibold sm:tracking-wide font-iran-sans outline-none border-none text-left pl-2"
             maxLength={5}
             placeholder="کد تخفیف را وارد کنید"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            disabled={isPending || !!discount}
           />
         </div>
 
@@ -37,11 +86,11 @@ export default function CartDetails({ onOpen, itemsCount }: CartDetailsProps) {
           </div>
           <div className="flex justify-between items-center text-white text-md sm:text-lg font-medium sm:font-semibold mt-4 sm:mt-6">
             <p>تخفیف</p>
-            <p>0</p>
+            <p>{discountAmount.toLocaleString()}</p>
           </div>
           <div className="flex justify-between items-center text-white text-xl sm:text-2xl font-medium sm:font-semibold mt-4 sm:mt-6">
             <p>مجموع</p>
-            <p>{totalPrice.toLocaleString()}</p>
+            <p>{finalPrice.toLocaleString()}</p>
           </div>
         </div>
 

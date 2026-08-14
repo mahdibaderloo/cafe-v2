@@ -9,6 +9,8 @@ export interface SubmitOrderRequest {
   takeAway: boolean;
   description: string;
   items: OrderItemRequest[];
+  discountType: string;
+  discountValue: number;
 }
 
 export interface OrderItemResponse {

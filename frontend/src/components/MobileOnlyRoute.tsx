@@ -4,7 +4,7 @@ import { useIsMobile } from "../hooks/useIsMobile";
 export default function MobileOnlyRoute() {
   const isMobile = useIsMobile();
 
-  if (!isMobile) return <Navigate to="/login" replace />;
+  if (!isMobile) return <Navigate to="/dashboard" replace />;
 
   return <Outlet />;
 }

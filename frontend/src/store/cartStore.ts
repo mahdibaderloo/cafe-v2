@@ -1,12 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartStore } from "../types/cart.type";
+import { calculateDiscountedPrice } from "../utils/discount";
 
 export const useCartStore = create<CartStore>()(
   persist(
     (set) => ({
       items: [],
       totalPrice: 0,
+
+      discountValue: 0,
+      discountType: null,
+      discountCode: null,
+      discountedPrice: 0,
 
       addItem: (item) =>
         set((state) => {
@@ -18,11 +24,18 @@ export const useCartStore = create<CartStore>()(
               )
             : [...state.items, { ...item, count: 1 }];
 
+          const totalPrice = updatedItems.reduce(
+            (sum, item) => sum + item.price * item.count,
+            0,
+          );
+
           return {
             items: updatedItems,
-            totalPrice: updatedItems.reduce(
-              (sum, item) => sum + item.price * item.count,
-              0,
+            totalPrice,
+            discountedPrice: calculateDiscountedPrice(
+              totalPrice,
+              state.discountType,
+              state.discountValue,
             ),
           };
         }),
@@ -31,11 +44,18 @@ export const useCartStore = create<CartStore>()(
         set((state) => {
           const updatedItems = state.items.filter((item) => item.id !== id);
 
+          const totalPrice = updatedItems.reduce(
+            (sum, item) => sum + item.price * item.count,
+            0,
+          );
+
           return {
             items: updatedItems,
-            totalPrice: updatedItems.reduce(
-              (sum, item) => sum + item.price * item.count,
-              0,
+            totalPrice,
+            discountedPrice: calculateDiscountedPrice(
+              totalPrice,
+              state.discountType,
+              state.discountValue,
             ),
           };
         }),
@@ -44,6 +64,10 @@ export const useCartStore = create<CartStore>()(
         set(() => ({
           items: [],
           totalPrice: 0,
+          discountValue: 0,
+          discountType: null,
+          discountCode: null,
+          discountedPrice: 0,
         })),
 
       increaseItemCount: (id) =>
@@ -54,11 +78,18 @@ export const useCartStore = create<CartStore>()(
               : item,
           );
 
+          const totalPrice = updatedItems.reduce(
+            (sum, item) => sum + item.price * item.count,
+            0,
+          );
+
           return {
             items: updatedItems,
-            totalPrice: updatedItems.reduce(
-              (sum, i) => sum + i.price * i.count,
-              0,
+            totalPrice,
+            discountedPrice: calculateDiscountedPrice(
+              totalPrice,
+              state.discountType,
+              state.discountValue,
             ),
           };
         }),
@@ -71,16 +102,42 @@ export const useCartStore = create<CartStore>()(
             )
             .filter((item) => item.count > 0);
 
+          const totalPrice = updatedItems.reduce(
+            (sum, i) => sum + i.price * i.count,
+            0,
+          );
+
           return {
             items: updatedItems,
-            totalPrice: updatedItems.reduce(
-              (sum, i) => sum + i.price * i.count,
-              0,
+            totalPrice,
+            discountedPrice: calculateDiscountedPrice(
+              totalPrice,
+              state.discountType,
+              state.discountValue,
             ),
           };
         }),
-    }),
 
+      applyDiscount: (code, type, value) =>
+        set((state) => ({
+          discountCode: code,
+          discountType: type,
+          discountValue: value,
+          discountedPrice: calculateDiscountedPrice(
+            state.totalPrice,
+            type,
+            value,
+          ),
+        })),
+
+      removeDiscount: () =>
+        set((state) => ({
+          discountCode: null,
+          discountType: null,
+          discountValue: 0,
+          discountedPrice: state.totalPrice,
+        })),
+    }),
     {
       name: "liilo-cart",
     },

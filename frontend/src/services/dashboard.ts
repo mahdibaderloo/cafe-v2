@@ -50,3 +50,9 @@ export async function expireDiscountCode(id: number) {
     auth: true,
   });
 }
+
+export async function userUseDiscountCode(code: string) {
+  return apiClient<DiscountResponse>(`discount/use-code/${code}`, {
+    method: "PUT",
+  });
+}

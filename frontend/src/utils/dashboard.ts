@@ -16,8 +16,9 @@ export function calcTotal(
   discountType: string,
 ) {
   if (discountType === "PERCENTAGE") {
-    return (totalPrice * discountValue) / 100;
+    const discountAmount = (totalPrice * discountValue) / 100;
+    return Math.max(0, totalPrice - discountAmount);
   } else {
-    return totalPrice - discountValue;
+    return Math.max(0, totalPrice - discountValue);
   }
 }

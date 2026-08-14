@@ -15,6 +15,7 @@ export default function ModalOrder() {
   const navigate = useNavigate();
 
   if (isLoading) return <p>Loading...</p>;
+  console.log(data);
 
   const showDiscount = data?.discountValue
     ? data.discountType === "PERCENTAGE"
@@ -34,11 +35,11 @@ export default function ModalOrder() {
           اطلاعات مشتری
         </p>
         <div className="flex items-center gap-8">
-          {
+          {data?.takeAway && (
             <p className="bg-[#E2E2E2] w-24 py-3 text-[#485158] text-center rounded-2xl font-medium text-lg 2xl:text-xl">
               بیرون بر
             </p>
-          }
+          )}
           <img
             src={closeIcon}
             alt="close-icon"
@@ -76,7 +77,7 @@ export default function ModalOrder() {
         </div>
       </div>
 
-      <ul className="flex flex-col items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16 rounded-xl border-2 border-[#E2E2E2] divide-y-2 divide-[#E2E2E2] text-xs xl:text-sm 2xl:text-[1rem]">
+      <ul className="flex flex-col items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16 rounded-xl border-2 border-[#E2E2E2] divide-y-2 divide-[#E2E2E2] text-xs xl:text-sm 2xl:text-[1rem] mb-8">
         <li className="w-full flex ">
           <div className="w-3/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
             <p>محصول</p>
@@ -110,7 +111,7 @@ export default function ModalOrder() {
         })}
       </ul>
 
-      <div className="w-full flex items-end justify-between mt-8 2xl:mt-16 2xl:text-lg">
+      <div className="w-full flex items-end justify-between mt-auto 2xl:text-lg">
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <p className="font-medium text-white">مبلغ کل : </p>

@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { expireDiscountCode } from "../../services/dashboard";
+import { userUseDiscountCode } from "../../services/dashboard";
 import { toast } from "react-hot-toast";
 
-export function useExpireDiscount() {
+export function useCode() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => expireDiscountCode(id),
+    mutationFn: (code: string) => userUseDiscountCode(code),
     onSuccess: () => {
-      toast.success("کد تخفیف با موفقیت غیر فعال شد");
       queryClient.invalidateQueries({ queryKey: ["discounts", "discount"] });
+      toast.success("کد تخفیف با موفقیت اعمال شد");
     },
     onError: () => {
-      toast.error("خطا در غیر فعال سازی کد تخفیف ");
+      toast.error("کد تخفیف اشتباه است");
     },
   });
 }

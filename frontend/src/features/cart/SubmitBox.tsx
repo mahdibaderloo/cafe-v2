@@ -9,8 +9,7 @@ import type {
 
 export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const { mutate: submitOrder, isPending } = useSubmitOrder();
-  const { items, removeAll } = useCartStore();
-  console.log(items);
+  const { items, removeAll, discountType, discountValue } = useCartStore();
 
   const {
     register,
@@ -46,6 +45,9 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
         items: orderItems,
         takeAway: data.takeAway,
         description: data.description,
+        discountType:
+          discountType === "PERCENTAGE" ? "PERCENTAGE" : "FIXED_AMOUNT",
+        discountValue,
       },
       {
         onSuccess: () => {
