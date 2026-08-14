@@ -1,18 +1,31 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useOrders } from "../../hooks/dashboard/useOrders";
 import type { OrderItemResponse } from "../../types/order.type";
 import { calcTotal } from "../../utils/dashboard";
 import { formatJalaliDate } from "../../utils/date";
 import { coffeeCategories } from "../../utils/categories";
+import { useOrderStore } from "../../store/orderStore";
+import { useOrder } from "../../hooks/dashboard/useOrder";
+import { useEffect, useState } from "react";
 
 export default function PrintOrder() {
-  const { data: orders, isLoading } = useOrders();
+  const { selectedOrder } = useOrderStore();
+  console.log(selectedOrder);
+  const { data: order, isLoading } = useOrder(selectedOrder);
   const params = useParams();
   const navigate = useNavigate();
+  const [issuedAt] = useState(() => Date.now());
+
+  useEffect(() => {
+    if (!isLoading && order) {
+      const timer = setTimeout(() => {
+        window.print();
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, order]);
 
   if (isLoading) return <p>Loading...</p>;
-
-  const order = orders?.[0];
 
   if (!order)
     return (
@@ -47,7 +60,7 @@ export default function PrintOrder() {
       <div className="mb-12 space-y-2 text-lg">
         <div className="flex gap-4">
           <span className="font-medium">شماره فاکتور :</span>
-          <span>{orders.length}</span>
+          <span>{order.id}</span>
         </div>
 
         <div className="flex gap-4">
@@ -57,7 +70,7 @@ export default function PrintOrder() {
 
         <div className="flex gap-4">
           <span className="font-medium">زمان صدور :</span>
-          <span>{formatJalaliDate(Date.now()!)}</span>
+          <span>{formatJalaliDate(issuedAt)}</span>
         </div>
       </div>
 

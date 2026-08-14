@@ -17,16 +17,22 @@ import ProductsItems from "./pages/dashboard/ProductsItems";
 import ProductsCategories from "./pages/dashboard/ProductsCategories";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PrintOrder from "./pages/dashboard/PrintOrder";
+import MobileOnlyRoute from "./components/MobileOnlyRoute";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <RouteError />,
     children: [
-      { path: "/", element: <Home /> },
-      { path: "/menu", element: <MainMenu /> },
-      { path: "/shopping-cart", element: <ShoppingCart /> },
-      { path: "/about-us", element: <AboutUs /> },
+      {
+        element: <MobileOnlyRoute />,
+        children: [
+          { path: "/", element: <Home /> },
+          { path: "/menu", element: <MainMenu /> },
+          { path: "/shopping-cart", element: <ShoppingCart /> },
+          { path: "/about-us", element: <AboutUs /> },
+        ],
+      },
       { path: "/login", element: <Login /> },
       {
         element: <ProtectedRoute />,

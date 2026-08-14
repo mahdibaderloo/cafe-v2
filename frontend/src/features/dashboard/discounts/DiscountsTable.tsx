@@ -17,17 +17,17 @@ export default function DiscountsTable() {
       {data?.content.length === 0 ? (
         <EmptyDiscountsRow />
       ) : (
-        data?.content.map((discount) => (
-          <DiscountsTableRow key={discount.id} data={discount} />
-        ))
+        data?.content
+          .sort((a, b) => b.id - a.id)
+          .map((discount) => (
+            <DiscountsTableRow key={discount.id} data={discount} />
+          ))
       )}
-      {data?.content.length !== 0 && (
-        <DiscountsPaginationBox
-          page={page}
-          onSetPage={setPage}
-          totalPages={data?.totalPages as number}
-        />
-      )}
+      <DiscountsPaginationBox
+        page={page}
+        onSetPage={setPage}
+        totalPages={data?.totalPages as number}
+      />
     </ul>
   );
 }

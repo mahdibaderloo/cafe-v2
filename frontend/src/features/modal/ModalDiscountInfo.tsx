@@ -1,5 +1,6 @@
 import closeIcon from "../../assets/images/close.svg";
 import { useDiscount } from "../../hooks/dashboard/useDiscount";
+import { useExpireDiscount } from "../../hooks/dashboard/useExpireDiscount";
 import { useDiscountStore } from "../../store/discountStore";
 import useModalStore from "../../store/modal";
 import { formatJalaliDate } from "../../utils/date";
@@ -8,6 +9,11 @@ export default function ModalDiscountInfo() {
   const { closeModal } = useModalStore();
   const { selectedDiscount } = useDiscountStore();
   const { data, isLoading } = useDiscount(selectedDiscount);
+  const { mutate, isPending: isExpireLoading } = useExpireDiscount();
+
+  function handleExpireCode() {
+    mutate(selectedDiscount);
+  }
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -97,6 +103,8 @@ export default function ModalDiscountInfo() {
         <div className="flex items-center w-full gap-8 md:gap-30 mt-8 2xl:mt-12">
           <button
             type="button"
+            onClick={handleExpireCode}
+            disabled={isExpireLoading}
             className="bg-[#D77575] border-2 border-[#790000] text-[#9F0000] hover:bg-[#b84b4b] font-semibold text-lg 2xl:text-xl px-6 py-2 2xl:px-4 2xl:py-2 rounded-[18px] transition-all duration-150 lg:cursor-pointer"
           >
             غیر فعالسازی

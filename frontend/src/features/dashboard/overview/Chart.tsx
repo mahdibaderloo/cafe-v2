@@ -12,10 +12,8 @@ import { getCurrentJalaliYear } from "../../../utils/date";
 
 export default function MonthlySalesChart() {
   const { data, isLoading } = useChartData(getCurrentJalaliYear());
-  console.log(getCurrentJalaliYear());
 
   if (isLoading) return <p>Loading...</p>;
-  console.log(data);
 
   return (
     <div

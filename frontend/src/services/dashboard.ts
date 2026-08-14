@@ -43,3 +43,10 @@ export async function addNewDiscount(data: DiscountRequest) {
     body: JSON.stringify(data),
   });
 }
+
+export async function expireDiscountCode(id: number) {
+  return apiClient<DiscountResponse>(`discount/expire-code/${id}`, {
+    method: "PUT",
+    auth: true,
+  });
+}

@@ -4,7 +4,6 @@ import menuIcon from "../assets/images/menu.svg";
 import homeIcon from "../assets/images/home.svg";
 import cartIcon from "../assets/images/cart.svg";
 import aboutUsIcon from "../assets/images/about-us.svg";
-import adminIcon from "../assets/images/admin.svg";
 
 interface MenuProps {
   isMenuOpen: boolean;
@@ -15,7 +14,6 @@ const menuItems = [
   { id: 1, label: "صفحه اصلی", icon: homeIcon, url: "/" },
   { id: 2, label: "سبد خرید", icon: cartIcon, url: "/shopping-cart" },
   { id: 3, label: "درباره ما", icon: aboutUsIcon, url: "/about-us" },
-  { id: 4, label: "پنل ادمین", icon: adminIcon, url: "/login" },
 ];
 
 export default function HorizontalMenu({

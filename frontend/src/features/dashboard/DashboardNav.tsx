@@ -9,7 +9,7 @@ export default function DashboardNav() {
 
   return (
     <nav className="bg-[#748F80] h-screen w-70 xl:w-85 2xl:w-100">
-      <img src={logo} alt="logo" className="mx-auto" />
+      <img src={logo} alt="logo" className="mx-auto grayscale-100" />
       <ul className="flex flex-col h-[60%] p-2 gap-1">
         {options.map((option) => (
           <DashboardNavItem key={option.id} option={option} />

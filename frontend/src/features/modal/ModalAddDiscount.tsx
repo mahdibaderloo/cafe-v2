@@ -20,11 +20,14 @@ export default function ModalAddDiscount() {
     control,
     formState: { errors },
     reset,
+    watch,
   } = useForm<DiscountRequest>({
     defaultValues: {
       type: "PERCENTAGE",
     },
   });
+
+  const discountType = watch("type");
 
   function onSubmit(data: DiscountRequest) {
     const discountData = {
@@ -202,22 +205,34 @@ export default function ModalAddDiscount() {
           <input
             {...register("discountValue", {
               required: "مقدار تخفیف الزامی است",
-              pattern: {
-                value: /^[0-9]+$/,
-                message: "فقط عدد وارد کنید",
-              },
-              min: {
-                value: 1,
-                message: "حداقل مقدار تخفیف ۱ است",
-              },
-              max: {
-                value: 100,
-                message: "حداکثر مقدار تخفیف ۱۰۰ است",
+
+              valueAsNumber: true,
+
+              validate: (value) => {
+                if (Number.isNaN(value)) {
+                  return "فقط عدد وارد کنید";
+                }
+
+                if (value < 1) {
+                  return "حداقل مقدار تخفیف 1 است";
+                }
+
+                if (discountType === "PERCENTAGE" && value > 100) {
+                  return "درصد تخفیف نمی‌تواند بیشتر از ۱۰۰ باشد";
+                }
+
+                if (discountType === "FIXED_AMOUNT" && value < 10_000) {
+                  return "مبلغ تخفیف باید بیشتر از 10,000 تومان باشد";
+                }
+
+                return true;
               },
             })}
-            type="text"
+            type="number"
             id="value"
-            placeholder="مثال: ۲۰"
+            placeholder={
+              discountType === "PERCENTAGE" ? "مثال: 20" : "مثال: 100,000"
+            }
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[90%] md:w-[60%] border-none outline-none pr-4 font-medium shadow text-white placeholder-white/60"
             disabled={isPending}
           />
@@ -246,7 +261,7 @@ export default function ModalAddDiscount() {
             })}
             type="text"
             id="max-usage"
-            placeholder="مثال: ۱۰۰"
+            placeholder="مثال: 100"
             className="bg-white/40 rounded-xl h-10 xl:h-12 2xl:h-16 w-[30%] border-none outline-none pr-4 text-sm 2xl:text-lg font-medium shadow text-white placeholder-white/60"
             disabled={isPending}
           />

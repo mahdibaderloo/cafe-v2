@@ -17,9 +17,9 @@ export default function OrdersTable() {
       {data?.content.length === 0 ? (
         <EmptyOrdersRow />
       ) : (
-        data?.content.map((order) => (
-          <OrderTableRow key={order.id} data={order} />
-        ))
+        data?.content
+          .sort((a, b) => b.id - a.id)
+          .map((order) => <OrderTableRow key={order.id} data={order} />)
       )}
       {data?.content.length !== 0 && (
         <OrdersPaginationBox

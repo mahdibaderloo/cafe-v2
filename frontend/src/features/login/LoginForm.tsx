@@ -23,7 +23,7 @@ export default function LoginForm() {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|yahoo|google|outlook)\.com$/i;
 
   function handleShowPassword() {
-    setShowPassword((t) => (!t));
+    setShowPassword((t) => !t);
   }
 
   function onSubmitLogin(data: FormValues) {
@@ -33,7 +33,7 @@ export default function LoginForm() {
     <section className="lg:w-[60%] xl:w-[62%] flex flex-col items-center pt-8 xl:pt-12">
       <h3 className="font-bold text-2xl xl:text-3xl">پنل ادمین</h3>
       <form onSubmit={handleSubmit(onSubmitLogin)}>
-        <div className="flex flex-col gap-1 xl:gap-2 mt-10">
+        <div className="flex flex-col gap-1 xl:gap-2 mt-8 xl:mt-10">
           <label htmlFor="email" className="text-md xl:text-xl font-semibold">
             ایمیل
           </label>
@@ -50,10 +50,15 @@ export default function LoginForm() {
             className="bg-[#F2F2F2] w-60 xl:w-80 h-12 xl:h-16 border-3 border-[#748F80] rounded-lg outline-none mt-2 py-0.5 text-md xl:text-lg xl:px-2 font-semibold font-sans"
             dir="ltr"
           />
-          <p className="text-red-600 text-xs xl:text-[1rem]">{errors.email?.message}</p>
+          <p className="text-red-600 text-xs xl:text-[1rem]">
+            {errors.email?.message}
+          </p>
         </div>
         <div className="flex flex-col gap-1 xl:gap-2 mt-6">
-          <label htmlFor="password" className="text-md  xl:text-xl font-semibold">
+          <label
+            htmlFor="password"
+            className="text-md  xl:text-xl font-semibold"
+          >
             رمز عبور
           </label>
 
@@ -87,7 +92,7 @@ export default function LoginForm() {
         <div className="w-full flex justify-center">
           <button
             disabled={isPending}
-            className={`${isPending ? "bg-[#9d9e9e] text-lg xl:text-xl" : "bg-[#485158] text-lg xl:text-xl"} font-semibold text-white w-60 h-12 xl:w-80 xl:h-16 rounded-lg mt-10 lg:mt-18 cursor-pointer`}
+            className={`${isPending ? "bg-[#9d9e9e] text-lg xl:text-xl" : "bg-[#485158] text-lg xl:text-xl"} font-semibold text-white w-60 h-12 xl:w-80 xl:h-16 rounded-lg mt-18 cursor-pointer`}
           >
             {isPending ? "بررسی اطلاعات..." : "ورود"}
           </button>
