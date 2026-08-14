@@ -43,9 +43,9 @@ public class DiscountController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/use-code/{id}")
-    public ResponseEntity<DiscountResponseDto> useCode (@PathVariable Long id) {
-        DiscountResponseDto response = discountService.useCode(id);
+    @PutMapping("/use-code/{code}")
+    public ResponseEntity<DiscountResponseDto> useCode (@PathVariable String code) {
+        DiscountResponseDto response = discountService.useCode(code);
         return ResponseEntity.ok(response);
     }
 

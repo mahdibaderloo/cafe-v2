@@ -44,6 +44,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/orders/submit-order").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
 
+                        .requestMatchers("/api/discount/use-code/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

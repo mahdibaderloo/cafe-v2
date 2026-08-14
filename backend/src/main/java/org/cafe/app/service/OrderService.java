@@ -94,6 +94,8 @@ public class OrderService {
                 .phoneNumber(requestDto.getPhoneNumber())
                 .takeAway(requestDto.isTakeAway())
                 .description(requestDto.getDescription())
+                .discountValue(requestDto.getDiscountValue())
+                .discountType(requestDto.getDiscountType())
                 .orderCode(orderCode)
                 .build();
 
@@ -138,6 +140,8 @@ public class OrderService {
                 .phoneNumber(order.getPhoneNumber())
                 .takeAway(order.isTakeAway())
                 .description(order.getDescription())
+                .discountValue(order.getDiscountValue())
+                .discountType(order.getDiscountType())
                 .items(order.getItems().stream()
                         .map(this::convertOrderItemToDto)
                         .collect(Collectors.toList()))

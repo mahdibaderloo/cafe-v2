@@ -14,12 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
-import static org.hibernate.validator.internal.engine.messageinterpolation.el.RootResolver.FORMATTER;
 
 @Slf4j
 @Service
@@ -107,7 +104,7 @@ public class DiscountService {
 
     @Transactional
     public DiscountResponseDto expireCode(Long id) {
-        Discount discount = getDiscountForUpdate(id);
+        Discount discount = discountRepository.findByIdForUpdate(id).orElseThrow(() -> new RuntimeException("Discount not found."));;
 
         discount.setActive(false);
 
@@ -115,9 +112,9 @@ public class DiscountService {
     }
 
     @Transactional
-    public DiscountResponseDto useCode(Long id) {
+    public DiscountResponseDto useCode(String code) {
 
-        Discount discount = getDiscountForUpdate(id);
+        Discount discount = discountRepository.findByCodeForUpdate(code).orElseThrow(() -> new RuntimeException("Discount not found."));;
 
         if (!discount.isActive()) {
             throw new RuntimeException("Discount code is inactive.");
@@ -134,10 +131,6 @@ public class DiscountService {
         discount.setUsedCount(discount.getUsedCount() + 1);
 
         return toDto(discount);
-    }
-
-    private Discount getDiscountForUpdate(Long id) {
-        return discountRepository.findByIdForUpdate(id).orElseThrow(() -> new RuntimeException("Discount not found."));
     }
 
 }
