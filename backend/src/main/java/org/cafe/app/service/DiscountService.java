@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.hibernate.validator.internal.engine.messageinterpolation.el.RootResolver.FORMATTER;
@@ -102,6 +103,41 @@ public class DiscountService {
                 .usedCount(discount.getUsedCount())
                 .discountValue(discount.getDiscountValue())
                 .build();
+    }
+
+    @Transactional
+    public DiscountResponseDto expireCode(Long id) {
+        Discount discount = getDiscountForUpdate(id);
+
+        discount.setActive(false);
+
+        return toDto(discount);
+    }
+
+    @Transactional
+    public DiscountResponseDto useCode(Long id) {
+
+        Discount discount = getDiscountForUpdate(id);
+
+        if (!discount.isActive()) {
+            throw new RuntimeException("Discount code is inactive.");
+        }
+
+        if (discount.getUsedCount() >= discount.getMaxUsage()) {
+            throw new RuntimeException("Discount code cannot be used anymore.");
+        }
+
+        if (!discount.getExpiresAt().isAfter(LocalDateTime.now())) {
+            throw new RuntimeException("Discount code expired.");
+        }
+
+        discount.setUsedCount(discount.getUsedCount() + 1);
+
+        return toDto(discount);
+    }
+
+    private Discount getDiscountForUpdate(Long id) {
+        return discountRepository.findByIdForUpdate(id).orElseThrow(() -> new RuntimeException("Discount not found."));
     }
 
 }

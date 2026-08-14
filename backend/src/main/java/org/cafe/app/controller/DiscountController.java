@@ -37,4 +37,16 @@ public class DiscountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PutMapping("/expire-code/{id}")
+    public ResponseEntity<DiscountResponseDto> expireCode ( @PathVariable Long id) {
+        DiscountResponseDto response = discountService.expireCode(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/use-code/{id}")
+    public ResponseEntity<DiscountResponseDto> useCode (@PathVariable Long id) {
+        DiscountResponseDto response = discountService.useCode(id);
+        return ResponseEntity.ok(response);
+    }
+
 }
