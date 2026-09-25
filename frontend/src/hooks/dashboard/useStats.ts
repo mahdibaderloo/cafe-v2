@@ -4,7 +4,10 @@ import { stats } from "../../services/dashboard";
 export function useStats() {
   return useQuery({
     queryKey: ["stats"],
-    queryFn: () => stats(),
+    queryFn: () => {
+      return stats();
+    },
+    refetchInterval: 30000,
     retry: false,
   });
 }

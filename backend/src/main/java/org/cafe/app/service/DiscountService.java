@@ -7,7 +7,9 @@ import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
 import org.cafe.app.repository.DiscountRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,18 +72,24 @@ public class DiscountService {
     }
 
     public Page<DiscountResponseDto> getAllDiscounts(Pageable pageable) {
-        log.info("📋 Fetching discounts | Page: {} | Size: {}", pageable.getPageNumber(), pageable.getPageSize());
+        log.info("📋 Fetching discounts | Page: {} | Size: {}",
+                pageable.getPageNumber(), pageable.getPageSize());
 
         try {
-            Page<DiscountResponseDto> discounts = discountRepository.findAll(pageable)
+            Pageable sortedPageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("createdAt").descending()
+            );
+
+            Page<DiscountResponseDto> discounts = discountRepository
+                    .findAll(sortedPageable)
                     .map(this::toDto);
 
-            log.info(
-                    "✅ Discounts fetched successfully | Page: {} | Returned: {} | Total: {}",
+            log.info("✅ Discounts fetched | Page: {} | Returned: {} | Total: {}",
                     pageable.getPageNumber(),
                     discounts.getNumberOfElements(),
-                    discounts.getTotalElements()
-            );
+                    discounts.getTotalElements());
 
             return discounts;
 

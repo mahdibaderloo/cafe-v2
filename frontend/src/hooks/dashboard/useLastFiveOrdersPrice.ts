@@ -4,6 +4,9 @@ import { getLastFivePrice } from "../../services/order";
 export function useLastFiveOrdersPrice() {
   return useQuery({
     queryKey: ["last-five-transactions"],
-    queryFn: getLastFivePrice,
+    queryFn: () => {
+      return getLastFivePrice();
+    },
+    refetchInterval: 30000,
   });
 }

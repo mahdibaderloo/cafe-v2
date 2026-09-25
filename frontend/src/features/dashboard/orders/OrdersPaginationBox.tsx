@@ -26,11 +26,11 @@ export default function OrdersPaginationBox({
       <div className="flex items-center justify-end gap-5 w-full bg-[#748F80] px-5 py-3">
         <button
           type="button"
-          disabled={page === totalPages - 1}
-          onClick={() => onSetPage(page + 1)}
+          disabled={page === 0}
+          onClick={() => onSetPage(page - 1)}
           className="disabled:opacity-40 lg:cursor-pointer font-medium text-white"
         >
-          بعدی
+          قبلی
         </button>
 
         <div className="flex items-center gap-4">
@@ -62,11 +62,11 @@ export default function OrdersPaginationBox({
 
         <button
           type="button"
-          disabled={page === 0}
-          onClick={() => onSetPage(page - 1)}
+          disabled={page === totalPages - 1}
+          onClick={() => onSetPage(page + 1)}
           className="disabled:opacity-40 lg:cursor-pointer font-medium text-white"
         >
-          قبلی
+          بعدی
         </button>
       </div>
     );

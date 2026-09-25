@@ -7,6 +7,20 @@ interface ApiOptions extends RequestInit {
   auth?: boolean;
 }
 
+let isLoggingOut = false;
+
+function logoutUser() {
+  if (isLoggingOut) return;
+
+  isLoggingOut = true;
+
+  useAdminStore.getState().logout();
+
+  toast.error("نشست شما منقضی شده است. لطفاً دوباره وارد شوید.");
+
+  window.location.replace("/login");
+}
+
 export async function apiClient<T>(
   endpoint: string,
   { auth = false, ...options }: ApiOptions = {},
@@ -28,18 +42,16 @@ export async function apiClient<T>(
     headers,
   });
 
+  // Token expired / invalid
   if (response.status === 401) {
-    toast.error("ابتدا وارد حساب کاربری شوید.");
-    useAdminStore.getState().logout();
-    window.location.replace("/login");
+    logoutUser();
     throw new Error("Unauthorized");
   }
 
-  if (response.status === 403) {
-    toast.error("ابتدا وارد حساب کاربری شوید.");
-    useAdminStore.getState().logout();
-    window.location.replace("/login");
-    throw new Error("Unauthorized");
+  // فقط اگر backend شما برای expired token از 403 استفاده می‌کند
+  if (response.status === 403 && auth) {
+    logoutUser();
+    throw new Error("Forbidden");
   }
 
   if (!response.ok) {
@@ -47,6 +59,7 @@ export async function apiClient<T>(
 
     if (contentType?.includes("application/json")) {
       const error = await response.json();
+
       throw new Error(error.message ?? "خطایی رخ داده است.");
     }
 
@@ -60,7 +73,7 @@ export async function apiClient<T>(
   const contentType = response.headers.get("content-type");
 
   if (contentType?.includes("application/json")) {
-    return response.json();
+    return response.json() as Promise<T>;
   }
 
   return response.text() as T;

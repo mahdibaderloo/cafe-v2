@@ -14,7 +14,9 @@ import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.repository.OrderRepository;
 import org.cafe.app.utils.PersianDateUtil;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,18 +99,25 @@ public class OrderService {
     }
 
     public Page<OrderResponseDto> getAllOrders(Pageable pageable) {
-        log.info("📋 Fetching orders | Page: {} | Size: {}", pageable.getPageNumber(), pageable.getPageSize());
+        log.info("📋 Fetching orders | Page: {} | Size: {}",
+                pageable.getPageNumber(), pageable.getPageSize());
 
         try {
+            Pageable sortedPageable = pageable.getSort().isSorted()
+                    ? pageable
+                    : PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("createdAt").descending()
+            );
+
             Page<OrderResponseDto> orders = orderRepository
-                    .findAll(pageable)
+                    .findAll(sortedPageable)
                     .map(this::OrderResponseToDto);
 
-            log.info(
-                    "✅ Orders fetched successfully | Returned: {} | Total: {}",
+            log.info("✅ Orders fetched | Returned: {} | Total: {}",
                     orders.getNumberOfElements(),
-                    orders.getTotalElements()
-            );
+                    orders.getTotalElements());
 
             return orders;
 

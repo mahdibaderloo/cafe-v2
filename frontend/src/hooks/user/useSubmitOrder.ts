@@ -7,11 +7,23 @@ export function useSubmitOrder() {
 
   return useMutation({
     mutationFn: submitOrder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["stats", "orders"] });
-      toast.success("سفارش شما با موفقیت ثبت شد", {
-        style: { width: "fit-content" },
-      });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["orders"],
+          refetchType: "all",
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["stats"],
+          refetchType: "all",
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["last-five-transactions"],
+          refetchType: "all",
+        }),
+      ]);
+
+      toast.success("سفارش شما با موفقیت ثبت شد");
     },
     onError: (error: Error) => {
       toast.error("مشکلی در ثبت سفارش پیش آمده. مجدد تلاش کنید", {

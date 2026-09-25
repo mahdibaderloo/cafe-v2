@@ -18,12 +18,14 @@ import ProductsCategories from "./pages/dashboard/ProductsCategories";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PrintOrder from "./pages/dashboard/PrintOrder";
 import MobileOnlyRoute from "./components/MobileOnlyRoute";
+import DesktopOnlyRoute from "./components/DesktopOnlyRoute";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <RouteError />,
     children: [
+      // فقط موبایل
       {
         element: <MobileOnlyRoute />,
         children: [
@@ -33,31 +35,41 @@ const router = createBrowserRouter([
           { path: "/about-us", element: <AboutUs /> },
         ],
       },
-      { path: "/login", element: <Login /> },
       {
-        element: <ProtectedRoute />,
+        element: <DesktopOnlyRoute />,
         children: [
+          { path: "/login", element: <Login /> },
+
           {
-            path: "/dashboard",
-            element: <Dashboard />,
+            element: <ProtectedRoute />,
             children: [
-              { index: true, element: <DashboardOverview /> },
               {
-                path: "products",
-                element: <Products />,
+                path: "/dashboard",
+                element: <Dashboard />,
                 children: [
-                  { index: true, element: <ProductsCategories /> },
-                  { path: ":categoryId", element: <ProductsItems /> },
+                  { index: true, element: <DashboardOverview /> },
+                  {
+                    path: "products",
+                    element: <Products />,
+                    children: [
+                      { index: true, element: <ProductsCategories /> },
+                      { path: ":categoryId", element: <ProductsItems /> },
+                    ],
+                  },
+
+                  { path: "orders", element: <Orders /> },
+                  { path: "orders/:orderId/print", element: <PrintOrder /> },
+                  { path: "discounts", element: <Discounts /> },
                 ],
               },
-              { path: "orders", element: <Orders /> },
-              { path: "orders/:orderId/print", element: <PrintOrder /> },
-              { path: "discounts", element: <Discounts /> },
             ],
           },
         ],
       },
-      { path: "*", element: <RouteError /> },
+      {
+        path: "*",
+        element: <RouteError />,
+      },
     ],
   },
 ]);

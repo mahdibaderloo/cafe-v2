@@ -77,6 +77,17 @@ export default function ModalOrder() {
         </div>
       </div>
 
+      {data?.description && (
+        <div className="w-full flex flex-col justify-start">
+          <p className="font-medium text-white xl:text-lg 2xl:text-xl self-start mt-10">
+            توضیحات
+          </p>
+          <p className="w-[90%] h-40 bg-white rounded-xl mt-2 mx-auto p-4 text-[#485158] font-medium">
+            {data?.description}
+          </p>
+        </div>
+      )}
+
       <ul className="flex flex-col items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16 rounded-xl border-2 border-[#E2E2E2] divide-y-2 divide-[#E2E2E2] text-xs xl:text-sm 2xl:text-[1rem] mb-8">
         <li className="w-full flex ">
           <div className="w-3/6 px-4 py-2 text-white border-l-2 border-[#E2E2E2] flex justify-center items-center">
