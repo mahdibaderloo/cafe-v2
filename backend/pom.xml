@@ -82,6 +82,11 @@
             <artifactId>time4j-calendar</artifactId>
             <version>4.38</version>
         </dependency>
+        <dependency>
+            <groupId>one.stayfocused.spring</groupId>
+            <artifactId>dotenv-spring-boot</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

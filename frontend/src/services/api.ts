@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { useAdminStore } from "../store/adminStore";
 
-const BASE_URL = import.meta.env.BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 interface ApiOptions extends RequestInit {
   auth?: boolean;
@@ -29,15 +29,15 @@ export async function apiClient<T>(
   });
 
   if (response.status === 401) {
-    useAdminStore.getState().logout();
     toast.error("ابتدا وارد حساب کاربری شوید.");
+    useAdminStore.getState().logout();
     window.location.replace("/login");
     throw new Error("Unauthorized");
   }
 
   if (response.status === 403) {
-    useAdminStore.getState().logout();
     toast.error("ابتدا وارد حساب کاربری شوید.");
+    useAdminStore.getState().logout();
     window.location.replace("/login");
     throw new Error("Unauthorized");
   }
