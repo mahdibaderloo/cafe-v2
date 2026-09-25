@@ -7,12 +7,21 @@ export function useExpireDiscount() {
 
   return useMutation({
     mutationFn: (id: number) => expireDiscountCode(id),
-    onSuccess: () => {
+
+    onSuccess: (_, id) => {
       toast.success("کد تخفیف با موفقیت غیر فعال شد");
-      queryClient.invalidateQueries({ queryKey: ["discounts", "discount"] });
+
+      queryClient.invalidateQueries({
+        queryKey: ["discounts"],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["discount", id],
+      });
     },
+
     onError: () => {
-      toast.error("خطا در غیر فعال سازی کد تخفیف ");
+      toast.error("خطا در غیر فعال سازی کد تخفیف");
     },
   });
 }

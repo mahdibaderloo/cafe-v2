@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { useAdminStore } from "../store/adminStore";
 
-const BASE_URL = "http://localhost:8080/api/";
+const BASE_URL = "http://192.168.1.9:8080/api/";
 
 interface ApiOptions extends RequestInit {
   auth?: boolean;
@@ -29,6 +29,13 @@ export async function apiClient<T>(
   });
 
   if (response.status === 401) {
+    useAdminStore.getState().logout();
+    toast.error("ابتدا وارد حساب کاربری شوید.");
+    window.location.replace("/login");
+    throw new Error("Unauthorized");
+  }
+
+  if (response.status === 403) {
     useAdminStore.getState().logout();
     toast.error("ابتدا وارد حساب کاربری شوید.");
     window.location.replace("/login");
