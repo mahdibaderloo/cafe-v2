@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast";
 import { useAdminStore } from "../store/adminStore";
 
-const BASE_URL = "http://192.168.1.9:8080/api/";
+const BASE_URL = import.meta.env.BASE_URL;
 
 interface ApiOptions extends RequestInit {
   auth?: boolean;
