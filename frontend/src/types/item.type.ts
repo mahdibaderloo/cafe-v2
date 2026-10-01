@@ -20,3 +20,8 @@ export interface MenuItemsProps {
   items: ItemResponse[];
   onToggleDetails: (e: React.MouseEvent) => void;
 }
+
+export interface ImageUploadResponse {
+  fileName: string;
+  url: string;
+}

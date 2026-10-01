@@ -32,12 +32,7 @@ public class UserService {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
-            log.debug(
-                    "✅ Authentication successful | Email: {} | Authenticated: {}",
-                    email,
-                    authentication.isAuthenticated()
-            );
-
+            log.debug("✅ Authentication successful | Email: {} | Authenticated: {}", email, authentication.isAuthenticated());
             Object principal = authentication.getPrincipal();
 
             if (principal == null) {

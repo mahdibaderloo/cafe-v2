@@ -1,4 +1,8 @@
-import type { ItemRequest, ItemResponse } from "../types/item.type";
+import type {
+  ImageUploadResponse,
+  ItemRequest,
+  ItemResponse,
+} from "../types/item.type";
 import { apiClient } from "./api";
 
 export async function getItems(id: number) {
@@ -28,6 +32,20 @@ export async function updateItem(id: number, data: ItemRequest) {
 export async function deleteItem(id: number) {
   return apiClient(`items/delete/${id}`, {
     method: "DELETE",
+    auth: true,
+  });
+}
+
+export async function uploadItemImage(
+  file: File,
+): Promise<ImageUploadResponse> {
+  const formData = new FormData();
+
+  formData.append("file", file);
+
+  return apiClient<ImageUploadResponse>("uploads/items", {
+    method: "POST",
+    body: formData,
     auth: true,
   });
 }

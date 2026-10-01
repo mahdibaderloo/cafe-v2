@@ -30,7 +30,11 @@ export default function ItemDetails({ isDetailsOpen }: Details) {
         <p className="bg-[linear-gradient(90deg,#14513111_20.69%,#14512F_62.98%)] p-1 text-white font-semibold rounded-3xl sm:rounded-4xl pr-3 w-50 sm:w-[50%] py-3 sm:py-4 absolute -left-6 bottom-5 tracking-wide text-lg sm:text-xl">
           {item?.price.toLocaleString()}
         </p>
-        <img src={item?.image} alt="item-image" className="sm:w-50" />
+        <img
+          src={`http://localhost:8080/uploads/items/${item?.image}`}
+          alt="item-image"
+          className="sm:w-50"
+        />
       </div>
 
       <div className="px-4 sm:px-6 mt-6 h-[28%] sm:h-34">

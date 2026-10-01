@@ -1,13 +1,18 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";
+
 import { useItem } from "../../hooks/items/useItem";
+import { useUpdateItem } from "../../hooks/items/useUpdateItem";
+import { useUploadItemImage } from "../../hooks/items/useUploadItemImage";
+
 import useModalStore from "../../store/modal";
 import { useProductStore } from "../../store/productStore";
+
 import type { ItemFormData } from "../../types/modal.type";
 import type { ItemRequest } from "../../types/item.type";
-import { useUpdateItem } from "../../hooks/items/useUpdateItem";
 
 export default function ModalEditItem() {
   const { closeModal, setType } = useModalStore();
@@ -15,7 +20,12 @@ export default function ModalEditItem() {
   const { data, isLoading } = useItem(item?.id as number);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const { mutate } = useUpdateItem();
+  const [uploadedImageName, setUploadedImageName] = useState<string>("");
+
+  const { mutateAsync: uploadImage, isPending: isUploading } =
+    useUploadItemImage();
+
+  const { mutateAsync: updateItem, isPending: isUpdating } = useUpdateItem();
 
   const {
     control,
@@ -23,7 +33,7 @@ export default function ModalEditItem() {
     handleSubmit,
     setValue,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ItemFormData>({
     values: {
       productName: data?.productName || "",
@@ -37,26 +47,40 @@ export default function ModalEditItem() {
     name: "price",
   });
 
+  const isSubmitting = isUploading || isUpdating;
+
   function formatPrice(value: string) {
     const numbers = value.replace(/\D/g, "");
+
     if (!numbers) return "";
+
     return parseInt(numbers, 10).toLocaleString("en-US");
   }
 
   function handlePriceChange(e: React.ChangeEvent<HTMLInputElement>) {
     const formatted = formatPrice(e.target.value);
+
     const numericValue = parseInt(formatted.replace(/,/g, "")) || 0;
-    setValue("price", numericValue, { shouldValidate: true });
+
+    setValue("price", numericValue, {
+      shouldValidate: true,
+    });
   }
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
+
+    try {
+      const result = await uploadImage(file);
+      setUploadedImageName(result.fileName);
+    } catch (error) {
+      console.error(error);
+      setImagePreview(null);
     }
   }
 
@@ -72,6 +96,7 @@ export default function ModalEditItem() {
         type: "manual",
         message: "نام محصول الزامی است",
       });
+
       isValid = false;
     }
 
@@ -80,36 +105,43 @@ export default function ModalEditItem() {
         type: "manual",
         message: "قیمت محصول الزامی است",
       });
+
       isValid = false;
     }
 
     return isValid;
   }
 
-  function onSubmit(formData: ItemFormData) {
+  async function onSubmit(formData: ItemFormData) {
     if (!validateForm(formData)) {
       return;
     }
 
-    const requestData: ItemRequest = {
-      productName: formData.productName,
-      price: formData.price,
-      description: formData.description || "",
-      categoryId: Number(item?.categoryId),
-      image: imagePreview || data?.image || "",
-    };
+    try {
+      const requestData: ItemRequest = {
+        productName: formData.productName,
+        price: formData.price,
+        description: formData.description || "",
+        categoryId: Number(item?.categoryId),
+        image: uploadedImageName,
+      };
 
-    mutate({
-      id: item?.id as number,
-      data: requestData,
-    });
+      await updateItem({
+        id: item?.id as number,
+        data: requestData,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function handleDelete() {
     setType("submit");
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form
@@ -120,7 +152,7 @@ export default function ModalEditItem() {
         src={closeIcon}
         alt="close-icon"
         className="self-end lg:cursor-pointer"
-        onClick={() => closeModal()}
+        onClick={closeModal}
       />
 
       <input
@@ -130,6 +162,7 @@ export default function ModalEditItem() {
         onChange={handleImageChange}
         className="hidden"
       />
+
       <div
         className="bg-[#D9D9D9] relative flex items-center justify-center w-26 h-26 2xl:w-36 2xl:h-36 rounded-2xl cursor-pointer overflow-hidden shadow"
         onClick={handleImageClick}
@@ -142,15 +175,16 @@ export default function ModalEditItem() {
           />
         ) : data?.image ? (
           <img
-            src={data.image}
+            src={`http://localhost:8080/uploads/items/${data.image}`}
             alt="product"
             className="w-full h-full object-cover"
           />
         ) : (
-          <img src={itemIcon} alt="profile" className="" />
+          <img src={itemIcon} alt="profile" />
         )}
+
         <span className="absolute bottom-0 text-[0.8rem] 2xl:text-[1rem] bg-[#676767] text-[#464646] w-full text-center">
-          تغییر عکس
+          {isUploading ? "در حال آپلود..." : "تغییر عکس"}
         </span>
       </div>
 
@@ -159,6 +193,7 @@ export default function ModalEditItem() {
           <label htmlFor="productName">
             نام محصول <span className="text-red-400">*</span>
           </label>
+
           <input
             type="text"
             id="productName"
@@ -167,6 +202,7 @@ export default function ModalEditItem() {
             }`}
             {...register("productName")}
           />
+
           {errors.productName && (
             <span className="text-red-300 text-xs">
               {errors.productName.message}
@@ -178,6 +214,7 @@ export default function ModalEditItem() {
           <label htmlFor="price">
             قیمت محصول <span className="text-red-400">*</span>
           </label>
+
           <input
             type="text"
             id="price"
@@ -188,6 +225,7 @@ export default function ModalEditItem() {
             value={priceValue ? priceValue.toLocaleString() : ""}
             onChange={handlePriceChange}
           />
+
           {errors.price && (
             <span className="text-red-300 text-xs">{errors.price.message}</span>
           )}
@@ -197,6 +235,7 @@ export default function ModalEditItem() {
       <div className="w-full flex items-start mt-8 2xl:mt-12">
         <div className="flex-1 flex flex-col gap-3 2xl:gap-4 text-sm 2xl:text-lg text-white w-full">
           <label htmlFor="description">توضیحات</label>
+
           <textarea
             id="description"
             className="bg-white/40 rounded-xl min-h-30 2xl:min-h-40 w-full border border-transparent outline-none p-4 shadow max-h-40 2xl:max-h-60"
@@ -211,12 +250,18 @@ export default function ModalEditItem() {
           disabled={isSubmitting}
           className="bg-[#407E5C] hover:bg-[#10743D] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "در حال ذخیره..." : "ذخیره"}
+          {isUploading
+            ? "در حال آپلود..."
+            : isUpdating
+              ? "در حال ذخیره..."
+              : "ذخیره"}
         </button>
+
         <button
           type="button"
           onClick={handleDelete}
-          className="bg-[#9F3535] hover:bg-[#790000] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer"
+          disabled={isSubmitting}
+          className="bg-[#9F3535] hover:bg-[#790000] text-white font-medium text-lg px-10 py-2 2xl:px-14 2xl:py-3 rounded-lg transition-all duration-150 lg:cursor-pointer disabled:opacity-50"
         >
           حذف
         </button>

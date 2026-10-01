@@ -30,7 +30,7 @@ export default function MenuItem({ item, onToggleDetails }: ItemProps) {
     >
       <div className="w-34 h-34 flex items-center justify-center p-1">
         <img
-          src={`http://localhost:8080/uploads/categories/${item.image}`}
+          src={`http://localhost:8080/uploads/items/${item.image}`}
           alt="product-image"
           className="w-full"
         />

@@ -27,7 +27,9 @@ export async function apiClient<T>(
 ): Promise<T> {
   const headers = new Headers(options.headers);
 
-  headers.set("Content-Type", "application/json");
+  if (!(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
 
   if (auth) {
     const token = useAdminStore.getState().admin?.token;
@@ -42,16 +44,13 @@ export async function apiClient<T>(
     headers,
   });
 
-  // Token expired / invalid
   if (response.status === 401) {
     logoutUser();
     throw new Error("Unauthorized");
   }
 
-  // فقط اگر backend شما برای expired token از 403 استفاده می‌کند
-  if (response.status === 403 && auth) {
-    logoutUser();
-    throw new Error("Forbidden");
+  if (response.status === 403) {
+    throw new Error("شما اجازه انجام این عملیات را ندارید.");
   }
 
   if (!response.ok) {
@@ -76,5 +75,5 @@ export async function apiClient<T>(
     return response.json() as Promise<T>;
   }
 
-  return response.text() as T;
+  return (await response.text()) as T;
 }
