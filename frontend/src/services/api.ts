@@ -59,6 +59,13 @@ export async function apiClient<T>(
     if (contentType?.includes("application/json")) {
       const error = await response.json();
 
+      if (error.validationErrors) {
+        const firstError = Object.values(error.validationErrors)[0];
+        if (typeof firstError === "string") {
+          throw new Error(firstError);
+        }
+      }
+
       throw new Error(error.message ?? "خطایی رخ داده است.");
     }
 

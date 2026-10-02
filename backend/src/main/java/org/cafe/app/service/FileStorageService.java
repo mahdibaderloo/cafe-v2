@@ -1,6 +1,7 @@
 package org.cafe.app.service;
 
 import lombok.RequiredArgsConstructor;
+import org.cafe.app.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +22,13 @@ public class FileStorageService {
     public String uploadItemImage(MultipartFile file) {
 
         if (file == null || file.isEmpty()) {
-            throw new RuntimeException("File is empty.");
+            throw new BadRequestException("فایل خالی است.");
         }
 
         String contentType = file.getContentType();
 
         if (contentType == null || !contentType.startsWith("image/")) {
-            throw new RuntimeException("Only image files are allowed.");
+            throw new BadRequestException("فقط فایل‌های تصویری مجاز هستند.");
         }
 
         String extension = getExtension(file.getOriginalFilename());
@@ -46,7 +47,7 @@ public class FileStorageService {
             return fileName;
 
         } catch (IOException e) {
-            throw new RuntimeException("Could not save file.", e);
+            throw new BadRequestException("ذخیره فایل با خطا مواجه شد: " + file.getOriginalFilename());
         }
     }
 

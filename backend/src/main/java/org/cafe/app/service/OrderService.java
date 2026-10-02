@@ -10,6 +10,7 @@ import org.cafe.app.dto.*;
 import org.cafe.app.entity.Item;
 import org.cafe.app.entity.Order;
 import org.cafe.app.entity.OrderItem;
+import org.cafe.app.exception.ResourceNotFoundException;
 import org.cafe.app.repository.ItemRepository;
 import org.cafe.app.repository.OrderRepository;
 import org.cafe.app.utils.PersianDateUtil;
@@ -164,7 +165,7 @@ public class OrderService {
 
                 Item item = itemRepository.findById(itemDto.getItemId())
                         .orElseThrow(() ->
-                                new RuntimeException("Item not found with id: " + itemDto.getItemId()));
+                                new ResourceNotFoundException("آیتم با شناسه " + itemDto.getItemId() + " یافت نشد"));
 
                 BigDecimal price = item.getPrice();
                 BigDecimal itemTotal = price.multiply(BigDecimal.valueOf(itemDto.getCount()));
@@ -203,6 +204,8 @@ public class OrderService {
 
             return OrderResponseToDto(savedOrder);
 
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Failed to create order | Username: {} | Error: {}", requestDto.getUsername(), e.getMessage(), e);
             throw e;
@@ -258,7 +261,7 @@ public class OrderService {
 
         try {
             Order order = orderRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+                    .orElseThrow(() -> new ResourceNotFoundException("سفارش با شناسه " + id + " یافت نشد"));
 
             log.info(
                     "✅ Order found | ID: {} | Code: {} | Total: {}",
@@ -269,8 +272,11 @@ public class OrderService {
 
             return OrderResponseToDto(order);
 
+        } catch (ResourceNotFoundException e) {
+            log.warn("⚠️ Order not found | ID: {}", id);
+            throw e;
         } catch (Exception e) {
-            log.warn("⚠️ Failed to fetch order | ID: {} | Reason: {}", id, e.getMessage());
+            log.error("❌ Failed to fetch order | ID: {} | Error: {}", id, e.getMessage(), e);
             throw e;
         }
     }

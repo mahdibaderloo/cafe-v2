@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.cafe.app.dto.DiscountRequestDto;
 import org.cafe.app.dto.DiscountResponseDto;
 import org.cafe.app.entity.Discount;
+import org.cafe.app.exception.BadRequestException;
+import org.cafe.app.exception.ResourceNotFoundException;
 import org.cafe.app.repository.DiscountRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -166,13 +168,16 @@ public class DiscountService {
         log.info("⏳ Expiring discount manually | ID: {}", id);
 
         try {
-            Discount discount = discountRepository.findByIdForUpdate(id).orElseThrow(() -> new RuntimeException("Discount not found."));
+            Discount discount = discountRepository.findByIdForUpdate(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("کد تخفیف با شناسه " + id + " یافت نشد"));
 
             discount.setActive(false);
 
             log.info("🔴 Discount expired successfully | ID: {} | Code: {}", discount.getId(), discount.getCode());
             return toDto(discount);
 
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Failed to expire discount | ID: {} | Error: {}", id, e.getMessage(), e);
             throw e;
@@ -185,11 +190,11 @@ public class DiscountService {
 
         try {
             Discount discount = discountRepository.findByCodeForUpdate(code)
-                    .orElseThrow(() -> new RuntimeException("Discount not found."));
+                    .orElseThrow(() -> new BadRequestException("کد تخفیف یافت نشد: " + code, "DISCOUNT_NOT_FOUND"));
 
             if (!discount.isActive()) {
                 log.warn("⚠️ Discount code is inactive | Code: {} | ID: {}", code, discount.getId());
-                throw new RuntimeException("Discount code is inactive.");
+                throw new BadRequestException("کد تخفیف غیرفعال است: " + code, "DISCOUNT_INACTIVE");
             }
 
             if (discount.getMaxUsage() != null &&
@@ -200,13 +205,13 @@ public class DiscountService {
                         discount.getUsedCount(),
                         discount.getMaxUsage()
                 );
-                throw new RuntimeException("Discount code cannot be used anymore.");
+                throw new BadRequestException("ظرفیت استفاده از این کد تخفیف به پایان رسیده است: " + code, "DISCOUNT_USAGE_LIMIT");
             }
 
             if (discount.getExpiresAt() != null &&
                     !discount.getExpiresAt().isAfter(LocalDateTime.now())) {
                 log.warn("⚠️ Discount code has expired | Code: {} | ExpiresAt: {}", code, discount.getExpiresAt());
-                throw new RuntimeException("Discount code expired.");
+                throw new BadRequestException("کد تخفیف منقضی شده است: " + code, "DISCOUNT_EXPIRED");
             }
 
             int previousUsage = discount.getUsedCount();
@@ -222,6 +227,8 @@ public class DiscountService {
 
             return toDto(discount);
 
+        } catch (BadRequestException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Failed to use discount code | Code: {} | Error: {}", code, e.getMessage(), e);
             throw e;

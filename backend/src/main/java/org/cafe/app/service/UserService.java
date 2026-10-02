@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.cafe.app.dto.LoginResponseDto;
 import org.cafe.app.entity.User;
+import org.cafe.app.exception.ResourceNotFoundException;
+import org.cafe.app.exception.UnauthorizedException;
 import org.cafe.app.repository.UserRepository;
 import org.cafe.app.security.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,7 +39,7 @@ public class UserService {
 
             if (principal == null) {
                 log.error("❌ Authentication principal is null | Email: {}", email);
-                throw new RuntimeException("خطا در احراز هویت کاربر");
+                throw new UnauthorizedException("خطا در احراز هویت کاربر");
             }
 
             UserDetails userDetails = (UserDetails) principal;
@@ -45,7 +47,7 @@ public class UserService {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> {
                         log.warn("⚠️ User not found after authentication | Email: {}", email);
-                        return new RuntimeException("کاربر پیدا نشد");
+                        return new ResourceNotFoundException("کاربر پیدا نشد");
                     });
 
             String token = jwtService.generateToken(userDetails);
@@ -68,10 +70,12 @@ public class UserService {
 
         } catch (BadCredentialsException e) {
             log.warn("🚫 Login failed due to invalid credentials | Email: {}", email);
-            throw new RuntimeException("ایمیل یا رمز عبور اشتباه است!");
+            throw new UnauthorizedException("ایمیل یا رمز عبور اشتباه است!");
+        } catch (ResourceNotFoundException | UnauthorizedException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Login failed | Email: {} | Error: {}", email, e.getMessage(), e);
-            throw new RuntimeException("خطا در ورود: " + e.getMessage());
+            throw new UnauthorizedException("خطا در ورود: " + e.getMessage());
         }
     }
 }

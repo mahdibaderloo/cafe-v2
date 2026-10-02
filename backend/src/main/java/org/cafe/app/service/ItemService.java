@@ -6,6 +6,7 @@ import org.cafe.app.dto.ItemRequestDto;
 import org.cafe.app.dto.ItemResponseDto;
 import org.cafe.app.entity.Category;
 import org.cafe.app.entity.Item;
+import org.cafe.app.exception.ResourceNotFoundException;
 import org.cafe.app.repository.CategoryRepository;
 import org.cafe.app.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -67,12 +68,15 @@ public class ItemService {
         try {
             ItemResponseDto item = itemRepository.findById(id)
                     .map(this::toDto)
-                    .orElseThrow(() -> new RuntimeException("Item not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("آیتم با شناسه " + id + " یافت نشد"));
 
             log.info("✅ Item found | ID: {} | Name: {}", id, item.getProductName());
             return item;
+        } catch (ResourceNotFoundException e) {
+            log.warn("⚠️ Item not found | ID: {}", id);
+            throw e;
         } catch (Exception e) {
-            log.warn("⚠️ Failed to fetch item | ID: {} | Reason: {}", id, e.getMessage());
+            log.error("❌ Failed to fetch item | ID: {} | Error: {}", id, e.getMessage(), e);
             throw e;
         }
     }
@@ -125,7 +129,7 @@ public class ItemService {
 
         try {
             Item existingItem = itemRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("آیتم با شناسه " + id + " یافت نشد"));
+                    .orElseThrow(() -> new ResourceNotFoundException("آیتم با شناسه " + id + " یافت نشد"));
 
             existingItem.setProductName(requestDto.getProductName());
             existingItem.setImage(requestDto.getImage());
@@ -136,6 +140,8 @@ public class ItemService {
 
             log.info("✅ Item updated successfully | ID: {} | Name: {}", updatedItem.getId(), updatedItem.getProductName());
             return toDto(updatedItem);
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Failed to update item | ID: {} | Error: {}", id, e.getMessage(), e);
             throw e;
@@ -148,13 +154,15 @@ public class ItemService {
         try {
             if (!itemRepository.existsById(id)) {
                 log.warn("⚠️ Cannot delete item because it was not found | ID: {}", id);
-                throw new RuntimeException("آیتم با شناسه " + id + " یافت نشد");
+                throw new ResourceNotFoundException("آیتم با شناسه " + id + " یافت نشد");
             }
 
             itemRepository.deleteById(id);
 
             log.info("✅ Item deleted successfully | ID: {}", id);
             return "آیتم حذف شد";
+        } catch (ResourceNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             log.error("❌ Failed to delete item | ID: {} | Error: {}", id, e.getMessage(), e);
             throw e;
