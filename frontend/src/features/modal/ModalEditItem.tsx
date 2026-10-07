@@ -1,5 +1,5 @@
 import { useForm, useWatch } from "react-hook-form";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
 import closeIcon from "../../assets/images/close.svg";
 import itemIcon from "../../assets/images/dashboard-item.svg";

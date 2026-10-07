@@ -62,9 +62,19 @@ public class GlobalExceptionHandler {
                 "خطای غیرمنتظره‌ای رخ داد.", request.getRequestURI(), null);
     }
 
-    private ResponseEntity<ErrorResponse> build(HttpStatus status, String error,
-                                                String message, String path,
-                                                Map<String, String> validationErrors) {
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException ex, HttpServletRequest request) {
+        log.warn("🚫 Forbidden | {} | Path: {}", ex.getMessage(), request.getRequestURI());
+        return build(
+                ex.getStatus(),
+                ex.getErrorCode(),
+                ex.getMessage(),
+                request.getRequestURI(),
+                null
+        );
+    }
+
+    private ResponseEntity<ErrorResponse> build(HttpStatus status, String error, String message, String path, Map<String, String> validationErrors) {
         return ResponseEntity.status(status).body(
                 ErrorResponse.builder()
                         .success(false)

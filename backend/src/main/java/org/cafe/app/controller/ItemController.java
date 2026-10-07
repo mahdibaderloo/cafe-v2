@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.cafe.app.dto.ItemRequestDto;
 import org.cafe.app.dto.ItemResponseDto;
+import org.cafe.app.exception.ForbiddenException;
+import org.cafe.app.exception.UnauthorizedException;
+import org.cafe.app.security.JwtService;
 import org.cafe.app.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final JwtService jwtService;
 
     @GetMapping("/category-id/{id}")
     public ResponseEntity<List<ItemResponseDto>> getItems (@PathVariable Long id) {
@@ -30,21 +34,50 @@ public class ItemController {
     }
 
     @PostMapping("/create-item")
-    public ResponseEntity<ItemResponseDto> createItem(@Valid @RequestBody ItemRequestDto requestDto) {
+    public ResponseEntity<ItemResponseDto> createItem(@RequestHeader("Authorization") String header, @Valid @RequestBody ItemRequestDto requestDto) {
+        String token = getToken(header);
+        String username = jwtService.extractUsername(token);
+
+        if (username.isEmpty()) {
+            throw new  ForbiddenException("لطفا دوباره وارد شوید");
+        }
+
         ItemResponseDto response = itemService.createItem(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ItemResponseDto> updateItem(
-            @PathVariable Long id,
-            @Valid @RequestBody ItemRequestDto requestDto) {
+    public ResponseEntity<ItemResponseDto> updateItem(@RequestHeader("Authorization") String header, @PathVariable Long id, @Valid @RequestBody ItemRequestDto requestDto) {
+        String token = getToken(header);
+        String username = jwtService.extractUsername(token);
+
+        if (username.isEmpty()) {
+            throw new  ForbiddenException("لطفا دوباره وارد شوید");
+        }
+
         ItemResponseDto response = itemService.updateItem(id, requestDto);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteItem(@PathVariable Long id) {
+    public ResponseEntity<String> deleteItem(@RequestHeader("Authorization") String header, @PathVariable Long id) {
+        String token = getToken(header);
+        String username = jwtService.extractUsername(token);
+
+        if (username.isEmpty()) {
+            throw new ForbiddenException("لطفا دوباره وارد شوید");
+        }
+
         return ResponseEntity.ok(itemService.deleteItem(id));
     }
+
+    private String getToken (String header) {
+        String token = header.substring(7);
+
+        if (token.isEmpty()) {
+            throw new UnauthorizedException("نشست شما منقضی شده");
+        }
+        return token;
+    }
+
 }
