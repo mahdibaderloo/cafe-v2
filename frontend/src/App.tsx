@@ -19,19 +19,20 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PrintOrder from "./pages/dashboard/PrintOrder";
 import MobileOnlyRoute from "./components/MobileOnlyRoute";
 import DesktopOnlyRoute from "./components/DesktopOnlyRoute";
+import OrderPreview from "./pages/OrderPreview";
 
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
     errorElement: <RouteError />,
     children: [
-      // فقط موبایل
       {
         element: <MobileOnlyRoute />,
         children: [
           { path: "/", element: <Home /> },
           { path: "/menu", element: <MainMenu /> },
           { path: "/shopping-cart", element: <ShoppingCart /> },
+          { path: "/order-preview", element: <OrderPreview /> },
           { path: "/about-us", element: <AboutUs /> },
         ],
       },

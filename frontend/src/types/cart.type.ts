@@ -15,6 +15,10 @@ export interface CartItemProp {
   decrease: (id: number) => void;
 }
 
+export interface PreviewItemProp {
+  item: CartItem;
+}
+
 export interface CartStore {
   items: CartItem[];
   totalPrice: number;
