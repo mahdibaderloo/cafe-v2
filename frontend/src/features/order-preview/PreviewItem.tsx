@@ -12,7 +12,9 @@ export default function PreviewItem({ item }: PreviewItemProp) {
         </div>
 
         <div className="flex items-center justify-between">
-          <p className="text-sm sm:text-md">{item.price.toLocaleString()}</p>
+          <p className="text-sm sm:text-md">
+            {(item.price * item.count).toLocaleString()}
+          </p>
         </div>
       </div>
 

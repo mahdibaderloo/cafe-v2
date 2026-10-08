@@ -11,7 +11,7 @@ import { useOrderStore } from "../../store/orderStore";
 
 export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
   const { mutateAsync: submitOrder, isPending } = useSubmitOrder();
-  const { items, discountType, discountValue, removeAll } = useCartStore();
+  const { items, discountType, discountValue } = useCartStore();
   const { setSelectedOrder } = useOrderStore();
   const navigate = useNavigate();
 
@@ -54,12 +54,11 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
         discountValue,
       });
 
-      removeAll();
       reset();
       onClose();
 
       setSelectedOrder(response.id);
-      navigate(`/${response.id}/print`);
+      navigate(`/order-preview`);
     } catch (error) {
       console.error(error);
     }
