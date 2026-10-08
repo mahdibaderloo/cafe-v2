@@ -6,10 +6,14 @@ import type {
   SubmitOrderRequest,
   SubmitProps,
 } from "../../types/order.type";
+import { useNavigate } from "react-router-dom";
+import { useOrderStore } from "../../store/orderStore";
 
 export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
-  const { mutate: submitOrder, isPending } = useSubmitOrder();
-  const { items, removeAll, discountType, discountValue } = useCartStore();
+  const { mutateAsync: submitOrder, isPending } = useSubmitOrder();
+  const { items, discountType, discountValue, removeAll } = useCartStore();
+  const { setSelectedOrder } = useOrderStore();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,14 +36,14 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
     name: "takeAway",
   });
 
-  function onSubmit(data: SubmitOrderRequest) {
+  async function onSubmit(data: SubmitOrderRequest): Promise<void> {
     const orderItems: OrderItemRequest[] = items.map((item) => ({
       itemId: item.id,
       count: item.count,
     }));
 
-    submitOrder(
-      {
+    try {
+      const response = await submitOrder({
         username: data.username.trim(),
         phoneNumber: data.phoneNumber?.trim() || "-",
         items: orderItems,
@@ -48,15 +52,17 @@ export default function SubmitBox({ isSubmitOpen, onClose }: SubmitProps) {
         discountType:
           discountType === "PERCENTAGE" ? "PERCENTAGE" : "FIXED_AMOUNT",
         discountValue,
-      },
-      {
-        onSuccess: () => {
-          removeAll();
-          reset();
-          onClose();
-        },
-      },
-    );
+      });
+
+      removeAll();
+      reset();
+      onClose();
+
+      setSelectedOrder(response.id);
+      navigate(`/${response.id}/print`);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

@@ -33,6 +33,7 @@ const router = createBrowserRouter([
           { path: "/menu", element: <MainMenu /> },
           { path: "/shopping-cart", element: <ShoppingCart /> },
           { path: "/order-preview", element: <OrderPreview /> },
+          { path: ":orderId/print", element: <PrintOrder /> },
           { path: "/about-us", element: <AboutUs /> },
         ],
       },

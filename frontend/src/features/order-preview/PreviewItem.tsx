@@ -1,6 +1,6 @@
-import type { CartItemProp } from "../../types/cart.type.ts";
+import type { PreviewItemProp } from "../../types/cart.type.ts";
 
-export default function PreviewItem({ item }: CartItemProp) {
+export default function PreviewItem({ item }: PreviewItemProp) {
   return (
     <li className="bg-[#4C3D34] rounded-xl sm:rounded-2xl shadow-[0px_3px_4.6px_0px_#00000066] w-full sm:w-[72%] h-22 sm:h-28 overflow-hidden p-1.5 sm:p-2 flex">
       <div className="text-white font-medium w-full flex flex-col justify-center gap-2 sm:gap-3 mr-2 sm:mr-4">
