@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
 import { useCategoryStore } from "../../store/categoryStore";
 import type { Category } from "../../types/category.type";
+import Loading from "../../components/Loading";
 
-export default function HomeCategoryIem({ category }: { category: Category }) {
+export default function HomeCategoryIem({
+  category,
+  isLoading,
+}: {
+  category: Category;
+  isLoading: boolean;
+}) {
   const { setCategory, setLine } = useCategoryStore();
 
   function handleSetCategory(id: number) {
@@ -22,15 +29,17 @@ export default function HomeCategoryIem({ category }: { category: Category }) {
     >
       <Link to="/menu" className="flex flex-col justify-center items-center">
         <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-24 sm:w-28 h-24 sm:h-28 flex justify-center items-center">
-          <img
-            src={`http://localhost:8080/uploads/categories/${category.image}`}
-            alt="coffee"
-            className="sm:w-19"
-          />
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <img
+              src={`http://localhost:8080/uploads/categories/${category.image}`}
+              alt="coffee"
+              className="sm:w-19"
+            />
+          )}
         </div>
-        <p className="text-sm text-white py-1.5 sm:py-1.5">
-          {category.name}
-        </p>
+        <p className="text-sm text-white py-1.5 sm:py-1.5">{category.name}</p>
       </Link>
     </li>
   );

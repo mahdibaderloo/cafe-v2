@@ -11,9 +11,7 @@ import { useChartData } from "../../../hooks/dashboard/useChartData";
 import { getCurrentJalaliYear } from "../../../utils/date";
 
 export default function MonthlySalesChart() {
-  const { data, isLoading } = useChartData(getCurrentJalaliYear());
-
-  if (isLoading) return <p>Loading...</p>;
+  const { data } = useChartData(getCurrentJalaliYear());
 
   return (
     <div

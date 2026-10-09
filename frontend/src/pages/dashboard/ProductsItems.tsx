@@ -5,13 +5,14 @@ import { useCategoryStore } from "../../store/categoryStore";
 import backIcon from "../../assets/images/back.svg";
 import { Link } from "react-router-dom";
 import useModalStore from "../../store/modal";
+import Loading from "../../components/Loading";
 
 export default function ProductsItems() {
   const { data: items, isLoading } = useItems();
   const { line } = useCategoryStore();
   const { openModal, setType } = useModalStore();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   function handleOpenModal() {
     setType("add-item");

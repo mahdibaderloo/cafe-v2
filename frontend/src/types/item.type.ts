@@ -19,9 +19,16 @@ export interface ItemRequest {
 export interface MenuItemsProps {
   items: ItemResponse[];
   onToggleDetails: (e: React.MouseEvent) => void;
+  isLoading: boolean;
 }
 
 export interface ImageUploadResponse {
   fileName: string;
   url: string;
+}
+
+export interface ItemProps {
+  item: ItemResponse;
+  onToggleDetails: (e: React.MouseEvent) => void;
+  isLoading: boolean;
 }

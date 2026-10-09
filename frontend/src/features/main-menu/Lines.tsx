@@ -1,3 +1,4 @@
+import Loading from "../../components/Loading";
 import { useLines } from "../../hooks/items/useLines";
 import { useCategoryStore } from "../../store/categoryStore";
 import type { Category } from "../../types/category.type";
@@ -11,12 +12,12 @@ export default function Lines() {
     setLine(null);
   }
 
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <Loading />;
 
   return (
     <div className="w-full bg-[linear-gradient(350.98deg,#738E7F_37.99%,#4C3D34_102.51%)]">
       <ul className="flex flex-col gap-3 my-4 sm:mx-8">
-        {lines.map((line: Category) => {
+        {lines?.map((line: Category) => {
           return (
             <li
               key={line.id}
@@ -33,15 +34,3 @@ export default function Lines() {
     </div>
   );
 }
-
-// function setLabel(line: string) {
-//   if (line === "sadRobosta") return "۱۰۰ روبوستا";
-//   if (line === "sadArabica") return "۱۰۰ عربیکا";
-//   if (line === "vaftad30Robosta") return "۷۰ / ۳۰ روبوستا";
-//   if (line === "vaftad30Arabica") return "۷۰ / ۳۰ عربیکا";
-
-//   if (line === "coldCoffee_100r") return "۱۰۰ روبوستا";
-//   if (line === "coldCoffee_100a") return "۱۰۰ عربیکا";
-//   if (line === "coldCoffee_7030r") return "۷۰ / ۳۰ روبوستا";
-//   if (line === "coldCoffee_7030a") return "۷۰ / ۳۰ عربیکا";
-// }

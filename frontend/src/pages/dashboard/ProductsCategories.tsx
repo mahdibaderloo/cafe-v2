@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useCategories } from "../../hooks/items/useCategories";
 import type { Category } from "../../types/category.type";
 import { useCategoryStore } from "../../store/categoryStore";
+import Loading from "../../components/Loading";
 
 export default function ProductsCategories() {
   const { data: categories, isLoading } = useCategories();
@@ -17,7 +18,7 @@ export default function ProductsCategories() {
     }
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   return (
     <ul className="flex gap-4 items-center justify-center flex-wrap lg:w-[90%] 2xl:w-200 mx-auto mt-8 xl:mt-20 2xl:mt-16">

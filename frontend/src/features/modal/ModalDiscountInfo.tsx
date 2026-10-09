@@ -1,4 +1,5 @@
 import closeIcon from "../../assets/images/close.svg";
+import Loading from "../../components/Loading";
 import { useDiscount } from "../../hooks/dashboard/useDiscount";
 import { useExpireDiscount } from "../../hooks/dashboard/useExpireDiscount";
 import { useDiscountStore } from "../../store/discountStore";
@@ -15,7 +16,7 @@ export default function ModalDiscountInfo() {
     mutate(selectedDiscount);
   }
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   return (
     <form className="bg-[#485158] rounded-2xl p-6 2xl:p-8 flex flex-col items-center w-150 2xl:w-240 z-50">

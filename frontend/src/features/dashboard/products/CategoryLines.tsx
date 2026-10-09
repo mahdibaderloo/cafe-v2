@@ -12,7 +12,7 @@ export default function CategoryLines() {
     setLine(null);
   }
 
-  if (isLoading) return <p>loading...</p>;
+  if (isLoading) return <Loading />;
 
   return (
     <ul className="flex items-center gap-2 2xl:gap-3 w-full flex-wrap mx-auto mt-4 xl:mt-8">

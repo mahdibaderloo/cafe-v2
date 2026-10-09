@@ -1,7 +1,14 @@
+import Loading from "../../components/Loading";
 import { useCategoryStore } from "../../store/categoryStore";
 import type { Category } from "../../types/category.type";
 
-export default function MenuNavItem({ category }: { category: Category }) {
+export default function MenuNavItem({
+  category,
+  isLoading,
+}: {
+  category: Category;
+  isLoading: boolean;
+}) {
   const { setCategory, setLine } = useCategoryStore();
 
   function handleSetCategory(id: number) {
@@ -20,15 +27,17 @@ export default function MenuNavItem({ category }: { category: Category }) {
       onClick={() => handleSetCategory(category.id)}
     >
       <div className="bg-[#D9D9D9] rounded-[0.625rem] overflow-hidden w-full h-20 sm:h-22 p-1 flex justify-center items-center">
-        <img
-          src={`http://localhost:8080/uploads/categories/${category.image}`}
-          alt="category-image"
-          className=""
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <img
+            src={`http://localhost:8080/uploads/categories/${category.image}`}
+            alt="category-image"
+            className=""
+          />
+        )}
       </div>
-      <p className="text-xs sm:text-sm sm:py-0.5 text-white">
-        {category.name}
-      </p>
+      <p className="text-xs sm:text-sm sm:py-0.5 text-white">{category.name}</p>
     </li>
   );
 }

@@ -1,11 +1,20 @@
 import toomaanIcon from "../../assets/images/toomaan-white.svg";
+import Loading from "../../components/Loading";
 import type { LastFiveOrderPrice } from "../../types/order.type";
-
 export default function TransactionItem({
   transaction,
+  isLoading,
 }: {
   transaction: LastFiveOrderPrice;
+  isLoading: boolean;
 }) {
+  if (isLoading)
+    return (
+      <li className="bg-[#3F5247] text-white flex p-1.5 xl:p-2 2xl:p-3 justify-between items-center rounded-lg w-full shadow">
+        <Loading />
+      </li>
+    );
+
   return (
     <li className="bg-[#3F5247] text-white flex p-1.5 xl:p-2 2xl:p-3 justify-between items-center rounded-lg w-full shadow">
       <p className="font-medium text-sm xl:text-[1rem] 2xl:text-xl">

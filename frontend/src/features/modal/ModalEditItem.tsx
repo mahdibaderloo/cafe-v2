@@ -13,6 +13,7 @@ import { useProductStore } from "../../store/productStore";
 
 import type { ItemFormData } from "../../types/modal.type";
 import type { ItemRequest } from "../../types/item.type";
+import Loading from "../../components/Loading";
 
 export default function ModalEditItem() {
   const { closeModal, setType } = useModalStore();
@@ -140,7 +141,7 @@ export default function ModalEditItem() {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   return (

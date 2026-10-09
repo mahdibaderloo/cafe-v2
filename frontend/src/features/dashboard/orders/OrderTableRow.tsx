@@ -2,8 +2,15 @@ import useModalStore from "../../../store/modal";
 import type { OrdersResponse } from "../../../types/order.type";
 import { useOrderStore } from "../../../store/orderStore";
 import toomaanIcon from "../../../assets/images/toomaan.svg";
+import Loading from "../../../components/Loading";
 
-export default function OrderTableRow({ data }: { data: OrdersResponse }) {
+export default function OrderTableRow({
+  data,
+  isLoading,
+}: {
+  data: OrdersResponse;
+  isLoading: boolean;
+}) {
   const { openModal, setType } = useModalStore();
   const { setSelectedOrder } = useOrderStore();
 
@@ -12,6 +19,13 @@ export default function OrderTableRow({ data }: { data: OrdersResponse }) {
     setType("order");
     openModal();
   }
+
+  if (isLoading)
+    return (
+      <li className="flex w-full lg:cursor-pointer hover:bg-[#e2e2e2] transition-all duration-100 p-1.5">
+        <Loading />
+      </li>
+    );
 
   return (
     <li

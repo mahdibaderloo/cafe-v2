@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { calcTotal } from "../../utils/dashboard";
 import { formatJalaliDate } from "../../utils/date";
 import { coffeeCategories } from "../../utils/categories";
+import Loading from "../../components/Loading";
 
 export default function ModalOrder() {
   const { closeModal } = useModalStore();
@@ -14,7 +15,7 @@ export default function ModalOrder() {
   const { data, isLoading } = useOrder(selectedOrder);
   const navigate = useNavigate();
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   console.log(data);
 
   const showDiscount = data?.discountValue

@@ -1,16 +1,14 @@
+import Loading from "../../components/Loading";
 import { useCartStore } from "../../store/cartStore";
 import { useProductStore } from "../../store/productStore";
-import type { ItemResponse } from "../../types/item.type";
+import type { ItemProps, ItemResponse } from "../../types/item.type";
 import AddToCartButton from "./AddToCartButton";
 import ChangeCountButton from "./ChangeCountButton";
-import React from "react";
-
-interface ItemProps {
-  item: ItemResponse;
-  onToggleDetails: (e: React.MouseEvent) => void;
-}
-
-export default function MenuItem({ item, onToggleDetails }: ItemProps) {
+export default function MenuItem({
+  item,
+  onToggleDetails,
+  isLoading,
+}: ItemProps) {
   const { setItem } = useProductStore();
   const { items } = useCartStore();
 
@@ -29,11 +27,15 @@ export default function MenuItem({ item, onToggleDetails }: ItemProps) {
       }}
     >
       <div className="w-34 h-34 flex items-center justify-center p-1">
-        <img
-          src={`http://localhost:8080/uploads/items/${item.image}`}
-          alt="product-image"
-          className="w-full"
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <img
+            src={`http://localhost:8080/uploads/items/${item.image}`}
+            alt="product-image"
+            className="w-full"
+          />
+        )}
       </div>
       <div className="w-[50%] flex flex-col justify-between items-center">
         <div className="text-white w-full flex flex-col justify-center items-center gap-4 mb-2 mt-2 font-medium">

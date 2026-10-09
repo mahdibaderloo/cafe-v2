@@ -6,6 +6,7 @@ import { coffeeCategories } from "../../utils/categories";
 import { useOrderStore } from "../../store/orderStore";
 import { useOrder } from "../../hooks/dashboard/useOrder";
 import { useEffect, useState } from "react";
+import Loading from "../../components/Loading";
 
 export default function PrintOrder() {
   const { selectedOrder } = useOrderStore();
@@ -24,7 +25,7 @@ export default function PrintOrder() {
     }
   }, [isLoading, order]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
 
   if (!order)
     return (

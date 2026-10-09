@@ -22,8 +22,6 @@ export default function Home() {
     setIsMenuOpen(false);
   }
 
-  if (isLoading) return <p>Loading...</p>;
-
   if (isError) return <RouteError />;
 
   return (
@@ -53,8 +51,14 @@ export default function Home() {
         </div>
 
         <ul className="pt-6 sm:pt-7 sm:pb-10 p-8 sm:p-11.5 flex items-center justify-between sm:justify-center gap-x-2 sm:gap-x-3 gap-y-3 flex-wrap">
-          {categories.map((category: Category) => {
-            return <HomeCategoryIem key={category.id} category={category} />;
+          {categories?.map((category: Category) => {
+            return (
+              <HomeCategoryIem
+                key={category.id}
+                category={category}
+                isLoading={isLoading}
+              />
+            );
           })}
         </ul>
         <div className="w-full h-40 sm:h-48" />

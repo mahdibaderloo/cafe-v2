@@ -1,11 +1,14 @@
+import Loading from "../../../components/Loading";
 import { useDiscountStore } from "../../../store/discountStore";
 import useModalStore from "../../../store/modal";
 import type { DiscountResponse } from "../../../types/dashboard.type";
 
 export default function DiscountsTableRow({
   data,
+  isLoading,
 }: {
   data: DiscountResponse;
+  isLoading: boolean;
 }) {
   const { openModal, setType } = useModalStore();
   const { setSelectedDiscount } = useDiscountStore();
@@ -14,6 +17,13 @@ export default function DiscountsTableRow({
     setType("discount-info");
     openModal();
   }
+
+  if (isLoading)
+    return (
+      <li className="flex w-full lg:cursor-pointer bg-[#485158] hover:bg-[#313539] transition-all duration-100 p-1.5">
+        <Loading />
+      </li>
+    );
 
   return (
     <li
